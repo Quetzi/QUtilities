@@ -1,5 +1,6 @@
 package net.quetzi.qutilities.commands;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class DimensionInfoCommand implements ICommand {
 	WorldServer world;
 	double worldTickTime;
 	double worldTPS;
+	private static final DecimalFormat timeFormatter = new DecimalFormat("########0.000");
 
 	public DimensionInfoCommand() {
 		aliases = new ArrayList<String>();
@@ -55,7 +57,7 @@ public class DimensionInfoCommand implements ICommand {
 				icommandsender.sendChatToPlayer(new ChatMessageComponent()
 						.addText("[" + world.provider.dimensionId + "]"
 								+ world.provider.getDimensionName()
-								+ ": TickTime: " + worldTickTime + "ms ["
+								+ ": TickTime: " + timeFormatter.format(worldTickTime) + "ms ["
 								+ worldTPS + "]" + ": Entities: "
 								+ world.loadedEntityList.size()));
 			}
@@ -91,7 +93,7 @@ public class DimensionInfoCommand implements ICommand {
 							.addText("Entities: "
 									+ world.loadedEntityList.size()));
 					icommandsender.sendChatToPlayer(new ChatMessageComponent()
-							.addText("TickTime: " + worldTickTime));
+							.addText("TickTime: " + timeFormatter.format(worldTickTime)));
 					icommandsender.sendChatToPlayer(new ChatMessageComponent()
 							.addText("TPS: " + worldTPS));
 				}
