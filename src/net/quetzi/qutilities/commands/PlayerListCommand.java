@@ -45,7 +45,7 @@ public class PlayerListCommand implements ICommand {
 		for (WorldServer world : MinecraftServer.getServer().worldServers) {
 			for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
 				playerList = playerList
-						+ ("[" + player.dimension + "]" + player.username + ", ");
+						+ ("[" + player.dimension + "]" + player.username + " ");
 			}
 		}
 		if (MinecraftServer.getServer().getCurrentPlayerCount() > 0) {
