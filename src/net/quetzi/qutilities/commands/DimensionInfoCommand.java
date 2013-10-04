@@ -23,9 +23,8 @@ public class DimensionInfoCommand implements ICommand {
 
 	public DimensionInfoCommand() {
 		aliases = new ArrayList<String>();
-		aliases.add("qutil diminfo");
-		aliases.add("qutil tps");
 		aliases.add("qtps");
+		aliases.add("tps");
 	}
 
 	@Override
@@ -50,68 +49,75 @@ public class DimensionInfoCommand implements ICommand {
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
+		int dimId;
+		try {
+			dimId = ((Number) NumberFormat.getInstance().parse(astring[0]))
+					.intValue();
+		} catch (ParseException e1) {
+			icommandsender.sendChatToPlayer(new ChatMessageComponent()
+					.addText("Invalid dimension ID."));
+			return;
+		}
+
 		if (astring.length == 0) {
 			for (WorldServer world : MinecraftServer.getServer().worldServers) {
 				worldTickTime = mean(world.getMinecraftServer().worldTickTimes
 						.get(world.provider.dimensionId)) * 1.0E-6D;
 				worldTPS = Math.min(1000.0 / worldTickTime, 20);
 				icommandsender.sendChatToPlayer(new ChatMessageComponent()
-						.addText("[" + world.provider.dimensionId + "]"
-								+ world.provider.getDimensionName() + ": "
-								+ timeFormatter.format(worldTickTime) + "ms ["
-								+ worldTPS + "]" + ": Entities: "
-								+ world.loadedEntityList.size()));
+						.addText("["
+								+ world.provider.dimensionId
+								+ "]"
+								+ world.provider.getDimensionName()
+								+ ": "
+								+ timeFormatter.format(worldTickTime)
+								+ "ms ["
+								+ worldTPS
+								+ "]"
+								+ ": Entities: "
+								+ world.loadedEntityList.size()
+								+ ": Chunks loaded: "
+								+ world.getChunkProvider()
+										.getLoadedChunkCount()
+										));
 			}
 			icommandsender
-			.sendChatToPlayer(new ChatMessageComponent()
-					.addText("Overall: "
-							+ timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D)
+					.sendChatToPlayer(new ChatMessageComponent().addText("Overall: "
+							+ timeFormatter.format(mean(MinecraftServer
+									.getServer().tickTimeArray) * 1.0E-6D)
 							+ "ms ["
-							+ Math.min(1000.0 / (mean(MinecraftServer
-									.getServer().tickTimeArray) * 1.0E-6D),
+							+ Math.min(
+									1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D),
 									20) + "]"));
 			return;
-		} else
-			try {
-				if (MinecraftServer.getServer().worldServerForDimension(((Number) NumberFormat
-						.getInstance().parse(astring[0])).intValue()) != null) {
-					try {
-						MinecraftServer server = MinecraftServer.getServer();
-						worldTickTime = mean(server.worldTickTimes
-								.get(((Number) NumberFormat.getInstance()
-										.parse(astring[0])).intValue())) * 1.0E-6D;
-						worldTPS = Math.min(1000.0 / worldTickTime, 20);
-						this.world = MinecraftServer.getServer().worldServers[((Number) NumberFormat
-								.getInstance().parse(astring[0])).intValue()];
-					} catch (ArrayIndexOutOfBoundsException e) {
-						icommandsender
-								.sendChatToPlayer(new ChatMessageComponent()
-										.addText("Invalid dimension ID."));
-						return;
-					}
-					icommandsender.sendChatToPlayer(new ChatMessageComponent()
-							.addText("Information for dimension: "
-									+ this.world.provider.dimensionId));
-					icommandsender.sendChatToPlayer(new ChatMessageComponent()
+		} else if (MinecraftServer.getServer().worldServerForDimension(dimId) != null) {
+
+			MinecraftServer server = MinecraftServer.getServer();
+			worldTickTime = mean(server.worldTickTimes.get(dimId)) * 1.0E-6D;
+			worldTPS = Math.min(1000.0 / worldTickTime, 20);
+			this.world = MinecraftServer.getServer().worldServers[dimId];
+
+			icommandsender.sendChatToPlayer(new ChatMessageComponent()
+					.addText("Information for dimension: " + dimId));
+			icommandsender
+					.sendChatToPlayer(new ChatMessageComponent()
 							.addText("World Name: "
 									+ world.provider.getDimensionName()));
-					icommandsender.sendChatToPlayer(new ChatMessageComponent()
-							.addText("Players: "
-									+ world.playerEntities.toString()));
-					icommandsender.sendChatToPlayer(new ChatMessageComponent()
-							.addText("Entities: "
-									+ world.loadedEntityList.size()));
-					icommandsender.sendChatToPlayer(new ChatMessageComponent()
+			icommandsender.sendChatToPlayer(new ChatMessageComponent()
+					.addText("Players: " + world.playerEntities.toString()));
+			icommandsender.sendChatToPlayer(new ChatMessageComponent()
+					.addText("Entities: " + world.loadedEntityList.size()));
+			icommandsender.sendChatToPlayer(new ChatMessageComponent()
+					.addText("Loaded Chunks: "
+							+ this.world.getChunkProvider()
+									.getLoadedChunkCount()));
+			icommandsender
+					.sendChatToPlayer(new ChatMessageComponent()
 							.addText("TickTime: "
 									+ timeFormatter.format(worldTickTime)));
-					icommandsender.sendChatToPlayer(new ChatMessageComponent()
-							.addText("TPS: " + worldTPS));
-				}
-			} catch (ParseException e) {
-				icommandsender.sendChatToPlayer(new ChatMessageComponent()
-						.addText(this.getCommandUsage(icommandsender)));
-				return;
-			}
+			icommandsender.sendChatToPlayer(new ChatMessageComponent()
+					.addText("TPS: " + worldTPS));
+		}
 	}
 
 	@Override

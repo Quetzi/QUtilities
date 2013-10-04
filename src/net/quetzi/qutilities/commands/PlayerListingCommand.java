@@ -10,10 +10,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.WorldServer;
 
-public class PlayerListCommand implements ICommand {
+public class PlayerListingCommand implements ICommand {
 	private List<String> aliases;
 
-	public PlayerListCommand() {
+	public PlayerListingCommand() {
 		aliases = new ArrayList<String>();
 		aliases.add("dimlist");
 		aliases.add("qlist");

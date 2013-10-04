@@ -4,7 +4,8 @@ import java.util.logging.Logger;
 
 import net.minecraftforge.common.Configuration;
 import net.quetzi.qutilities.commands.DimensionInfoCommand;
-import net.quetzi.qutilities.commands.PlayerListCommand;
+import net.quetzi.qutilities.commands.PlayerListingCommand;
+import net.quetzi.qutilities.commands.QUtilitiesCommand;
 import net.quetzi.qutilities.commands.UptimeCommand;
 import net.quetzi.qutilities.references.References;
 import cpw.mods.fml.common.FMLLog;
@@ -49,8 +50,9 @@ public class QUtilities {
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void serverLoad(FMLServerStartingEvent event) {
-		event.registerServerCommand(new PlayerListCommand());
+		event.registerServerCommand(new PlayerListingCommand());
 		event.registerServerCommand(new UptimeCommand());
 		event.registerServerCommand(new DimensionInfoCommand());
+		event.registerServerCommand(new QUtilitiesCommand());
 	}
 }
