@@ -65,7 +65,7 @@ public class DimensionInfoCommand implements ICommand {
 			icommandsender
 			.sendChatToPlayer(new ChatMessageComponent()
 					.addText("Overall: "
-							+ (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D)
+							+ timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D)
 							+ "ms ["
 							+ Math.min(1000.0 / (mean(MinecraftServer
 									.getServer().tickTimeArray) * 1.0E-6D),
@@ -73,8 +73,8 @@ public class DimensionInfoCommand implements ICommand {
 			return;
 		} else
 			try {
-				if (MinecraftServer.getServer().worldServers[((Number) NumberFormat
-						.getInstance().parse(astring[0])).intValue()] != null) {
+				if (MinecraftServer.getServer().worldServerForDimension(((Number) NumberFormat
+						.getInstance().parse(astring[0])).intValue()) != null) {
 					try {
 						MinecraftServer server = MinecraftServer.getServer();
 						worldTickTime = mean(server.worldTickTimes

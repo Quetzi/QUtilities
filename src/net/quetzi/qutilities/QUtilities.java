@@ -23,6 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class QUtilities {
 	public static Logger qLog = Logger.getLogger("QUtilities");
 	public static long startTime;
+	
 	@EventHandler
 	@SideOnly(Side.SERVER)
 	public void Init(FMLInitializationEvent event) {
