@@ -65,21 +65,11 @@ public class DimensionInfoCommand implements ICommand {
 						.get(world.provider.dimensionId)) * 1.0E-6D;
 				worldTPS = Math.min(1000.0 / worldTickTime, 20);
 				icommandsender.sendChatToPlayer(new ChatMessageComponent()
-						.addText("["
-								+ world.provider.dimensionId
-								+ "]"
-								+ world.provider.getDimensionName()
-								+ ": "
-								+ timeFormatter.format(worldTickTime)
-								+ "ms ["
-								+ worldTPS
-								+ "]"
-								+ ": Entities: "
-								+ world.loadedEntityList.size()
-								+ ": Chunks loaded: "
-								+ world.getChunkProvider()
-										.getLoadedChunkCount()
-										));
+						.addText("[" + world.provider.dimensionId + "]"
+								+ world.provider.getDimensionName() + ": "
+								+ timeFormatter.format(worldTickTime) + "ms ["
+								+ worldTPS + "]: Entities: " + world.loadedEntityList.size()
+								));
 			}
 			icommandsender
 					.sendChatToPlayer(new ChatMessageComponent().addText("Overall: "
@@ -96,7 +86,8 @@ public class DimensionInfoCommand implements ICommand {
 			worldTickTime = mean(server.worldTickTimes.get(dimId)) * 1.0E-6D;
 			worldTPS = Math.min(1000.0 / worldTickTime, 20);
 			this.world = MinecraftServer.getServer().worldServers[dimId];
-
+			icommandsender.sendChatToPlayer(new ChatMessageComponent()
+					.addText(UptimeCommand.getUptime()));
 			icommandsender.sendChatToPlayer(new ChatMessageComponent()
 					.addText("Information for dimension: " + dimId));
 			icommandsender

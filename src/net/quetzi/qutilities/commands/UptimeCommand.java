@@ -37,22 +37,8 @@ public class UptimeCommand implements ICommand {
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
-		String uptimeText;
-		long uptime = System.currentTimeMillis() - QUtilities.startTime;
-		int days = (int)(uptime/(1000*60*60*24)) % 7;
-		int hours = (int)(uptime/(1000*60*60)) % 24;
-		int mins = (int)(uptime/(1000*60)) % 60;
-		int secs = (int)(uptime/1000) % 60;
-		if (days > 0) {
-			uptimeText = String.format("Current uptime: %s days, %sh %sm %ss", days,hours,mins,secs);
-		}
-		else if (hours > 0) {
-			uptimeText = String.format("Current uptime: %sh %sm %ss", hours,mins,secs);
-		}
-		else {
-			uptimeText = String.format("Current uptime: %sm %ss", mins,secs);
-		}
-		icommandsender.sendChatToPlayer(new ChatMessageComponent().addText(uptimeText));
+
+		icommandsender.sendChatToPlayer(new ChatMessageComponent().addText(this.getUptime()));
 	}
 
 	@Override
@@ -72,5 +58,22 @@ public class UptimeCommand implements ICommand {
 	}
 	public int getRequiredPermissionLevel() {
 		return 3;
+	}
+	public static String getUptime() {
+		String uptimeText;
+		long uptime = System.currentTimeMillis() - QUtilities.startTime;
+		int days = (int)(uptime/(1000*60*60*24)) % 7;
+		int hours = (int)(uptime/(1000*60*60)) % 24;
+		int mins = (int)(uptime/(1000*60)) % 60;
+		int secs = (int)(uptime/1000) % 60;
+		if (days > 0) {
+			return String.format("Current uptime: %s days, %sh %sm %ss", days,hours,mins,secs);
+		}
+		else if (hours > 0) {
+			return String.format("Current uptime: %sh %sm %ss", hours,mins,secs);
+		}
+		else {
+			return String.format("Current uptime: %sm %ss", mins,secs);
+		}
 	}
 }

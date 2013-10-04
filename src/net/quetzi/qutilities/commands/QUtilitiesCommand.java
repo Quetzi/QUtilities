@@ -8,6 +8,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.WorldServer;
 
 public class QUtilitiesCommand implements ICommand {
@@ -45,7 +46,7 @@ public class QUtilitiesCommand implements ICommand {
 		if (args.length == 0) {
 
 		} else if ("removedrops".equals(args[0])) {
-			removeDrops();
+			icommandsender.sendChatToPlayer(new ChatMessageComponent().addText("Marked " + removeDrops() + " entities for deletion."));
 		}
 	}
 
@@ -65,15 +66,18 @@ public class QUtilitiesCommand implements ICommand {
 		return false;
 	}
 
-	private void removeDrops() {
+	private int removeDrops() {
+		int itemsRemoved = 0;
 		MinecraftServer server = MinecraftServer.getServer();
 		for (WorldServer world : server.worldServers) {
 			for (Entity entity : (ArrayList<Entity>) world
 					.getLoadedEntityList()) {
 				if (entity.onGround && (entity.getClass() == EntityItem.class)) {
 					world.removeEntity(entity);
+					itemsRemoved++;
 				}
 			}
 		}
+		return itemsRemoved;
 	}
 }
