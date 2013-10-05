@@ -15,6 +15,7 @@ public class QUtilitiesCommand implements ICommand {
 	private List<String> aliases;
 
 	public QUtilitiesCommand() {
+		aliases = new ArrayList<String>();
 		aliases.add("qutilities");
 		aliases.add("qutils");
 		aliases.add("q");
