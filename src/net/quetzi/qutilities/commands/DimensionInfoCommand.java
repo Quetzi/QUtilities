@@ -85,7 +85,7 @@ public class DimensionInfoCommand implements ICommand {
 			MinecraftServer server = MinecraftServer.getServer();
 			worldTickTime = mean(server.worldTickTimes.get(dimId)) * 1.0E-6D;
 			worldTPS = Math.min(1000.0 / worldTickTime, 20);
-			this.world = MinecraftServer.getServer().worldServers[dimId];
+			this.world = MinecraftServer.getServer().worldServerForDimension(dimId);
 			icommandsender.sendChatToPlayer(new ChatMessageComponent()
 					.addText(UptimeCommand.getUptime()));
 			icommandsender.sendChatToPlayer(new ChatMessageComponent()
