@@ -50,18 +50,18 @@ public class PlayerListingCommand implements ICommand {
 		}
 		if (MinecraftServer.getServer().getCurrentPlayerCount() > 0) {
 			icommandsender
-					.sendChatToPlayer(new ChatMessageComponent()
-							.addText("Players online: ["
+					.sendChatToPlayer(ChatMessageComponent
+							.createFromText("Players online: ["
 									+ MinecraftServer.getServer()
 											.getCurrentPlayerCount()
 									+ "/"
 									+ MinecraftServer.getServer()
 											.getMaxPlayers() + "]"));
-			icommandsender.sendChatToPlayer(new ChatMessageComponent()
-					.addText(playerList));
+			icommandsender.sendChatToPlayer(ChatMessageComponent
+					.createFromText(playerList));
 		} else {
-			icommandsender.sendChatToPlayer(new ChatMessageComponent()
-					.addText("No players currently online."));
+			icommandsender.sendChatToPlayer(ChatMessageComponent
+					.createFromText("No players currently online."));
 		}
 	}
 
