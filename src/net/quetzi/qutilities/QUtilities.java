@@ -18,7 +18,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION)
+@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION + "-" + References.BUILD)
 @NetworkMod(clientSideRequired = false, serverSideRequired = true)
 public class QUtilities {
 	public static Logger qLog = Logger.getLogger("QUtilities");
