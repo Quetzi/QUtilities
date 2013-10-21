@@ -39,7 +39,7 @@ public class UptimeCommand implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
 
-		icommandsender.sendChatToPlayer(new ChatMessageComponent().addText(this.getUptime()));
+		icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(this.getUptime()));
 	}
 
 	@Override
