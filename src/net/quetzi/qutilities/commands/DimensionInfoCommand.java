@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.WorldServer;
+import net.quetzi.qutilities.QUtilities;
 
 public class DimensionInfoCommand implements ICommand {
 	List<String> aliases;
@@ -53,6 +54,7 @@ public class DimensionInfoCommand implements ICommand {
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) {
+		QUtilities.qLog.info(icommandsender.getCommandSenderName() + " used the command /qtps " + args);
 		if (args.length == 0) {
 			showTPSSummary(icommandsender);
 		} else {
@@ -70,14 +72,18 @@ public class DimensionInfoCommand implements ICommand {
 	}
 	
 	private void showTPSSummary(ICommandSender sender) {
+		int chunksLoaded = 0;
 		sender.sendChatToPlayer(ChatMessageComponent.createFromText(UptimeCommand.getUptime()));
 		for (WorldServer world : MinecraftServer.getServer().worldServers) {
-		double worldTickLength = mean(world.getMinecraftServer().worldTickTimes.get(world.provider.dimensionId)) * 1.0E-6D;
-		double worldTPS = Math.min(1000.0 / worldTickLength, 20);
-		sender.sendChatToPlayer(ChatMessageComponent.createFromText("[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + worldTPS + "]"));
+			double worldTickLength = mean(world.getMinecraftServer().worldTickTimes.get(world.provider.dimensionId)) * 1.0E-6D;
+			double worldTPS = Math.min(1000.0 / worldTickLength, 20);
+			chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
+			sender.sendChatToPlayer(ChatMessageComponent.createFromText("[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + worldTPS + "]"));
 		}
+		sender.sendChatToPlayer(ChatMessageComponent.createFromText("Total Chunks loaded: " + chunksLoaded));
 		sender.sendChatToPlayer(ChatMessageComponent.createFromText("Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms [" + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D),20) + "]"));
 	}
+	
 	private void showTPSDetail(ICommandSender sender, int dimension) {
 			MinecraftServer server = MinecraftServer.getServer();
 			double worldTickTime = mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
