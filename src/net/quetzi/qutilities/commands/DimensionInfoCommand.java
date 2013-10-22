@@ -10,9 +10,10 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.server.command.ForgeCommand;
+import net.quetzi.qutilities.QUtilities;
 
 public class DimensionInfoCommand implements ICommand {
 	List<String> aliases;
@@ -50,6 +51,7 @@ public class DimensionInfoCommand implements ICommand {
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
+		QUtilities.qLog.info("Player " + icommandsender.getCommandSenderName() + " used command: " + astring.toString());
 		int dimId;
 		if (astring.length > 0) {
 			try {
