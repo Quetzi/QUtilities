@@ -54,7 +54,7 @@ public class DimensionInfoCommand implements ICommand {
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) {
-		QUtilities.qLog.info(icommandsender.getCommandSenderName() + " used the command /qtps " + args);
+		QUtilities.qLog.info(icommandsender.getCommandSenderName() + " used the command /qtps");
 		if (args.length == 0) {
 			showTPSSummary(icommandsender);
 		} else {
