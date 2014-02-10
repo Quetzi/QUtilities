@@ -7,7 +7,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
 
 public class PlayerListingCommand implements ICommand {
@@ -45,23 +45,20 @@ public class PlayerListingCommand implements ICommand {
 		for (WorldServer world : MinecraftServer.getServer().worldServers) {
 			for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
 				playerList = playerList
-						+ ("[" + player.dimension + "]" + player.username + " ");
+						+ ("[" + player.dimension + "]" + player.getCommandSenderName() + " ");
 			}
 		}
 		if (MinecraftServer.getServer().getCurrentPlayerCount() > 0) {
 			icommandsender
-					.sendChatToPlayer(ChatMessageComponent
-							.createFromText("Players online: ["
+			.addChatMessage(new ChatComponentText("Players online: ["
 									+ MinecraftServer.getServer()
 											.getCurrentPlayerCount()
 									+ "/"
 									+ MinecraftServer.getServer()
 											.getMaxPlayers() + "]"));
-			icommandsender.sendChatToPlayer(ChatMessageComponent
-					.createFromText(playerList));
+			icommandsender.addChatMessage(new ChatComponentText(playerList));
 		} else {
-			icommandsender.sendChatToPlayer(ChatMessageComponent
-					.createFromText("No players currently online."));
+			icommandsender.addChatMessage(new ChatComponentText("No players currently online."));
 		}
 	}
 

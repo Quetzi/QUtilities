@@ -5,8 +5,7 @@ import java.util.List;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
 
 public class UptimeCommand implements ICommand {
@@ -39,7 +38,7 @@ public class UptimeCommand implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
 
-		icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(this.getUptime()));
+		icommandsender.addChatMessage(new ChatComponentText(this.getUptime()));
 	}
 
 	@Override
