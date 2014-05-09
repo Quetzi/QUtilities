@@ -13,7 +13,7 @@ public class ScheduledSave {
     @SubscribeEvent
     public void saveWorldState(WorldTickEvent event) {
         // 1200 = every 1 minute
-        if ((event.phase == TickEvent.Phase.END) && (event.world.getWorldTime() % 1200 == 0)) {
+        if ((event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0) && (event.world.getWorldTime() % 1200 == 0)) {
             MinecraftServer server = MinecraftServer.getServer();
             if (server.getConfigurationManager() != null) {
                 server.getConfigurationManager().saveAllPlayerData();
