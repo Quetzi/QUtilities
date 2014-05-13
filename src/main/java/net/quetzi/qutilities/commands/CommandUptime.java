@@ -8,10 +8,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
 
-public class UptimeCommand implements ICommand {
+public class CommandUptime implements ICommand {
     List<String> aliases;
 
-    public UptimeCommand() {
+    public CommandUptime() {
         aliases = new ArrayList<String>();
         aliases.add("qutil uptime");
     }

@@ -1,10 +1,11 @@
-package net.quetzi.qutilities;
+package net.quetzi.qutilities.world;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.WorldServer;
+import net.quetzi.qutilities.QUtilities;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;

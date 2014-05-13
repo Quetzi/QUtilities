@@ -20,12 +20,12 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
 import net.quetzi.qutilities.QUtilities;
 
-public class DimensionInfoCommand implements ICommand {
+public class CommandTPS implements ICommand {
     List<String> aliases;
     WorldServer world;
     private static final DecimalFormat timeFormatter = new DecimalFormat("########0.000");
 
-    public DimensionInfoCommand() {
+    public CommandTPS() {
         aliases = new ArrayList<String>();
         aliases.add("qtps");
         aliases.add("tps");
@@ -69,7 +69,7 @@ public class DimensionInfoCommand implements ICommand {
 
     private void showTPSSummary(ICommandSender sender) {
         int chunksLoaded = 0;
-        sender.addChatMessage(new ChatComponentText(UptimeCommand.getUptime()));
+        sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
         for (WorldServer world : MinecraftServer.getServer().worldServers) {
             double worldTickLength = mean(world.func_73046_m().worldTickTimes
                     .get(world.provider.dimensionId)) * 1.0E-6D;
@@ -94,7 +94,7 @@ public class DimensionInfoCommand implements ICommand {
         double worldTickTime = mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
         double worldTPS = Math.min(1000.0 / worldTickTime, 20);
         this.world = MinecraftServer.getServer().worldServerForDimension(dimension);
-        sender.addChatMessage(new ChatComponentText(UptimeCommand.getUptime()));
+        sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
         sender.addChatMessage(new ChatComponentText("Information for [" + dimension + "]"
                 + world.provider.getDimensionName()));
         sender.addChatMessage(new ChatComponentText("Players (" + world.playerEntities.size()
