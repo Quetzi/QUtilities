@@ -1,11 +1,11 @@
 package net.quetzi.qutilities;
 
 import net.minecraftforge.common.config.Configuration;
+import net.quetzi.qutilities.commands.CommandFixPlayerPos;
 import net.quetzi.qutilities.commands.CommandPlayerList;
 import net.quetzi.qutilities.commands.CommandTPS;
 import net.quetzi.qutilities.commands.CommandUptime;
 import net.quetzi.qutilities.references.References;
-import net.quetzi.qutilities.world.ScheduledSave;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,7 +44,7 @@ public class QUtilities {
     @EventHandler
     @SideOnly(Side.SERVER)
     public void PostInit(FMLPostInitializationEvent event) {
-        FMLCommonHandler.instance().bus().register(new ScheduledSave());
+        FMLCommonHandler.instance().bus().register(new QUtilitesEventHandler());
     }
 
     @EventHandler
@@ -53,5 +53,6 @@ public class QUtilities {
         event.registerServerCommand(new CommandPlayerList());
         event.registerServerCommand(new CommandUptime());
         event.registerServerCommand(new CommandTPS());
+        event.registerServerCommand(new CommandFixPlayerPos());
     }
 }

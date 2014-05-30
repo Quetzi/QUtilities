@@ -3,3 +3,5 @@ bin/
 .gradle/
 build/
 
+.settings/org.eclipse.jdt.core.prefs
+.classpath
