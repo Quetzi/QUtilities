@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.quetzi.qutilities.QUtilities;
 import net.quetzi.qutilities.world.MovePlayer;
 
 public class CommandFixPlayerPos implements ICommand {

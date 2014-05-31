@@ -33,11 +33,10 @@ public class MovePlayer {
         return false;
     }
 
-    public static void processQueue(PlayerLoggedInEvent event) {
+    public static void processQueue(String name) {
         if (queue.size() > 0) {
             for (int i = 0; i < queue.size(); i++) {
-                if (queue.get(i).toLowerCase()
-                        .matches(event.player.getGameProfile().getName().toLowerCase())) {
+                if (queue.get(i).toLowerCase().matches(name.toLowerCase())) {
                     if (sendToSpawn(queue.get(i))) {
                         QUtilities.qLog.info("Player " + queue.get(i)
                                 + " was queued to be moved, moving now.");
