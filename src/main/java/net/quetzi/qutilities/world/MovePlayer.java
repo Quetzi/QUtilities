@@ -1,15 +1,15 @@
 package net.quetzi.qutilities.world;
 
-import java.util.List;
-
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
 import net.quetzi.qutilities.QUtilities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MovePlayer {
-    public static List queue;
+    public static Set<String> queue = new HashSet();
 
     public static boolean sendToSpawn(String playername) {
         if (MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername) != null) {
@@ -33,15 +33,12 @@ public class MovePlayer {
         return false;
     }
 
-    public static void processQueue(String name) {
+    public static void processQueue(String playername) {
         if (queue.size() > 0) {
-            for (int i = 0; i < queue.size(); i++) {
-                if (((String)queue.get(i)).toLowerCase().matches(name.toLowerCase())) {
-                    if (sendToSpawn((String)queue.get(i))) {
-                        QUtilities.qLog.info("Player " + queue.get(i)
-                                + " was queued to be moved, moving now.");
-                        queue.remove(i);
-                    }
+            if (queue.contains(playername.toLowerCase())) {
+                if (sendToSpawn(playername)) {
+                    QUtilities.qLog.info("Player " + playername + " was queued to be moved, moving now.");
+                    queue.remove(playername);
                 }
             }
         }

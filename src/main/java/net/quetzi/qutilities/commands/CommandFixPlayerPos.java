@@ -38,7 +38,7 @@ public class CommandFixPlayerPos implements ICommand {
 
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
-        if (astring[0] != null) {
+        if (!(astring.length == 0)) {
             MovePlayer.sendToSpawn(astring[0]);
         } else {
             getCommandUsage(icommandsender);

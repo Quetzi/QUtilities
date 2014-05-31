@@ -85,8 +85,8 @@ public class CommandTPS implements ICommand {
                         + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D)
                         + "ms ["
                         + Math.min(
-                                1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D),
-                                20) + "]"));
+                        1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D),
+                        20) + "]"));
     }
 
     private void showTPSDetail(ICommandSender sender, int dimension) {
