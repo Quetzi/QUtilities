@@ -15,8 +15,8 @@ public class QUtilitesEventHandler {
         }
     }
 
-//    @SubscribeEvent
-//    public void PlayerLoggedInHandler(PlayerLoggedInEvent event) {
-//        MovePlayer.processQueue(event.player.getGameProfile().getName());
-//    }
+    @SubscribeEvent
+    public void PlayerLoggedInHandler(PlayerLoggedInEvent event) {
+        MovePlayer.processQueue(event.player.getGameProfile().getName());
+    }
 }

@@ -5,3 +5,6 @@ build/
 
 .settings/org.eclipse.jdt.core.prefs
 .classpath
+QUtilities.iml
+QUtilities.ipr
+QUtilities.iws

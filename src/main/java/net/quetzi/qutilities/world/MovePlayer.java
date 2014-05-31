@@ -9,7 +9,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.quetzi.qutilities.QUtilities;
 
 public class MovePlayer {
-    public static List<String> queue;
+    public static List queue;
 
     public static boolean sendToSpawn(String playername) {
         if (MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername) != null) {
@@ -36,8 +36,8 @@ public class MovePlayer {
     public static void processQueue(String name) {
         if (queue.size() > 0) {
             for (int i = 0; i < queue.size(); i++) {
-                if (queue.get(i).toLowerCase().matches(name.toLowerCase())) {
-                    if (sendToSpawn(queue.get(i))) {
+                if (((String)queue.get(i)).toLowerCase().matches(name.toLowerCase())) {
+                    if (sendToSpawn((String)queue.get(i))) {
                         QUtilities.qLog.info("Player " + queue.get(i)
                                 + " was queued to be moved, moving now.");
                         queue.remove(i);
