@@ -20,6 +20,8 @@ public class MovePlayer {
             if (player.getBedLocation(0) != null) {
                 dest = player.getBedLocation(0);
                 QUtilities.qLog.info("Player bed found for " + playername);
+            } else {
+                QUtilities.qLog.info("No bed found for " + playername + " moving to overworld spawn instead");
             }
             if (player.dimension != 0) {
                 player.travelToDimension(0);

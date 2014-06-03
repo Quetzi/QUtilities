@@ -25,7 +25,7 @@ public class ScheduledSave {
                     worldserver = server.worldServers[i];
                     flag = worldserver.levelSaving;
                     worldserver.levelSaving = false;
-                    worldserver.saveAllChunks(true, (IProgressUpdate) null);
+                    worldserver.saveAllChunks(true, null);
                     worldserver.levelSaving = flag;
                 }
             }
