@@ -25,6 +25,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class QUtilities {
     public static Logger qLog = LogManager.getLogger("QUtilities");
     public static long startTime;
+    public static boolean savingEnabled;
+    public static int saveInterval;
 
     @EventHandler
     @SideOnly(Side.SERVER)
@@ -38,6 +40,8 @@ public class QUtilities {
         // Read configs
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
+        savingEnabled = config.get("Settings", "EnableWorldSaving", true).getBoolean(true);
+        saveInterval = config.get("Settings", "SaveInterval", 5, "In Minutes").getInt();
         config.save();
     }
 

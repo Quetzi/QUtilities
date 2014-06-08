@@ -11,7 +11,7 @@ public class QUtilitesEventHandler {
     @SubscribeEvent
     public void WorldTickHandler(WorldTickEvent event) {
         // 1200 = 1 minute
-        if ((event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0) && (event.world.getWorldTime() % 1200 == 0)) {
+        if (QUtilities.savingEnabled && (event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0) && (event.world.getWorldTime() % (QUtilities.saveInterval * 1200) == 0)) {
             ScheduledSave.saveWorldState();
         }
     }

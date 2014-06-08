@@ -23,10 +23,10 @@ public class ScheduledSave {
             for (i = 0; i < server.worldServers.length; ++i) {
                 if (server.worldServers[i] != null) {
                     worldserver = server.worldServers[i];
-                    flag = worldserver.levelSaving;
+//                    flag = worldserver.levelSaving;
                     worldserver.levelSaving = false;
                     worldserver.saveAllChunks(true, null);
-                    worldserver.levelSaving = flag;
+//                    worldserver.levelSaving = flag;
                 }
             }
         } catch (MinecraftException minecraftexception) {
