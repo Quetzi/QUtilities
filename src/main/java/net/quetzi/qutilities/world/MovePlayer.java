@@ -8,15 +8,15 @@ import net.quetzi.qutilities.QUtilities;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MovePlayer {
+public class MovePlayer
+{
     public static Set<String> queue = new HashSet();
 
-    public static boolean sendToSpawn(String playername) {
+    public static boolean sendToSpawn(String playername)
+    {
         if (MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername) != null) {
-            EntityPlayer player = MinecraftServer.getServer().getConfigurationManager()
-                    .getPlayerForUsername(playername);
-            ChunkCoordinates dest = MinecraftServer.getServer().worldServerForDimension(0)
-                    .getSpawnPoint();
+            EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+            ChunkCoordinates dest = MinecraftServer.getServer().worldServerForDimension(0).getSpawnPoint();
             if (player.getBedLocation(0) != null) {
                 dest = player.getBedLocation(0);
                 QUtilities.qLog.info("Player bed found for " + playername);
@@ -35,7 +35,8 @@ public class MovePlayer {
         return false;
     }
 
-    public static void processQueue(String playername) {
+    public static void processQueue(String playername)
+    {
         if (queue.size() > 0) {
             if (queue.contains(playername.toLowerCase())) {
                 if (sendToSpawn(playername)) {

@@ -1,67 +1,25 @@
 package net.quetzi.qutilities.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
 
-public class CommandUptime implements ICommand {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CommandUptime implements ICommand
+{
     List<String> aliases;
 
-    public CommandUptime() {
+    public CommandUptime()
+    {
         aliases = new ArrayList<String>();
         aliases.add("qutil uptime");
     }
 
-    @Override
-    public int compareTo(Object o) {
-        return 0;
-    }
-
-    @Override
-    public String getCommandName() {
-        return "uptime";
-    }
-
-    @Override
-    public String getCommandUsage(ICommandSender icommandsender) {
-        return "/uptime";
-    }
-
-    @Override
-    public List getCommandAliases() {
-        return aliases;
-    }
-
-    @Override
-    public void processCommand(ICommandSender icommandsender, String[] astring) {
-
-        icommandsender.addChatMessage(new ChatComponentText(this.getUptime()));
-    }
-
-    @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-        return true;
-    }
-
-    @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] astring, int i) {
-        return false;
-    }
-
-    public int getRequiredPermissionLevel() {
-        return 3;
-    }
-
-    public static String getUptime() {
+    public static String getUptime()
+    {
         String uptimeText;
         long uptime = System.currentTimeMillis() - QUtilities.startTime;
         int days = (int) (uptime / (1000 * 60 * 60 * 24)) % 7;
@@ -75,5 +33,59 @@ public class CommandUptime implements ICommand {
         } else {
             return String.format("Current uptime: %sm %ss", mins, secs);
         }
+    }
+
+    @Override
+    public int compareTo(Object o)
+    {
+        return 0;
+    }
+
+    @Override
+    public String getCommandName()
+    {
+        return "uptime";
+    }
+
+    @Override
+    public String getCommandUsage(ICommandSender icommandsender)
+    {
+        return "/uptime";
+    }
+
+    @Override
+    public List getCommandAliases()
+    {
+        return aliases;
+    }
+
+    @Override
+    public void processCommand(ICommandSender icommandsender, String[] astring)
+    {
+
+        icommandsender.addChatMessage(new ChatComponentText(this.getUptime()));
+    }
+
+    @Override
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender)
+    {
+        return true;
+    }
+
+    @Override
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean isUsernameIndex(String[] astring, int i)
+    {
+        return false;
+    }
+
+    public int getRequiredPermissionLevel()
+    {
+        return 3;
     }
 }
