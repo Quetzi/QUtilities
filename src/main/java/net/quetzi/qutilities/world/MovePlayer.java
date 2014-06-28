@@ -14,14 +14,14 @@ public class MovePlayer {
 
     public static boolean sendToSpawn(String playername) {
 
-        if (MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername) != null) {
-            EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+        if (MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername) != null) {
+            EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername);
             ChunkCoordinates dest = MinecraftServer.getServer().worldServerForDimension(0).getSpawnPoint();
             if (player.getBedLocation(0) != null) {
                 dest = player.getBedLocation(0);
-                QUtilities.qLog.info("Player bed found for " + playername);
+                QUtilities.log.info("Player bed found for " + playername);
             } else {
-                QUtilities.qLog.info("No bed found for " + playername + " moving to overworld spawn instead");
+                QUtilities.log.info("No bed found for " + playername + " moving to overworld spawn instead");
             }
             if (player.dimension != 0) {
                 player.travelToDimension(0);
@@ -40,7 +40,7 @@ public class MovePlayer {
         if (queue.size() > 0) {
             if (queue.contains(playername.toLowerCase())) {
                 if (sendToSpawn(playername)) {
-                    QUtilities.qLog.info("Player " + playername + " was queued to be moved, moving now.");
+                    QUtilities.log.info("Player " + playername + " was queued to be moved, moving now.");
                     queue.remove(playername);
                 }
             }

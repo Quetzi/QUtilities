@@ -27,9 +27,9 @@ public class ScheduledSave {
                 }
             }
         } catch (MinecraftException minecraftexception) {
-            QUtilities.qLog.info("Failed to save the world!");
+            QUtilities.log.info("Failed to save the world!");
             return;
         }
-        QUtilities.qLog.info("The world has been saved");
+        QUtilities.log.info("The world has been saved");
     }
 }
