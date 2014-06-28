@@ -1,7 +1,7 @@
 package net.quetzi.qutilities.references;
 
-public class References
-{
+public class References {
+
     public static final String NAME    = "QUtilities";
     public static final String MODID   = "QUtilities";
     public static final String MAJOR   = "@MAJOR@";

@@ -19,14 +19,14 @@ apply plugin: 'forge'
 
 project.ext {
     major = "0"
-    minor = "2"
+    minor = "3"
 }
-version = "1.7.2-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "1.7.10-${project.ext.major}.${project.minor}.${System.getenv("BUILD_NUMBER") ?: 0}"
 group = "net.quetzi.qutilities"
 archivesBaseName = "qutilities"
 
 minecraft {
-    version = "1.7.2-10.12.1.1101"
+    version = "1.7.10-10.13.0.1150"
     assetDir = "eclipse/assets"
 
     // replacing stuff in the source

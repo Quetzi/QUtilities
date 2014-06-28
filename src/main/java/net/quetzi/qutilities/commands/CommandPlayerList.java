@@ -10,44 +10,44 @@ import net.minecraft.world.WorldServer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandPlayerList implements ICommand
-{
+public class CommandPlayerList implements ICommand {
+
     private List<String> aliases;
 
-    public CommandPlayerList()
-    {
+    public CommandPlayerList() {
+
         aliases = new ArrayList<String>();
         aliases.add("dimlist");
         aliases.add("qlist");
     }
 
     @Override
-    public int compareTo(Object arg0)
-    {
+    public int compareTo(Object arg0) {
+
         return 0;
     }
 
     @Override
-    public String getCommandName()
-    {
+    public String getCommandName() {
+
         return "list";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
-    {
+    public String getCommandUsage(ICommandSender icommandsender) {
+
         return "/list";
     }
 
     @Override
-    public List getCommandAliases()
-    {
+    public List getCommandAliases() {
+
         return aliases;
     }
 
     @Override
-    public void processCommand(ICommandSender icommandsender, String[] astring)
-    {
+    public void processCommand(ICommandSender icommandsender, String[] astring) {
+
         String playerList = "";
         for (WorldServer world : MinecraftServer.getServer().worldServers) {
             for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
@@ -55,7 +55,9 @@ public class CommandPlayerList implements ICommand
             }
         }
         if (MinecraftServer.getServer().getCurrentPlayerCount() > 0) {
-            icommandsender.addChatMessage(new ChatComponentText("Players online: [" + MinecraftServer.getServer().getCurrentPlayerCount() + "/" + MinecraftServer.getServer().getMaxPlayers() + "]"));
+            icommandsender.addChatMessage(new ChatComponentText(
+                    "Players online: [" + MinecraftServer.getServer().getCurrentPlayerCount() + "/" + MinecraftServer.getServer().getMaxPlayers()
+                            + "]"));
             icommandsender.addChatMessage(new ChatComponentText(playerList));
         } else {
             icommandsender.addChatMessage(new ChatComponentText("No players currently online."));
@@ -63,20 +65,20 @@ public class CommandPlayerList implements ICommand
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender)
-    {
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring)
-    {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
+
         return null;
     }
 
     @Override
-    public boolean isUsernameIndex(String[] astring, int i)
-    {
+    public boolean isUsernameIndex(String[] astring, int i) {
+
         return false;
     }
 
