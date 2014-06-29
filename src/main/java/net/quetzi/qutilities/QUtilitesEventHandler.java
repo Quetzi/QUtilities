@@ -21,7 +21,7 @@ public class QUtilitesEventHandler {
             ScheduledSave.saveWorldState();
         }
         if (QUtilities.whitelistEnabled && (event.phase == TickEvent.Phase.END) && (event.world.getWorldTime() % (QUtilities.checkInterval * 1200)) == 0) {
-            Whitelist.run();
+            new Thread(new Whitelist()).start();
         }
     }
 

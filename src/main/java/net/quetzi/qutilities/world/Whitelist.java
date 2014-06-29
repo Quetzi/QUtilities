@@ -13,9 +13,9 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Whitelist {
+public class Whitelist implements Runnable {
 
-    public static void run() {
+    public void run() {
 
         QUtilities.log.info("Reloading whitelist.");
 
