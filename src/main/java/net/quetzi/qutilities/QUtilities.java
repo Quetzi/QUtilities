@@ -1,5 +1,19 @@
 package net.quetzi.qutilities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import net.minecraftforge.common.config.Configuration;
+import net.quetzi.qutilities.commands.CommandFixPlayerPos;
+import net.quetzi.qutilities.commands.CommandPlayerList;
+import net.quetzi.qutilities.commands.CommandTPS;
+import net.quetzi.qutilities.commands.CommandUptime;
+import net.quetzi.qutilities.references.References;
+import net.quetzi.qutilities.world.Whitelist;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -9,30 +23,18 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraftforge.common.config.Configuration;
-import net.quetzi.qutilities.commands.CommandFixPlayerPos;
-import net.quetzi.qutilities.commands.CommandPlayerList;
-import net.quetzi.qutilities.commands.CommandTPS;
-import net.quetzi.qutilities.commands.CommandUptime;
-import net.quetzi.qutilities.references.References;
-import net.quetzi.qutilities.world.Whitelist;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION + "-" + References.BUILD, acceptableRemoteVersions = "*")
 public class QUtilities {
 
-    public static Logger log = LogManager.getLogger("QUtilities");
-    public static long    startTime;
-    public static boolean savingEnabled;
-    public static int     saveInterval;
-    public static String  uniqueID;
-    public static boolean     whitelistEnabled = false;
-    public static Set<String> whitelist        = new HashSet();
-    public static int checkInterval;
+    public static Logger        log              = LogManager.getLogger("QUtilities");
+    public static long          startTime;
+    public static boolean       savingEnabled;
+    public static int           saveInterval;
+    public static String        uniqueID;
+    public static boolean       whitelistEnabled = false;
+    public static Set<String>   whitelist        = new HashSet();
+    public static int           checkInterval;
     public static Configuration config;
 
     @EventHandler
@@ -58,7 +60,7 @@ public class QUtilities {
         config.save();
 
         if ((this.uniqueID == null) || (this.uniqueID.equalsIgnoreCase("CHANGEME"))) {
-            log.info("Please set your unique ID in config.yml and restart your server.");
+            log.info("Please set your unique ID in qutilities.cfg and restart your server.");
         } else {
             if (Whitelist.getRemoteWhitelist()) {
                 this.whitelistEnabled = config.get("Settings", "Enabled", false).getBoolean(false);

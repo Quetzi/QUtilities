@@ -4,14 +4,14 @@
 
 package net.quetzi.qutilities.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
 import net.quetzi.qutilities.world.Whitelist;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CommandWhitelist implements ICommand {
 
@@ -68,36 +68,37 @@ public class CommandWhitelist implements ICommand {
                 commandSender.addChatMessage(new ChatComponentText("Remote whitelist disabled."));
             } else if (args[0].equalsIgnoreCase("export")) {
                 Whitelist.writeWhitelist();
-                commandSender.addChatMessage(new ChatComponentText(
-                        "Remote whitelist written to config directory."));
+                commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to config directory."));
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
                 for (String user : QUtilities.whitelist)
                     list = list + user + ", ";
                 commandSender.addChatMessage(new ChatComponentText(list));
             }
-        } else
-            commandSender.addChatMessage(new ChatComponentText(
-                    "Syntax: /qw reload, /qw enable, /qw disable, /qw export, /qw list"));
+        } else commandSender.addChatMessage(new ChatComponentText("Syntax: /qw reload, /qw enable, /qw disable, /qw export, /qw list"));
 
     }
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender var1) {
+
         return true;
     }
 
     @Override
     public List addTabCompletionOptions(ICommandSender var1, String[] var2) {
+
         return null;
     }
 
     @Override
     public boolean isUsernameIndex(String[] var1, int var2) {
+
         return false;
     }
 
     public int getRequiredPermissionLevel() {
+
         return 3;
     }
 }

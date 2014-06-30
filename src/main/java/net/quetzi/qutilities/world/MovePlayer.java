@@ -1,12 +1,12 @@
 package net.quetzi.qutilities.world;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
 import net.quetzi.qutilities.QUtilities;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class MovePlayer {
 

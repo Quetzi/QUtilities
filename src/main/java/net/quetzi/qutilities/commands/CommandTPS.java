@@ -1,5 +1,12 @@
 package net.quetzi.qutilities.commands;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -12,18 +19,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public class CommandTPS implements ICommand {
 
     private static final DecimalFormat timeFormatter = new DecimalFormat("########0.000");
-    List<String> aliases;
-    WorldServer  world;
+    List<String>                       aliases;
+    WorldServer                        world;
 
     public CommandTPS() {
 
@@ -108,14 +108,12 @@ public class CommandTPS implements ICommand {
             double worldTickLength = mean(world.func_73046_m().worldTickTimes.get(world.provider.dimensionId)) * 1.0E-6D;
             double worldTPS = Math.min(1000.0 / worldTickLength, 20);
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
-            sender.addChatMessage(new ChatComponentText(
-                    "[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms ["
-                            + worldTPS + "]"));
+            sender.addChatMessage(new ChatComponentText("[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + worldTPS
+                    + "]"));
         }
         sender.addChatMessage(new ChatComponentText("Total Chunks loaded: " + chunksLoaded));
-        sender.addChatMessage(new ChatComponentText(
-                "Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms [" + Math
-                        .min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]"));
+        sender.addChatMessage(new ChatComponentText("Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms ["
+                + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]"));
     }
 
     private void showTPSDetail(ICommandSender sender, int dimension) {

@@ -1,14 +1,14 @@
 package net.quetzi.qutilities.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CommandPlayerList implements ICommand {
 
@@ -55,9 +55,7 @@ public class CommandPlayerList implements ICommand {
             }
         }
         if (MinecraftServer.getServer().getCurrentPlayerCount() > 0) {
-            icommandsender.addChatMessage(new ChatComponentText(
-                    "Players online: [" + MinecraftServer.getServer().getCurrentPlayerCount() + "/" + MinecraftServer.getServer().getMaxPlayers()
-                            + "]"));
+            icommandsender.addChatMessage(new ChatComponentText("Players online: [" + MinecraftServer.getServer().getCurrentPlayerCount() + "/" + MinecraftServer.getServer().getMaxPlayers() + "]"));
             icommandsender.addChatMessage(new ChatComponentText(playerList));
         } else {
             icommandsender.addChatMessage(new ChatComponentText("No players currently online."));

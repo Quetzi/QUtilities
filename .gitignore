@@ -8,3 +8,5 @@ build/
 QUtilities.iml
 QUtilities.ipr
 QUtilities.iws
+eclipse/
+.project

@@ -4,14 +4,20 @@
 
 package net.quetzi.qutilities.world;
 
-import net.minecraft.server.MinecraftServer;
-import net.quetzi.qutilities.QUtilities;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.minecraft.server.MinecraftServer;
+import net.quetzi.qutilities.QUtilities;
 
 public class Whitelist implements Runnable {
 
@@ -19,18 +25,15 @@ public class Whitelist implements Runnable {
 
         QUtilities.log.info("Reloading whitelist.");
 
-        if (getRemoteWhitelist())
-            QUtilities.log.info("Whitelist reloaded.");
-        else
-            QUtilities.log.info("Error reloading whitelist.");
+        if (getRemoteWhitelist()) QUtilities.log.info("Whitelist reloaded.");
+        else QUtilities.log.info("Error reloading whitelist.");
     }
 
     public static void writeWhitelist() {
 
         File whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "whitelist.txt");
 
-        if (whitelistSave.exists())
-            whitelistSave.delete();
+        if (whitelistSave.exists()) whitelistSave.delete();
         try {
             whitelistSave.createNewFile();
 

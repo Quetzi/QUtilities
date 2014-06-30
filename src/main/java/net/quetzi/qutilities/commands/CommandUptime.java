@@ -1,12 +1,12 @@
 package net.quetzi.qutilities.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CommandUptime implements ICommand {
 
