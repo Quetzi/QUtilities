@@ -1,19 +1,5 @@
 package net.quetzi.qutilities;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import net.minecraftforge.common.config.Configuration;
-import net.quetzi.qutilities.commands.CommandFixPlayerPos;
-import net.quetzi.qutilities.commands.CommandPlayerList;
-import net.quetzi.qutilities.commands.CommandTPS;
-import net.quetzi.qutilities.commands.CommandUptime;
-import net.quetzi.qutilities.references.References;
-import net.quetzi.qutilities.world.Whitelist;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -23,6 +9,19 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.common.config.Configuration;
+import net.quetzi.qutilities.commands.CommandFixPlayerPos;
+import net.quetzi.qutilities.commands.CommandPlayerList;
+import net.quetzi.qutilities.commands.CommandTPS;
+import net.quetzi.qutilities.commands.CommandUptime;
+import net.quetzi.qutilities.commands.CommandWhitelist;
+import net.quetzi.qutilities.references.References;
+import net.quetzi.qutilities.world.Whitelist;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION + "-" + References.BUILD, acceptableRemoteVersions = "*")
 public class QUtilities {
@@ -83,5 +82,6 @@ public class QUtilities {
         event.registerServerCommand(new CommandUptime());
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
+        event.registerServerCommand(new CommandWhitelist());
     }
 }
