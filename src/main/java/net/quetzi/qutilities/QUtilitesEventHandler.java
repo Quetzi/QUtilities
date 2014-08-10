@@ -41,7 +41,7 @@ public class QUtilitesEventHandler {
         if (!QUtilities.whitelist.contains(player.getGameProfile().getName().toLowerCase())) {
             QUtilities.log.info(player.getGameProfile().getName() + " not on whitelist.");
             QUtilities.log.info("Blocking " + player.getGameProfile().getName());
-            ((EntityPlayerMP) player).playerNetServerHandler.kickPlayerFromServer("You are not a current Twitch Subscriber, if this is wrong wait a few minutes");
+            ((EntityPlayerMP) player).playerNetServerHandler.kickPlayerFromServer("You are not a current Twitch Subscriber or Patron, if this is wrong wait a few minutes");
         } else {
             QUtilities.log.info("Allowing " + player.getGameProfile().getName());
         }

@@ -4,6 +4,9 @@
 
 package net.quetzi.qutilities.world;
 
+import net.minecraft.server.MinecraftServer;
+import net.quetzi.qutilities.QUtilities;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,17 +19,17 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.server.MinecraftServer;
-import net.quetzi.qutilities.QUtilities;
-
 public class Whitelist implements Runnable {
 
     public void run() {
 
-        QUtilities.log.info("Reloading whitelist.");
+        while (!Thread.currentThread().isInterrupted()) {
+            QUtilities.log.info("Reloading whitelist.");
 
-        if (getRemoteWhitelist()) QUtilities.log.info("Whitelist reloaded.");
-        else QUtilities.log.info("Error reloading whitelist.");
+            if (updateWhitelist()) QUtilities.log.info("Whitelist reloaded.");
+            else QUtilities.log.info("Error reloading whitelist.");
+            Thread.currentThread().interrupt();
+        }
     }
 
     public static void writeWhitelist() {
@@ -49,11 +52,17 @@ public class Whitelist implements Runnable {
         }
     }
 
-    public static boolean getRemoteWhitelist() {
+    public static boolean updateWhitelist() {
+
+        getRemoteWhitelist("http://whitelist.twitchapps.com/list.php?id=" + QUtilities.uniqueID);
+        getRemoteWhitelist("http://wtfcool.com/patreon/patrons.txt");
+        return true;
+    }
+
+    public static boolean getRemoteWhitelist(String urlString) {
 
         List temp = new LinkedList();
 
-        String urlString = "http://whitelist.twitchapps.com/list.php?id=" + QUtilities.uniqueID;
         try {
             QUtilities.log.info("Getting whitelist from " + urlString);
             URL url = new URL(urlString);

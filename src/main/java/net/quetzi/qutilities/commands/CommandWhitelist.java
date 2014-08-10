@@ -4,14 +4,14 @@
 
 package net.quetzi.qutilities.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
 import net.quetzi.qutilities.world.Whitelist;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandWhitelist implements ICommand {
 
@@ -51,7 +51,7 @@ public class CommandWhitelist implements ICommand {
 
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
-                if (Whitelist.getRemoteWhitelist()) {
+                if (Whitelist.updateWhitelist()) {
                     commandSender.addChatMessage(new ChatComponentText("Remote whitelist reloaded."));
                 } else {
                     commandSender.addChatMessage(new ChatComponentText("Error reloading whitelist."));
