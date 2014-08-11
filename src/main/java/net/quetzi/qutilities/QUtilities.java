@@ -61,7 +61,7 @@ public class QUtilities {
         if ((this.uniqueID == null) || (this.uniqueID.equalsIgnoreCase("CHANGEME"))) {
             log.info("Please set your unique ID in qutilities.cfg and restart your server.");
         } else {
-            if (Whitelist.getRemoteWhitelist()) {
+            if (Whitelist.updateWhitelist()) {
                 this.whitelistEnabled = config.get("Settings", "Enabled", false).getBoolean(false);
             }
         }
