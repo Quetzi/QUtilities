@@ -32,7 +32,7 @@ public class Whitelist implements Runnable {
         }
     }
 
-    public void writeWhitelist() {
+    public static void writeWhitelist() {
 
         File whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "whitelist-export.txt");
 
@@ -52,7 +52,7 @@ public class Whitelist implements Runnable {
         }
     }
 
-    public boolean updateWhitelist() {
+    public static boolean updateWhitelist() {
 
         QUtilities.whitelist.clear();
         if (QUtilities.whitelistEnabled) {
@@ -64,12 +64,12 @@ public class Whitelist implements Runnable {
         return true;
     }
 
-    private void addToWhitelist(List<String> playerList) {
+    private static void addToWhitelist(List<String> playerList) {
         for (String player : playerList) {
             QUtilities.whitelist.add(player);
         }
     }
-    public boolean getRemoteWhitelist(String urlString) {
+    public static boolean getRemoteWhitelist(String urlString) {
 
         List<String> temp = new LinkedList<String>();
 
