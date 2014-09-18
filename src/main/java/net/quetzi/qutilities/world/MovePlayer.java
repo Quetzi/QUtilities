@@ -30,7 +30,9 @@ public class MovePlayer {
             return true;
         } else {
             // Player is offline - process move on login
-            queue.add(playername);
+            if (!queue.contains(playername.toLowerCase())) {
+                queue.add(playername.toLowerCase());
+            }
         }
         return false;
     }
