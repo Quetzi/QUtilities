@@ -32,9 +32,9 @@ public class Whitelist implements Runnable {
         }
     }
 
-    public static void writeWhitelist() {
+    public void writeWhitelist() {
 
-        File whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "whitelist.txt");
+        File whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "whitelist-export.txt");
 
         if (whitelistSave.exists()) whitelistSave.delete();
         try {
@@ -52,8 +52,9 @@ public class Whitelist implements Runnable {
         }
     }
 
-    public static boolean updateWhitelist() {
+    public boolean updateWhitelist() {
 
+        QUtilities.whitelist.clear();
         if (QUtilities.whitelistEnabled) {
             getRemoteWhitelist("http://whitelist.twitchapps.com/list.php?id=" + QUtilities.uniqueID);
         }
@@ -63,9 +64,14 @@ public class Whitelist implements Runnable {
         return true;
     }
 
-    public static boolean getRemoteWhitelist(String urlString) {
+    private void addToWhitelist(List<String> playerList) {
+        for (String player : playerList) {
+            QUtilities.whitelist.add(player);
+        }
+    }
+    public boolean getRemoteWhitelist(String urlString) {
 
-        List temp = new LinkedList();
+        List<String> temp = new LinkedList<String>();
 
         try {
             QUtilities.log.info("Getting whitelist from " + urlString);
@@ -80,10 +86,7 @@ public class Whitelist implements Runnable {
                     temp.add(inputLine.toLowerCase());
                 }
                 in.close();
-
-                QUtilities.whitelist.clear();
-                for (String player : (List<String>) temp)
-                    QUtilities.whitelist.add(player);
+                addToWhitelist(temp);
             } catch (IOException e) {
                 String errorIn = "";
                 InputStream errorStream = conn.getErrorStream();
@@ -96,7 +99,6 @@ public class Whitelist implements Runnable {
                 }
                 QUtilities.log.info("Error getting list: " + errorIn);
             }
-
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
