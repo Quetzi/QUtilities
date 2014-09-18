@@ -34,6 +34,9 @@ public class QUtilities {
     public static boolean       whitelistEnabled = false;
     public static Set<String>   whitelist        = new HashSet();
     public static int           checkInterval;
+    public static boolean       secondaryWhitelistEnabled = false;
+    public static String        secondaryWhitelistLocation;
+    public static String        kickMessage;
     public static Configuration config;
 
     @EventHandler
@@ -54,8 +57,11 @@ public class QUtilities {
         savingEnabled = config.get("Settings", "EnableWorldSaving", true).getBoolean(true);
         saveInterval = config.get("Settings", "SaveInterval", 5, "In minutes").getInt();
         whitelistEnabled = config.get("Settings", "WhitelistEnabled", false).getBoolean(false);
+        secondaryWhitelistEnabled = config.get("Settings", "SecondaryWhitelistEnabled", false).getBoolean(false);
+        secondaryWhitelistLocation = config.get("Settings", "SecondaryWhitelistLocation", "http://your.url.here/whitelist.txt").getString();
         uniqueID = config.get("Settings", "UniqueID", "CHANGEME").getString();
         checkInterval = config.get("Settings", "CheckInterval", 10, "In minutes").getInt();
+        kickMessage = config.get("Settings", "KickMessage", "You are not a current Twitch Subscriber or Patron, if this is wrong wait a few minutes").getString();
         config.save();
 
         if ((this.uniqueID == null) || (this.uniqueID.equalsIgnoreCase("CHANGEME"))) {

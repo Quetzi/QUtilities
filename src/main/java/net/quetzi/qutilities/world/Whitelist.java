@@ -54,8 +54,12 @@ public class Whitelist implements Runnable {
 
     public static boolean updateWhitelist() {
 
-        getRemoteWhitelist("http://whitelist.twitchapps.com/list.php?id=" + QUtilities.uniqueID);
-        getRemoteWhitelist("http://wtfcool.com/patreon/patrons.txt");
+        if (QUtilities.whitelistEnabled) {
+            getRemoteWhitelist("http://whitelist.twitchapps.com/list.php?id=" + QUtilities.uniqueID);
+        }
+        if (QUtilities.secondaryWhitelistEnabled) {
+            getRemoteWhitelist(QUtilities.secondaryWhitelistLocation);
+        }
         return true;
     }
 

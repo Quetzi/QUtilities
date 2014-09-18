@@ -20,7 +20,7 @@ public class QUtilitesEventHandler {
         if (QUtilities.savingEnabled && (event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0) && (event.world.getWorldTime() % (QUtilities.saveInterval * 1200) == 0)) {
             ScheduledSave.saveWorldState();
         }
-        if (QUtilities.whitelistEnabled && (event.phase == TickEvent.Phase.END) && (event.world.getWorldTime() % (QUtilities.checkInterval * 1200)) == 0) {
+        if ((QUtilities.whitelistEnabled || QUtilities.secondaryWhitelistEnabled) && (event.phase == TickEvent.Phase.END) && (event.world.getWorldTime() % (QUtilities.checkInterval * 1200)) == 0) {
             new Thread(new Whitelist()).start();
         }
     }
@@ -41,7 +41,7 @@ public class QUtilitesEventHandler {
         if (!QUtilities.whitelist.contains(player.getGameProfile().getName().toLowerCase())) {
             QUtilities.log.info(player.getGameProfile().getName() + " not on whitelist.");
             QUtilities.log.info("Blocking " + player.getGameProfile().getName());
-            ((EntityPlayerMP) player).playerNetServerHandler.kickPlayerFromServer("You are not a current Twitch Subscriber or Patron, if this is wrong wait a few minutes");
+            ((EntityPlayerMP) player).playerNetServerHandler.kickPlayerFromServer(QUtilities.kickMessage);
         } else {
             QUtilities.log.info("Allowing " + player.getGameProfile().getName());
         }
