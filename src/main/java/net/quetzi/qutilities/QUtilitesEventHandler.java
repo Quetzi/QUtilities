@@ -30,7 +30,7 @@ public class QUtilitesEventHandler {
 
         MovePlayer.processQueue(event.player.getGameProfile().getName());
 
-        if (!QUtilities.whitelistEnabled) { return; }
+        if (!QUtilities.whitelistEnabled && !QUtilities.secondaryWhitelistEnabled) { return; }
         EntityPlayer player = event.player;
 
         if (MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile())) {

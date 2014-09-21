@@ -23,9 +23,9 @@ public class Whitelist implements Runnable {
 
     public void run() {
 
+        Thread.currentThread().setName("QUtilities-Whitelist");
         while (!Thread.currentThread().isInterrupted()) {
             QUtilities.log.info("Reloading whitelist.");
-
             if (updateWhitelist()) QUtilities.log.info("Whitelist reloaded.");
             else QUtilities.log.info("Error reloading whitelist.");
             Thread.currentThread().interrupt();
@@ -38,8 +38,9 @@ public class Whitelist implements Runnable {
 
         if (whitelistSave.exists()) whitelistSave.delete();
         try {
-            whitelistSave.createNewFile();
-
+            if (!whitelistSave.createNewFile()) {
+                QUtilities.log.info(("Error saving whitelist"));
+            }
             FileWriter fstream = new FileWriter(whitelistSave);
             BufferedWriter out = new BufferedWriter(fstream);
 
