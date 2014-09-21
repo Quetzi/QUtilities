@@ -13,15 +13,28 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class QUtilitesEventHandler {
 
+    private long prevTime = 0;
+    private long prevWLTime = 0;
+    private long currTime;
+    private long currWLTime;
+
     @SubscribeEvent
     public void WorldTickHandler(WorldTickEvent event) {
 
         // 1200 = 1 minute
         if (QUtilities.savingEnabled && (event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0) && (event.world.getWorldTime() % (QUtilities.saveInterval * 1200) == 0)) {
-            ScheduledSave.saveWorldState();
+            currTime = event.world.getWorldTime();
+            if (prevTime != currTime) {
+                ScheduledSave.saveWorldState();
+            }
+            prevTime = currTime;
         }
         if ((QUtilities.whitelistEnabled || QUtilities.secondaryWhitelistEnabled) && (event.phase == TickEvent.Phase.END) && (event.world.getWorldTime() % (QUtilities.checkInterval * 1200)) == 0) {
-            new Thread(new Whitelist()).start();
+            currWLTime = event.world.getWorldTime();
+            if (prevWLTime != currWLTime) {
+                new Thread(new Whitelist()).start();
+            }
+            prevWLTime = currWLTime;
         }
     }
 
