@@ -16,8 +16,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Whitelist implements Runnable {
 
@@ -71,14 +69,7 @@ public class Whitelist implements Runnable {
         return false;
     }
 
-    private static void addToWhitelist(List<String> playerList) {
-        for (String player : playerList) {
-            QUtilities.whitelist.add(player);
-        }
-    }
     public static boolean getRemoteWhitelist(String urlString) {
-
-        List<String> temp = new LinkedList<String>();
 
         try {
             QUtilities.log.info("Getting whitelist from " + urlString);
@@ -90,10 +81,9 @@ public class Whitelist implements Runnable {
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
                     inputLine = inputLine.trim();
-                    temp.add(inputLine.toLowerCase());
+                    QUtilities.whitelist.add(inputLine.toLowerCase());
                 }
                 in.close();
-                addToWhitelist(temp);
             } catch (IOException e) {
                 String errorIn = "";
                 InputStream errorStream = conn.getErrorStream();
