@@ -51,11 +51,7 @@ public class CommandWhitelist implements ICommand {
 
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
-                if (Whitelist.updateWhitelist()) {
-                    commandSender.addChatMessage(new ChatComponentText("Remote whitelist reloaded."));
-                } else {
-                    commandSender.addChatMessage(new ChatComponentText("Error reloading whitelist."));
-                }
+                new Thread(new Whitelist()).start();
             } else if (args[0].equalsIgnoreCase("enable")) {
                 QUtilities.whitelistEnabled = true;
                 QUtilities.config.get("Settings", "WhitelistEnabled", false).set(true);
