@@ -55,14 +55,20 @@ public class Whitelist implements Runnable {
 
     public static boolean updateWhitelist() {
 
+        boolean whitelist1 = false;
+        boolean whitelist2 = false;
+
         QUtilities.whitelist.clear();
-        if (QUtilities.whitelistEnabled) {
-            getRemoteWhitelist("http://whitelist.twitchapps.com/list.php?id=" + QUtilities.uniqueID);
+        if (QUtilities.whitelistEnabled && QUtilities.secondaryWhitelistEnabled) {
+            return getRemoteWhitelist("http://whitelist.twitchapps.com/list.php?id=" + QUtilities.uniqueID) && getRemoteWhitelist(QUtilities.secondaryWhitelistLocation);
         }
-        if (QUtilities.secondaryWhitelistEnabled) {
-            getRemoteWhitelist(QUtilities.secondaryWhitelistLocation);
+        else if (QUtilities.whitelistEnabled) {
+            return getRemoteWhitelist("http://whitelist.twitchapps.com/list.php?id=" + QUtilities.uniqueID);
         }
-        return true;
+        else if (QUtilities.secondaryWhitelistEnabled) {
+            return getRemoteWhitelist(QUtilities.secondaryWhitelistLocation);
+        }
+        return false;
     }
 
     private static void addToWhitelist(List<String> playerList) {

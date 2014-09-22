@@ -64,11 +64,11 @@ public class QUtilities {
         kickMessage = config.get("Settings", "KickMessage", "You are not a current Twitch Subscriber or Patron, if this is wrong wait a few minutes").getString();
         config.save();
 
-        if ((this.uniqueID == null) || (this.uniqueID.equalsIgnoreCase("CHANGEME"))) {
+        if ((uniqueID == null) || (uniqueID.equalsIgnoreCase("CHANGEME"))) {
             log.info("Please set your unique ID in qutilities.cfg and restart your server.");
         } else {
             if (Whitelist.updateWhitelist()) {
-                this.whitelistEnabled = config.get("Settings", "Enabled", false).getBoolean(false);
+                whitelistEnabled = config.get("Settings", "Enabled", false).getBoolean(false);
             }
         }
     }
