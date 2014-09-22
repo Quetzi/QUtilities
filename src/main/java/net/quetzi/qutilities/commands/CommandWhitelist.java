@@ -64,7 +64,7 @@ public class CommandWhitelist implements ICommand {
                 commandSender.addChatMessage(new ChatComponentText("Remote whitelist disabled."));
             } else if (args[0].equalsIgnoreCase("export")) {
                 Whitelist.writeWhitelist();
-                commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to config directory."));
+                commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
                 for (String user : QUtilities.whitelist)

@@ -15,28 +15,29 @@ public class QUtilitesEventHandler {
 
     private long prevTime = 0;
     private long prevWLTime = 0;
-    private long currTime;
-    private long currWLTime;
 
     @SubscribeEvent
     public void WorldTickHandler(WorldTickEvent event) {
 
-        // 1200 = 1 minute
-        if (QUtilities.savingEnabled && (event.phase == TickEvent.Phase.END) && (event.world.provider.dimensionId == 0) && (event.world.getWorldTime() % (QUtilities.saveInterval * 1200) == 0)) {
-            currTime = event.world.getWorldTime();
-            if (currTime == 0) currTime++;
-            if (prevTime != currTime) {
-                ScheduledSave.saveWorldState();
+        if (event.phase == TickEvent.Phase.END) {
+
+            // 1200 = 1 minute
+            if (QUtilities.savingEnabled && (event.world.provider.dimensionId == 0) && (event.world.getWorldTime() % (QUtilities.saveInterval * 1200) == 0)) {
+                long currTime = event.world.getWorldTime();
+                if (currTime == 0) currTime++;
+                if (prevTime != currTime) {
+                    ScheduledSave.saveWorldState();
+                }
+                prevTime = currTime;
             }
-            prevTime = currTime;
-        }
-        if ((QUtilities.whitelistEnabled || QUtilities.secondaryWhitelistEnabled) && (event.phase == TickEvent.Phase.END) && (event.world.getWorldTime() % (QUtilities.checkInterval * 1200)) == 0) {
-            currWLTime = event.world.getWorldTime();
-            if (currWLTime == 0) currWLTime++;
-            if (prevWLTime != currWLTime) {
-                new Thread(new Whitelist()).start();
+            if ((QUtilities.whitelistEnabled || QUtilities.secondaryWhitelistEnabled) && (event.world.getWorldTime() % (QUtilities.checkInterval * 1200)) == 0) {
+                long currWLTime = event.world.getWorldTime();
+                if (currWLTime == 0) currWLTime++;
+                if (prevWLTime != currWLTime) {
+                    new Thread(new Whitelist()).start();
+                }
+                prevWLTime = currWLTime;
             }
-            prevWLTime = currWLTime;
         }
     }
 
