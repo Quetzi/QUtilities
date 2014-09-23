@@ -22,10 +22,14 @@ public class Whitelist implements Runnable {
     public void run() {
 
         Thread.currentThread().setName("QUtilities-Whitelist");
-        while (!Thread.currentThread().isInterrupted()) {
+        if (!Thread.currentThread().isInterrupted()) {
             QUtilities.log.info("Reloading whitelist.");
-            if (updateWhitelist()) QUtilities.log.info("Whitelist reloaded.");
-            else QUtilities.log.info("Error reloading whitelist.");
+            if (updateWhitelist()) {
+                QUtilities.log.info("Whitelist reloaded.");
+            }
+            else {
+                QUtilities.log.info("Error reloading whitelist.");
+            }
             Thread.currentThread().interrupt();
         }
     }
@@ -69,7 +73,7 @@ public class Whitelist implements Runnable {
         return false;
     }
 
-    public static boolean getRemoteWhitelist(String urlString) {
+    private static boolean getRemoteWhitelist(String urlString) {
 
         try {
             QUtilities.log.info("Getting whitelist from " + urlString);
