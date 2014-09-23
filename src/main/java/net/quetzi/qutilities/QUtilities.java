@@ -53,6 +53,7 @@ public class QUtilities {
         startTime = System.currentTimeMillis();
         // Read configs
         config = new Configuration(event.getSuggestedConfigurationFile());
+
         config.load();
         savingEnabled = config.get("Settings", "EnableWorldSaving", true).getBoolean(true);
         saveInterval = config.get("Settings", "SaveInterval", 5, "In minutes").getInt();
@@ -64,11 +65,13 @@ public class QUtilities {
         kickMessage = config.get("Settings", "KickMessage", "You are not a current Twitch Subscriber or Patron, if this is wrong wait a few minutes").getString();
         config.save();
 
-        if ((uniqueID == null) || (uniqueID.equalsIgnoreCase("CHANGEME"))) {
-            log.info("Please set your unique ID in qutilities.cfg and restart your server.");
-        } else {
-            if (Whitelist.updateWhitelist()) {
-                whitelistEnabled = config.get("Settings", "Enabled", false).getBoolean(false);
+        if (whitelistEnabled || secondaryWhitelistEnabled) {
+            if ((uniqueID == null) || (uniqueID.equalsIgnoreCase("CHANGEME"))) {
+                log.info("Please set your unique ID in qutilities.cfg and restart your server.");
+            } else {
+                if (Whitelist.updateWhitelist()) {
+                    log.info("Whitelist loaded");
+                }
             }
         }
     }
