@@ -1,12 +1,5 @@
 package net.quetzi.qutilities.commands;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -18,6 +11,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class CommandTPS implements ICommand {
 
@@ -108,7 +108,7 @@ public class CommandTPS implements ICommand {
             double worldTickLength = mean(world.func_73046_m().worldTickTimes.get(world.provider.dimensionId)) * 1.0E-6D;
             double worldTPS = Math.min(1000.0 / worldTickLength, 20);
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
-            sender.addChatMessage(new ChatComponentText("[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + worldTPS
+            sender.addChatMessage(new ChatComponentText("[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + timeFormatter.format(worldTPS)
                     + "]"));
         }
         sender.addChatMessage(new ChatComponentText("Total Chunks loaded: " + chunksLoaded));
