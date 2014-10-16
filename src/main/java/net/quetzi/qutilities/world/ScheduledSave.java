@@ -16,7 +16,7 @@ public class ScheduledSave {
         try {
             int i;
             WorldServer worldserver;
-            boolean flag;
+//            boolean flag;
             for (i = 0; i < server.worldServers.length; ++i) {
                 if (server.worldServers[i] != null) {
                     worldserver = server.worldServers[i];

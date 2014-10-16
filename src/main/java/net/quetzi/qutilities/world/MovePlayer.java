@@ -10,7 +10,7 @@ import net.quetzi.qutilities.QUtilities;
 
 public class MovePlayer {
 
-    public static Set<String> queue = new HashSet();
+    private static Set<String> queue = new HashSet();
 
     public static boolean sendToSpawn(String playername) {
 

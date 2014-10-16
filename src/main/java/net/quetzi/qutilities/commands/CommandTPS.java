@@ -73,7 +73,7 @@ public class CommandTPS implements ICommand {
         } else {
             int dimension;
             try {
-                dimension = ((Number) NumberFormat.getInstance().parse(args[0])).intValue();
+                dimension = NumberFormat.getInstance().parse(args[0]).intValue();
             } catch (ParseException e1) {
                 icommandsender.addChatMessage(new ChatComponentText("Invalid dimension ID."));
                 return;
