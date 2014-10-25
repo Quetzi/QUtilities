@@ -1,6 +1,5 @@
 package net.quetzi.qutilities;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -36,6 +35,6 @@ public class QUtilitesEventHandler {
     public void PlayerLoggedInHandler(PlayerLoggedInEvent event) {
 
         MovePlayer.processQueue(event.player.getGameProfile().getName());
-        event.player.addChatComponentMessage(new ChatComponentText(ChatFormatting.DARK_RED + QUtilities.motd));
+        event.player.addChatComponentMessage(new ChatComponentText(QUtilities.motd));
     }
 }
