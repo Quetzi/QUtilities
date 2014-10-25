@@ -25,6 +25,7 @@ public class QUtilities {
     public static long          startTime;
     public static boolean       savingEnabled;
     public static int           saveInterval;
+    public static String motd;
     public static Configuration config;
 
     @EventHandler
@@ -45,6 +46,7 @@ public class QUtilities {
         config.load();
         savingEnabled = config.get("Settings", "EnableWorldSaving", true).getBoolean(true);
         saveInterval = config.get("Settings", "SaveInterval", 5, "In minutes").getInt();
+        motd = config.getString("Settings", "Motd", "Welcome to the Qmunity Subscriber server!", "Set the MOTD when players join the server");
         config.save();
     }
 
