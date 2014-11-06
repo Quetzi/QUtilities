@@ -5,8 +5,9 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.util.ChatComponentText;
-import net.quetzi.qutilities.world.MovePlayer;
-import net.quetzi.qutilities.world.ScheduledSave;
+import net.quetzi.qutilities.helpers.MovePlayer;
+import net.quetzi.qutilities.helpers.ScheduledSave;
+import net.quetzi.qutilities.helpers.TeleportQueue;
 
 public class QUtilitesEventHandler {
 
@@ -34,7 +35,7 @@ public class QUtilitesEventHandler {
     @SubscribeEvent
     public void PlayerLoggedInHandler(PlayerLoggedInEvent event) {
 
-        MovePlayer.processQueue(event.player.getGameProfile().getName());
+        TeleportQueue.process(event.player.getGameProfile().getName());
         event.player.addChatComponentMessage(new ChatComponentText(QUtilities.motd));
     }
 }

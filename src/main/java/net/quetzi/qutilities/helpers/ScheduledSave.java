@@ -1,4 +1,4 @@
-package net.quetzi.qutilities.world;
+package net.quetzi.qutilities.helpers;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.MinecraftException;

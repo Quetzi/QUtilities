@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import net.quetzi.qutilities.world.MovePlayer;
+import net.quetzi.qutilities.helpers.MovePlayer;
 
 public class CommandFixPlayerPos implements ICommand {
 
@@ -46,10 +46,20 @@ public class CommandFixPlayerPos implements ICommand {
     public void processCommand(ICommandSender icommandsender, String[] astring) {
 
         if (!(astring.length == 0)) {
-            if (MovePlayer.sendToSpawn(astring[0])) {
-                icommandsender.addChatMessage(new ChatComponentText("Player " + astring[0] + " successfully moved."));
-            } else {
-                icommandsender.addChatMessage(new ChatComponentText("Player " + astring[0] + " successfully added to the queue."));
+            if (astring.length == 1) {
+                MovePlayer.sendToDefaultSpawn(astring[0]);
+                icommandsender.addChatMessage(new ChatComponentText("Moving " + astring[0] + " to their default spawn"));
+            }
+            if (astring.length == 2) {
+                int dim = Integer.getInteger(astring[1]);
+                MovePlayer.sendToDimension(astring[0], dim);
+            }
+            if (astring.length == 5) {
+                int dim = Integer.getInteger(astring[1]);
+                int x = Integer.getInteger(astring[2]);
+                int y = Integer.getInteger(astring[3]);
+                int z = Integer.getInteger(astring[4]);
+                MovePlayer.sendToLocation(astring[0], dim, x, y, z);
             }
         } else {
             getCommandUsage(icommandsender);
