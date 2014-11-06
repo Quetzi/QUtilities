@@ -3,12 +3,13 @@ package net.quetzi.qutilities.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.helpers.MovePlayer;
 
-public class CommandFixPlayerPos implements ICommand {
+public class CommandFixPlayerPos extends CommandBase implements ICommand {
 
     List<String> aliases;
 
@@ -39,6 +40,8 @@ public class CommandFixPlayerPos implements ICommand {
     @Override
     public List getCommandAliases() {
 
+        aliases.add("qtp");
+        aliases.add("tpq");
         return aliases;
     }
 
@@ -51,14 +54,14 @@ public class CommandFixPlayerPos implements ICommand {
                 icommandsender.addChatMessage(new ChatComponentText("Moving " + astring[0] + " to their default spawn"));
             }
             if (astring.length == 2) {
-                int dim = Integer.getInteger(astring[1]);
+                int dim = parseInt(icommandsender, astring[1]);
                 MovePlayer.sendToDimension(astring[0], dim);
             }
             if (astring.length == 5) {
-                int dim = Integer.getInteger(astring[1]);
-                int x = Integer.getInteger(astring[2]);
-                int y = Integer.getInteger(astring[3]);
-                int z = Integer.getInteger(astring[4]);
+                int dim = parseInt(icommandsender, astring[1]);
+                int x = parseInt(icommandsender, astring[2]);
+                int y = parseInt(icommandsender, astring[3]);
+                int z = parseInt(icommandsender, astring[4]);
                 MovePlayer.sendToLocation(astring[0], dim, x, y, z);
             }
         } else {
