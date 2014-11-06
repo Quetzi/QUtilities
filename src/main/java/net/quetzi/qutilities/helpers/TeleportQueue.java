@@ -28,6 +28,10 @@ public class TeleportQueue {
         return player;
     }
 
+    public int getDim() {
+        return dim;
+    }
+
     public int getX() {
         return x;
     }

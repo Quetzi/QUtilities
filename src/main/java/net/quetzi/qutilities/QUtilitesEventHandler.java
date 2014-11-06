@@ -35,7 +35,11 @@ public class QUtilitesEventHandler {
     @SubscribeEvent
     public void PlayerLoggedInHandler(PlayerLoggedInEvent event) {
 
-        TeleportQueue.process(event.player.getGameProfile().getName());
+        TeleportQueue tq = TeleportQueue.process(event.player.getGameProfile().getName());
+        if (tq != null) {
+            MovePlayer.sendToLocation(tq.getPlayer(), tq.getDim(), tq.getX(), tq.getY(), tq.getZ());
+            TeleportQueue.queue.remove(tq);
+        }
         event.player.addChatComponentMessage(new ChatComponentText(QUtilities.motd));
     }
 }
