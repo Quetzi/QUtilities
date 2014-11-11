@@ -50,19 +50,30 @@ public class CommandFixPlayerPos extends CommandBase implements ICommand {
 
         if (!(astring.length == 0)) {
             if (astring.length == 1) {
-                MovePlayer.sendToDefaultSpawn(astring[0]);
-                icommandsender.addChatMessage(new ChatComponentText("Moving " + astring[0] + " to their default spawn"));
+                if (MovePlayer.sendToDefaultSpawn(astring[0])) {
+                    icommandsender.addChatMessage(new ChatComponentText("Moving " + astring[0] + " to their default spawn"));
+                } else {
+                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                }
             }
             if (astring.length == 2) {
                 int dim = parseInt(icommandsender, astring[1]);
-                MovePlayer.sendToDimension(astring[0], dim);
+                if (MovePlayer.sendToDimension(astring[0], dim)) {
+                    icommandsender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim)));
+                } else {
+                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                }
             }
             if (astring.length == 5) {
                 int dim = parseInt(icommandsender, astring[1]);
                 int x = parseInt(icommandsender, astring[2]);
                 int y = parseInt(icommandsender, astring[3]);
                 int z = parseInt(icommandsender, astring[4]);
-                MovePlayer.sendToLocation(astring[0], dim, x, y, z);
+                if (MovePlayer.sendToLocation(astring[0], dim, x, y, z)) {
+                    icommandsender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim + " " + x + ", " + y + ", " +z)));
+                } else {
+                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                }
             }
         } else {
             getCommandUsage(icommandsender);

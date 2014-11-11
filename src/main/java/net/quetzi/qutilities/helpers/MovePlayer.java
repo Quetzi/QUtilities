@@ -10,39 +10,38 @@ import net.quetzi.qutilities.QUtilities;
 
 public class MovePlayer {
 
-    public static void sendToDefaultSpawn(String playername) {
+    public static boolean sendToDefaultSpawn(String playername) {
 
         if (MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername) != null) {
             EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername);
             if (player.getBedLocation(0) != null) {
-                sendToBed(playername);
-                QUtilities.log.info("Player bed found for " + playername);
+                return sendToBed(playername);
             } else {
-                sendToDimension(playername, 0);
-                QUtilities.log.info("No bed found for " + playername + " moving to overworld spawn instead");
+                return sendToDimension(playername, 0);
             }
         }
+        return false;
     }
 
-    public static void sendToBed(String playername) {
+    public static boolean sendToBed(String playername) {
 
         EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername);
         ChunkCoordinates dest = player.getBedLocation(0);
-        movePlayer(playername, 0, dest);
+        return movePlayer(playername, 0, dest);
     }
 
-    public static void sendToDimension(String playername, int dim) {
+    public static boolean sendToDimension(String playername, int dim) {
 
         ChunkCoordinates dest = MinecraftServer.getServer().worldServerForDimension(dim).getSpawnPoint();
-        movePlayer(playername, dim, dest);
+        return movePlayer(playername, dim, dest);
     }
 
-    public static void sendToLocation(String playername, int dim, int x, int y, int z) {
+    public static boolean sendToLocation(String playername, int dim, int x, int y, int z) {
 
-        movePlayer(playername, dim, new ChunkCoordinates(x, y, z));
+        return movePlayer(playername, dim, new ChunkCoordinates(x, y, z));
     }
 
-    public static void movePlayer(String playername, int dim, ChunkCoordinates dest) {
+    public static boolean movePlayer(String playername, int dim, ChunkCoordinates dest) {
 
         if (MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername) != null) {
             EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername);
@@ -50,8 +49,10 @@ public class MovePlayer {
                 player.travelToDimension(dim);
             }
             player.setPositionAndUpdate(dest.posX, dest.posY, dest.posZ);
+            return true;
         } else {
             queuePlayer(playername, dim, dest);
+            return false;
         }
     }
 
