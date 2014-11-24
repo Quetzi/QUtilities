@@ -6,8 +6,6 @@ import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.NumberInvalidException;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.helpers.MovePlayer;
 
@@ -28,7 +26,7 @@ public class CommandFixPlayerPos extends CommandBase implements ICommand {
     }
 
     @Override
-    public String getName() {
+    public String getCommandName() {
 
         return "fixplayerpos";
     }
@@ -40,7 +38,7 @@ public class CommandFixPlayerPos extends CommandBase implements ICommand {
     }
 
     @Override
-    public List getAliases() {
+    public List getCommandAliases() {
 
         aliases.add("qtp");
         aliases.add("tpq");
@@ -48,7 +46,7 @@ public class CommandFixPlayerPos extends CommandBase implements ICommand {
     }
 
     @Override
-    public void execute(ICommandSender icommandsender, String[] astring) throws NumberInvalidException {
+    public void processCommand(ICommandSender icommandsender, String[] astring) {
 
         if (!(astring.length == 0)) {
             if (astring.length == 1) {
@@ -59,7 +57,7 @@ public class CommandFixPlayerPos extends CommandBase implements ICommand {
                 }
             }
             if (astring.length == 2) {
-                int dim = parseInt(astring[1]);
+                int dim = parseInt(icommandsender, astring[1]);
                 if (MovePlayer.sendToDimension(astring[0], dim)) {
                     icommandsender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim)));
                 } else {
@@ -67,10 +65,10 @@ public class CommandFixPlayerPos extends CommandBase implements ICommand {
                 }
             }
             if (astring.length == 5) {
-                int dim = parseInt(astring[1]);
-                int x = parseInt(astring[2]);
-                int y = parseInt(astring[3]);
-                int z = parseInt(astring[4]);
+                int dim = parseInt(icommandsender, astring[1]);
+                int x = parseInt(icommandsender, astring[2]);
+                int y = parseInt(icommandsender, astring[3]);
+                int z = parseInt(icommandsender, astring[4]);
                 if (MovePlayer.sendToLocation(astring[0], dim, x, y, z)) {
                     icommandsender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim + " " + x + ", " + y + ", " +z)));
                 } else {
@@ -83,13 +81,13 @@ public class CommandFixPlayerPos extends CommandBase implements ICommand {
     }
 
     @Override
-    public boolean canCommandSenderUse(ICommandSender icommandsender) {
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
 
         return null;
     }

@@ -1,15 +1,14 @@
 package net.quetzi.qutilities.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CommandPlayerList implements ICommand {
 
@@ -29,7 +28,7 @@ public class CommandPlayerList implements ICommand {
     }
 
     @Override
-    public String getName() {
+    public String getCommandName() {
 
         return "list";
     }
@@ -41,18 +40,18 @@ public class CommandPlayerList implements ICommand {
     }
 
     @Override
-    public List getAliases() {
+    public List getCommandAliases() {
 
         return aliases;
     }
 
     @Override
-    public void execute(ICommandSender icommandsender, String[] astring) {
+    public void processCommand(ICommandSender icommandsender, String[] astring) {
 
         String playerList = "";
         for (WorldServer world : MinecraftServer.getServer().worldServers) {
             for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
-                playerList = playerList + ("[" + player.dimension + "]" + player.getName() + " ");
+                playerList = playerList + ("[" + player.dimension + "]" + player.getCommandSenderName() + " ");
             }
         }
         if (MinecraftServer.getServer().getCurrentPlayerCount() > 0) {
@@ -64,13 +63,13 @@ public class CommandPlayerList implements ICommand {
     }
 
     @Override
-    public boolean canCommandSenderUse(ICommandSender icommandsender) {
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
 
         return null;
     }

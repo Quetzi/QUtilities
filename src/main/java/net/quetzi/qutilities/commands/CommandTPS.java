@@ -9,7 +9,6 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
 
@@ -49,7 +48,7 @@ public class CommandTPS implements ICommand {
     }
 
     @Override
-    public String getName() {
+    public String getCommandName() {
 
         return "diminfo";
     }
@@ -61,13 +60,13 @@ public class CommandTPS implements ICommand {
     }
 
     @Override
-    public List getAliases() {
+    public List getCommandAliases() {
 
         return aliases;
     }
 
     @Override
-    public void execute(ICommandSender icommandsender, String[] args) {
+    public void processCommand(ICommandSender icommandsender, String[] args) {
 
         if (args.length == 0) {
             showTPSSummary(icommandsender);
@@ -84,13 +83,13 @@ public class CommandTPS implements ICommand {
     }
 
     @Override
-    public boolean canCommandSenderUse(ICommandSender icommandsender) {
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
 
         return null;
     }
@@ -103,25 +102,25 @@ public class CommandTPS implements ICommand {
 
     private void showTPSSummary(ICommandSender sender) {
 
-//        int chunksLoaded = 0;
-//        sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
-//        for (WorldServer world : MinecraftServer.getServer().worldServers) {
-//            double worldTickLength = mean(world.getMinecraftServer().worldTickTimes.get(world.provider.getDimensionId())) * 1.0E-6D;
-//            double worldTPS = Math.min(1000.0 / worldTickLength, 20);
-//            chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
-//            sender.addChatMessage(new ChatComponentText("[" + world.provider.getDimensionId() + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + timeFormatter.format(worldTPS)
-//                    + "]"));
-//        }
-//        sender.addChatMessage(new ChatComponentText("Total Chunks loaded: " + chunksLoaded));
-//        sender.addChatMessage(new ChatComponentText("Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms ["
-//                + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]"));
+        int chunksLoaded = 0;
+        sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
+        for (WorldServer world : MinecraftServer.getServer().worldServers) {
+            double worldTickLength = mean(world.func_73046_m().worldTickTimes.get(world.provider.dimensionId)) * 1.0E-6D;
+            double worldTPS = Math.min(1000.0 / worldTickLength, 20);
+            chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
+            sender.addChatMessage(new ChatComponentText("[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + timeFormatter.format(worldTPS)
+                    + "]"));
+        }
+        sender.addChatMessage(new ChatComponentText("Total Chunks loaded: " + chunksLoaded));
+        sender.addChatMessage(new ChatComponentText("Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms ["
+                + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]"));
     }
 
     private void showTPSDetail(ICommandSender sender, int dimension) {
 
         MinecraftServer server = MinecraftServer.getServer();
-//        double worldTickTime = mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
-//        double worldTPS = Math.min(1000.0 / worldTickTime, 20);
+        double worldTickTime = mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
+        double worldTPS = Math.min(1000.0 / worldTickTime, 20);
         this.world = MinecraftServer.getServer().worldServerForDimension(dimension);
         sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
         sender.addChatMessage(new ChatComponentText("Information for [" + dimension + "]" + world.provider.getDimensionName()));
@@ -133,7 +132,7 @@ public class CommandTPS implements ICommand {
         sender.addChatMessage(new ChatComponentText("Total Entities: " + world.loadedEntityList.size()));
         sender.addChatMessage(new ChatComponentText("Tile Entities: " + world.loadedTileEntityList.size()));
         sender.addChatMessage(new ChatComponentText("Loaded Chunks: " + this.world.getChunkProvider().getLoadedChunkCount()));
-//        sender.addChatMessage(new ChatComponentText("TPS: " + timeFormatter.format(worldTickTime) + "ms[" + worldTPS + "]"));
+        sender.addChatMessage(new ChatComponentText("TPS: " + timeFormatter.format(worldTickTime) + "ms[" + worldTPS + "]"));
     }
 
     private int getItemEntityCount(List list) {
@@ -187,10 +186,16 @@ public class CommandTPS implements ICommand {
             return "No players in this world";
         } else {
             String playersString = "";
-            for (EntityPlayer player : players) {
-                playersString = playersString + player.getName() + ", ";
+            Iterator<EntityPlayer> ite = players.iterator();
+            while (ite.hasNext()) {
+                playersString = playersString + ite.next().getCommandSenderName();
+                if (ite.hasNext()) {
+                    playersString = playersString + ",";
+                } else {
+                    playersString = playersString + ".";
+                }
             }
-            return playersString.substring(0, playersString.lastIndexOf(playersString) - 2);
+            return playersString;
         }
     }
 }
