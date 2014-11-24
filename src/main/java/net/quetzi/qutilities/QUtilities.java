@@ -1,15 +1,15 @@
 package net.quetzi.qutilities;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+//import net.minecraftforge.common.config.Configuration;
 import net.quetzi.qutilities.commands.CommandFixPlayerPos;
 import net.quetzi.qutilities.commands.CommandPlayerList;
 import net.quetzi.qutilities.commands.CommandTPS;
@@ -26,7 +26,7 @@ public class QUtilities {
     public static boolean       savingEnabled;
     public static int           saveInterval;
     public static String motd;
-    public static Configuration config;
+//    public static Configuration config;
 
     @EventHandler
     @SideOnly(Side.SERVER)
@@ -41,13 +41,13 @@ public class QUtilities {
         log = event.getModLog();
         startTime = System.currentTimeMillis();
         // Read configs
-        config = new Configuration(event.getSuggestedConfigurationFile());
+//        config = new Configuration(event.getSuggestedConfigurationFile());
 
-        config.load();
-        savingEnabled = config.get("Settings", "EnableWorldSaving", true).getBoolean(true);
-        saveInterval = config.get("Settings", "SaveInterval", 5, "In minutes").getInt();
-        motd = config.getString("Settings", "Motd", "Welcome to the Qmunity Subscriber server!", "Set the MOTD when players join the server");
-        config.save();
+//        config.load();
+        savingEnabled = true; //config.get("Settings", "EnableWorldSaving", true).getBoolean(true);
+        saveInterval = 5; //config.get("Settings", "SaveInterval", 5, "In minutes").getInt();
+        motd = "Welcome to the Qmunity Subscriber server!"; //config.getString("Settings", "Motd", "Welcome to the Qmunity Subscriber server!", "Set the MOTD when players join the server");
+//        config.save();
     }
 
     @EventHandler

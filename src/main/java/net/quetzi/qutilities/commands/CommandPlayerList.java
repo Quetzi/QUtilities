@@ -1,14 +1,15 @@
 package net.quetzi.qutilities.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandPlayerList implements ICommand {
 
@@ -28,7 +29,7 @@ public class CommandPlayerList implements ICommand {
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
 
         return "list";
     }
@@ -40,18 +41,18 @@ public class CommandPlayerList implements ICommand {
     }
 
     @Override
-    public List getCommandAliases() {
+    public List getAliases() {
 
         return aliases;
     }
 
     @Override
-    public void processCommand(ICommandSender icommandsender, String[] astring) {
+    public void execute(ICommandSender icommandsender, String[] astring) {
 
         String playerList = "";
         for (WorldServer world : MinecraftServer.getServer().worldServers) {
             for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
-                playerList = playerList + ("[" + player.dimension + "]" + player.getCommandSenderName() + " ");
+                playerList = playerList + ("[" + player.dimension + "]" + player.getName() + " ");
             }
         }
         if (MinecraftServer.getServer().getCurrentPlayerCount() > 0) {
@@ -63,13 +64,13 @@ public class CommandPlayerList implements ICommand {
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean canCommandSenderUse(ICommandSender icommandsender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
 
         return null;
     }

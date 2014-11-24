@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
 
@@ -20,7 +21,6 @@ public class CommandUptime implements ICommand {
 
     public static String getUptime() {
 
-        String uptimeText;
         long uptime = System.currentTimeMillis() - QUtilities.startTime;
         int days = (int) (uptime / (1000 * 60 * 60 * 24)) % 7;
         int hours = (int) (uptime / (1000 * 60 * 60)) % 24;
@@ -42,7 +42,7 @@ public class CommandUptime implements ICommand {
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
 
         return "uptime";
     }
@@ -54,25 +54,25 @@ public class CommandUptime implements ICommand {
     }
 
     @Override
-    public List getCommandAliases() {
+    public List getAliases() {
 
         return aliases;
     }
 
     @Override
-    public void processCommand(ICommandSender icommandsender, String[] astring) {
+    public void execute(ICommandSender icommandsender, String[] astring) {
 
         icommandsender.addChatMessage(new ChatComponentText(getUptime()));
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean canCommandSenderUse(ICommandSender icommandsender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
 
         return null;
     }

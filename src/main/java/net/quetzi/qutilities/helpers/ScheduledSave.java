@@ -16,14 +16,12 @@ public class ScheduledSave {
         try {
             int i;
             WorldServer worldserver;
-//            boolean flag;
             for (i = 0; i < server.worldServers.length; ++i) {
                 if (server.worldServers[i] != null) {
                     worldserver = server.worldServers[i];
-                    // flag = worldserver.levelSaving;
-                    worldserver.levelSaving = false;
+                    worldserver.disableLevelSaving = false;
                     worldserver.saveAllChunks(true, null);
-                    // worldserver.levelSaving = flag;
+                    worldserver.disableLevelSaving = true;
                 }
             }
         } catch (MinecraftException minecraftexception) {
