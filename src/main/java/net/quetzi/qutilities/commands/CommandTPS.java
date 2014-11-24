@@ -1,6 +1,6 @@
 package net.quetzi.qutilities.commands;
 
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CommandTPS implements ICommand {
+public class CommandTPS extends CommandBase {
 
     private static final DecimalFormat timeFormatter = new DecimalFormat("########0.000");
     List<String>                       aliases;

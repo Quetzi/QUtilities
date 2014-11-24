@@ -1,6 +1,6 @@
 package net.quetzi.qutilities.commands;
 
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -11,7 +11,7 @@ import net.minecraft.world.WorldServer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandPlayerList implements ICommand {
+public class CommandPlayerList extends CommandBase {
 
     private List<String> aliases;
 

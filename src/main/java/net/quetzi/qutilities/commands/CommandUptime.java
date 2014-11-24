@@ -1,15 +1,15 @@
 package net.quetzi.qutilities.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
 
-public class CommandUptime implements ICommand {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CommandUptime extends CommandBase {
 
     List<String> aliases;
 
@@ -85,6 +85,6 @@ public class CommandUptime implements ICommand {
 
     public int getRequiredPermissionLevel() {
 
-        return 3;
+        return 4;
     }
 }
