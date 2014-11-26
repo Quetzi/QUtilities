@@ -1,4 +1,4 @@
-package net.quetzi.qutilities.references;
+package net.quetzi.qutilities.helpers;
 
 public class References {
 

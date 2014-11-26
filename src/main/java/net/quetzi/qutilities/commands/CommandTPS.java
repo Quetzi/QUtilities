@@ -103,25 +103,25 @@ public class CommandTPS extends CommandBase {
 
     private void showTPSSummary(ICommandSender sender) {
 
-//        int chunksLoaded = 0;
-//        sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
-//        for (WorldServer world : MinecraftServer.getServer().worldServers) {
-//            double worldTickLength = mean(world.getMinecraftServer().worldTickTimes.get(world.provider.getDimensionId())) * 1.0E-6D;
-//            double worldTPS = Math.min(1000.0 / worldTickLength, 20);
-//            chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
-//            sender.addChatMessage(new ChatComponentText("[" + world.provider.getDimensionId() + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + timeFormatter.format(worldTPS)
-//                    + "]"));
-//        }
-//        sender.addChatMessage(new ChatComponentText("Total Chunks loaded: " + chunksLoaded));
-//        sender.addChatMessage(new ChatComponentText("Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms ["
-//                + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]"));
+        int chunksLoaded = 0;
+        sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
+        for (WorldServer world : MinecraftServer.getServer().worldServers) {
+            double worldTickLength = mean(world.getMinecraftServer().worldTickTimes.get(world.provider.getDimensionId())) * 1.0E-6D;
+            double worldTPS = Math.min(1000.0 / worldTickLength, 20);
+            chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
+            sender.addChatMessage(new ChatComponentText("[" + world.provider.getDimensionId() + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + timeFormatter.format(worldTPS)
+                    + "]"));
+        }
+        sender.addChatMessage(new ChatComponentText("Total Chunks loaded: " + chunksLoaded));
+        sender.addChatMessage(new ChatComponentText("Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms ["
+                + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]"));
     }
 
     private void showTPSDetail(ICommandSender sender, int dimension) {
 
         MinecraftServer server = MinecraftServer.getServer();
-//        double worldTickTime = mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
-//        double worldTPS = Math.min(1000.0 / worldTickTime, 20);
+        double worldTickTime = mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
+        double worldTPS = Math.min(1000.0 / worldTickTime, 20);
         this.world = MinecraftServer.getServer().worldServerForDimension(dimension);
         sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
         sender.addChatMessage(new ChatComponentText("Information for [" + dimension + "]" + world.provider.getDimensionName()));
@@ -133,7 +133,7 @@ public class CommandTPS extends CommandBase {
         sender.addChatMessage(new ChatComponentText("Total Entities: " + world.loadedEntityList.size()));
         sender.addChatMessage(new ChatComponentText("Tile Entities: " + world.loadedTileEntityList.size()));
         sender.addChatMessage(new ChatComponentText("Loaded Chunks: " + this.world.getChunkProvider().getLoadedChunkCount()));
-//        sender.addChatMessage(new ChatComponentText("TPS: " + timeFormatter.format(worldTickTime) + "ms[" + worldTPS + "]"));
+        sender.addChatMessage(new ChatComponentText("TPS: " + timeFormatter.format(worldTickTime) + "ms[" + worldTPS + "]"));
     }
 
     private int getItemEntityCount(List list) {
