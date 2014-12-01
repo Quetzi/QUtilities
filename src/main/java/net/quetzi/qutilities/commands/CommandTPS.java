@@ -12,12 +12,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
+import net.quetzi.qutilities.helpers.SystemInfo;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class CommandTPS extends CommandBase {
@@ -104,7 +104,7 @@ public class CommandTPS extends CommandBase {
     private void showTPSSummary(ICommandSender sender) {
 
         int chunksLoaded = 0;
-        sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
+        sender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
         for (WorldServer world : MinecraftServer.getServer().worldServers) {
             double worldTickLength = mean(world.getMinecraftServer().worldTickTimes.get(world.provider.getDimensionId())) * 1.0E-6D;
             double worldTPS = Math.min(1000.0 / worldTickLength, 20);
@@ -123,7 +123,7 @@ public class CommandTPS extends CommandBase {
         double worldTickTime = mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
         double worldTPS = Math.min(1000.0 / worldTickTime, 20);
         this.world = MinecraftServer.getServer().worldServerForDimension(dimension);
-        sender.addChatMessage(new ChatComponentText(CommandUptime.getUptime()));
+        sender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
         sender.addChatMessage(new ChatComponentText("Information for [" + dimension + "]" + world.provider.getDimensionName()));
         sender.addChatMessage(new ChatComponentText("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(dimension)));
         sender.addChatMessage(new ChatComponentText("Item Entities: " + getItemEntityCount(world.loadedEntityList)));
