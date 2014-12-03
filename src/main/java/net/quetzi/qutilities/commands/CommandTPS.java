@@ -106,8 +106,8 @@ public class CommandTPS extends CommandBase {
         int chunksLoaded = 0;
         sender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
         for (WorldServer world : MinecraftServer.getServer().worldServers) {
-            double worldTickLength = mean(world.getMinecraftServer().worldTickTimes.get(world.provider.getDimensionId())) * 1.0E-6D;
-            double worldTPS = Math.min(1000.0 / worldTickLength, 20);
+            double worldTickLength = SystemInfo.getWorldTickTime(world);
+            double worldTPS = SystemInfo.getDimensionTPS(world);
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
             sender.addChatMessage(new ChatComponentText("[" + world.provider.getDimensionId() + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + timeFormatter.format(worldTPS)
                     + "]"));

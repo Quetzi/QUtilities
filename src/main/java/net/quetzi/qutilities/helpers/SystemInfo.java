@@ -3,6 +3,9 @@ package net.quetzi.qutilities.helpers;
 /**
  * Created by Quetzi on 01/12/14.
  */
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.quetzi.qutilities.QUtilities;
 
 import java.text.NumberFormat;
@@ -12,31 +15,24 @@ public class SystemInfo {
     private static Runtime runtime = Runtime.getRuntime();
     private static NumberFormat format = NumberFormat.getInstance();
 
-    public static String Info() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(OsInfo());
-        sb.append(MemInfo());
-        return sb.toString();
-    }
-
-    public static String OSname() {
+    public static String getOSname() {
         return System.getProperty("os.name");
     }
 
-    public static String OSversion() {
+    public static String getOSversion() {
         return System.getProperty("os.version");
     }
 
-    public static String OsArch() {
+    public static String getOsArch() {
         return System.getProperty("os.arch");
     }
 
-    public static long getTotalMem() {
-        return runtime.totalMemory();
+    public static String getTotalMem() {
+        return format.format(runtime.totalMemory());
     }
 
-    public static long getUsedMem() {
-        return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+    public static String getUsedMem() {
+        return format.format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
     }
 
     public static String getFreeMem() {
@@ -55,44 +51,6 @@ public class SystemInfo {
         return format.format(runtime.totalMemory() / runtime.maxMemory() * 1000);
     }
 
-    public static String MemInfo() {
-        NumberFormat format = NumberFormat.getInstance();
-        StringBuilder sb = new StringBuilder();
-        long maxMemory = runtime.maxMemory();
-        long allocatedMemory = runtime.totalMemory();
-        long freeMemory = runtime.freeMemory();
-        sb.append("Free memory: ");
-        sb.append(format.format(freeMemory / 1024));
-        sb.append("/n");
-        sb.append("Allocated memory: ");
-        sb.append(format.format(allocatedMemory / 1024));
-        sb.append("/n");
-        sb.append("Max memory: ");
-        sb.append(format.format(maxMemory / 1024));
-        sb.append("/n");
-        sb.append("Total free memory: ");
-        sb.append(format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
-        return sb.toString();
-
-    }
-
-    public static String OsInfo() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("OS: ");
-        sb.append(OSname());
-        sb.append("/n");
-        sb.append("Version: ");
-        sb.append(OSversion());
-        sb.append("/n");
-        sb.append(": ");
-        sb.append(OsArch());
-        sb.append("/n");
-        sb.append("Available processors (cores): ");
-        sb.append(runtime.availableProcessors());
-        sb.append("/n");
-        return sb.toString();
-    }
-
     public static String getUptime() {
 
         long uptime = System.currentTimeMillis() - QUtilities.startTime;
@@ -107,5 +65,23 @@ public class SystemInfo {
         } else {
             return String.format("Current uptime: %sm %ss", mins, secs);
         }
+    }
+
+    public static double getDimensionTPS(WorldServer worldServer) {
+        double worldTickLength = mean(worldServer.getMinecraftServer().worldTickTimes.get(worldServer.provider.getDimensionId())) * 1.0E-6D;
+        return Math.min(1000.0 / worldTickLength, 20);
+    }
+
+    public static double getWorldTickTime(WorldServer worldServer) {
+        return mean(worldServer.getMinecraftServer().worldTickTimes.get(worldServer.provider.getDimensionId())) * 1.0E-6D;
+    }
+
+    private static long mean(long[] values) {
+
+        long sum = 0l;
+        for (long v : values) {
+            sum += v;
+        }
+        return sum / values.length;
     }
 }
