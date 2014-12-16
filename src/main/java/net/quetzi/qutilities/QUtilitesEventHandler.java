@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.util.ChatComponentText;
+import net.quetzi.qutilities.helpers.ChunkTools;
 import net.quetzi.qutilities.helpers.MovePlayer;
 import net.quetzi.qutilities.helpers.ScheduledSave;
 import net.quetzi.qutilities.helpers.TeleportQueue;
@@ -28,6 +29,11 @@ public class QUtilitesEventHandler {
                     ScheduledSave.saveWorldState();
                 }
                 prevTime = currTime;
+            }
+
+            // Chunk pregen handler 1 chunk per tick
+            if (ChunkTools.processQueue) {
+                ChunkTools.processQueue(event.world.provider);
             }
         }
     }
