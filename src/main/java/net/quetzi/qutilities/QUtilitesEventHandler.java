@@ -14,7 +14,6 @@ public class QUtilitesEventHandler {
 
 
     private long prevTime = 0;
-    private long prevWLTime = 0;
 
     @SubscribeEvent
     public void WorldTickHandler(WorldTickEvent event) {
@@ -30,10 +29,14 @@ public class QUtilitesEventHandler {
                 }
                 prevTime = currTime;
             }
-
+        }
+        if (event.phase == TickEvent.Phase.START) {
             // Chunk pregen handler 1 chunk per tick
-            if (ChunkTools.processQueue) {
+            if (ChunkTools.processQueue && ChunkTools.getQueueSize() > 0) {
                 ChunkTools.processQueue(event.world.provider);
+            }
+            if (ChunkTools.getQueueSize() % 100 == 0) {
+                QUtilities.log.info("Chunk pregen : " + ChunkTools.getQueueSize() + " chunks remaining");
             }
         }
     }
