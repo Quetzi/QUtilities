@@ -1,5 +1,7 @@
 package net.quetzi.qutilities;
 
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -50,5 +52,9 @@ public class QUtilitesEventHandler {
             TeleportQueue.queue.remove(tq);
         }
         event.player.addChatComponentMessage(new ChatComponentText(QUtilities.motd));
+
+        if (ChunkTools.processQueue) {
+            ((EntityPlayerMP)event.player).playerNetServerHandler.kickPlayerFromServer("Server is currently pregenerating chunks, please try again later");
+        }
     }
 }
