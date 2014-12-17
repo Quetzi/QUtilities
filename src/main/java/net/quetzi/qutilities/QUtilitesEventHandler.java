@@ -4,7 +4,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
+import net.quetzi.qutilities.helpers.ChunkTools;
 import net.quetzi.qutilities.helpers.MovePlayer;
 import net.quetzi.qutilities.helpers.ScheduledSave;
 import net.quetzi.qutilities.helpers.TeleportQueue;
@@ -41,5 +43,9 @@ public class QUtilitesEventHandler {
             TeleportQueue.queue.remove(tq);
         }
         event.player.addChatComponentMessage(new ChatComponentText(QUtilities.motd));
+
+        if (ChunkTools.processQueue) {
+            ((EntityPlayerMP)event.player).playerNetServerHandler.kickPlayerFromServer("Server is currently pregenerating chunks, please try again later");
+        }
     }
 }

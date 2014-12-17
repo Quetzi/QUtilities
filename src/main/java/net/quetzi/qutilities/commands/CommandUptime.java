@@ -1,12 +1,12 @@
 package net.quetzi.qutilities.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import net.quetzi.qutilities.QUtilities;
+import net.quetzi.qutilities.helpers.SystemInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandUptime implements ICommand {
 
@@ -16,23 +16,6 @@ public class CommandUptime implements ICommand {
 
         aliases = new ArrayList<String>();
         aliases.add("qutil uptime");
-    }
-
-    public static String getUptime() {
-
-        String uptimeText;
-        long uptime = System.currentTimeMillis() - QUtilities.startTime;
-        int days = (int) (uptime / (1000 * 60 * 60 * 24)) % 7;
-        int hours = (int) (uptime / (1000 * 60 * 60)) % 24;
-        int mins = (int) (uptime / (1000 * 60)) % 60;
-        int secs = (int) (uptime / 1000) % 60;
-        if (days > 0) {
-            return String.format("Current uptime: %s days, %sh %sm %ss", days, hours, mins, secs);
-        } else if (hours > 0) {
-            return String.format("Current uptime: %sh %sm %ss", hours, mins, secs);
-        } else {
-            return String.format("Current uptime: %sm %ss", mins, secs);
-        }
     }
 
     @Override
@@ -62,7 +45,9 @@ public class CommandUptime implements ICommand {
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
 
-        icommandsender.addChatMessage(new ChatComponentText(getUptime()));
+        icommandsender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
+        icommandsender.addChatMessage(new ChatComponentText(SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
+
     }
 
     @Override
