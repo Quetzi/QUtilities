@@ -48,7 +48,7 @@ public class SystemInfo {
     }
 
     public static String getPercentMemUse() {
-        return format.format(runtime.totalMemory() / runtime.maxMemory() * 1000);
+        return format.format((runtime.totalMemory() / runtime.maxMemory()) * 100);
     }
 
     public static String getUptime() {
