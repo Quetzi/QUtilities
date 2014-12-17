@@ -32,22 +32,22 @@ public class CommandPreGen extends CommandBase {
                 sender.addChatMessage(new ChatComponentText(getCommandUsage(sender)));
             }
             ChunkTools.queueSquare(MinecraftServer.getServer().worldServerForDimension(parseInt(args[1])).provider, parseInt(args[2]), parseInt(args[3]), parseInt(args[4]));
-            sender.addChatMessage(new ChatComponentText("Queued " + ChunkTools.getQueueSize() + " chunks for generation. Use /regen start to begin procesing."));
+            sender.addChatMessage(new ChatComponentText("Queued " + ChunkTools.getQueueSize() + " chunks for generation. Use /pregen start to begin procesing."));
         }
         if (args[0].equalsIgnoreCase("rect")) {
             if (args.length != 6) {
                 sender.addChatMessage(new ChatComponentText(getCommandUsage(sender)));
             }
             ChunkTools.queueRect(MinecraftServer.getServer().worldServerForDimension(parseInt(args[1])).provider, parseInt(args[2]), parseInt(args[3]), parseInt(args[4]), parseInt(args[5]));
-            sender.addChatMessage(new ChatComponentText("Queued " + ChunkTools.getQueueSize() + " chunks for generation. Use /regen start to begin procesing."));
+            sender.addChatMessage(new ChatComponentText("Queued " + ChunkTools.getQueueSize() + " chunks for generation. Use /pregen start to begin procesing."));
         }
         if (args[0].equalsIgnoreCase("start")) {
             ChunkTools.processQueue = true;
-            sender.addChatMessage(new ChatComponentText("Started processing  " + ChunkTools.getQueueSize() + " chunks. Use /regen stop to halt procesing."));
+            sender.addChatMessage(new ChatComponentText("Started processing  " + ChunkTools.getQueueSize() + " chunks. Use /pregen stop to halt procesing."));
         }
         if (args[0].equalsIgnoreCase("stop")) {
             ChunkTools.processQueue = false;
-            sender.addChatMessage(new ChatComponentText("Stopped processing.  " + ChunkTools.getQueueSize() + " chunks remaining. Use /regen start to restart."));
+            sender.addChatMessage(new ChatComponentText("Stopped processing.  " + ChunkTools.getQueueSize() + " chunks remaining. Use /pregen start to restart."));
         }
     }
 

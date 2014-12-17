@@ -3,8 +3,7 @@ package net.quetzi.qutilities.helpers;
 /**
  * Created by Quetzi on 01/12/14.
  */
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.World;
+
 import net.minecraft.world.WorldServer;
 import net.quetzi.qutilities.QUtilities;
 
@@ -48,7 +47,7 @@ public class SystemInfo {
     }
 
     public static String getPercentMemUse() {
-        return format.format(runtime.totalMemory() / runtime.maxMemory() * 1000);
+        return format.format(((float)runtime.totalMemory() / (float)runtime.maxMemory()) * 100);
     }
 
     public static String getUptime() {
