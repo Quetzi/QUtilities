@@ -10,10 +10,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.common.config.Configuration;
-import net.quetzi.qutilities.commands.CommandFixPlayerPos;
-import net.quetzi.qutilities.commands.CommandPlayerList;
-import net.quetzi.qutilities.commands.CommandTPS;
-import net.quetzi.qutilities.commands.CommandUptime;
+import net.quetzi.qutilities.commands.*;
 import net.quetzi.qutilities.helpers.References;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,5 +62,6 @@ public class QUtilities {
         event.registerServerCommand(new CommandUptime());
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
+        event.registerServerCommand(new CommandPreGen());
     }
 }
