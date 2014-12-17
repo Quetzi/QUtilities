@@ -2,6 +2,7 @@ package net.quetzi.qutilities;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -36,9 +37,12 @@ public class QUtilitesEventHandler {
             // Chunk pregen handler 1 chunk per tick
             if (ChunkTools.processQueue && ChunkTools.getQueueSize() > 0) {
                 ChunkTools.processQueue(event.world.provider);
+                if (ChunkTools.getQueueSize() % 100 == 0) {
+                    QUtilities.log.info("Chunk pregen : " + ChunkTools.getQueueSize() + " chunks remaining");
+                }
             }
-            if (ChunkTools.getQueueSize() % 100 == 0) {
-                QUtilities.log.info("Chunk pregen : " + ChunkTools.getQueueSize() + " chunks remaining");
+            if (ChunkTools.processQueue && ChunkTools.getQueueSize() == 0) {
+                ChunkTools.processQueue = false;
             }
         }
     }
