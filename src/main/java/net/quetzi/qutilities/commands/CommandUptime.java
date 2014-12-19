@@ -47,7 +47,7 @@ public class CommandUptime extends CommandBase {
     public void execute(ICommandSender icommandsender, String[] astring) {
 
         icommandsender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
-        icommandsender.addChatMessage(new ChatComponentText(SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
+        icommandsender.addChatMessage(new ChatComponentText("Memory usage: " + SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
     }
 
     @Override

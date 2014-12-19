@@ -1,9 +1,9 @@
 package net.quetzi.qutilities.helpers;
 
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.quetzi.qutilities.QUtilities;
 
 import java.util.HashMap;
@@ -30,12 +30,8 @@ public class ChunkTools {
     private static boolean queueChunk(WorldProvider provider, int x, int z) {
 
         ChunkCoordIntPair chunk = new ChunkCoordIntPair(x, z);
-        IChunkProvider chunkGenerator = provider.createChunkGenerator();
-        if (!chunkGenerator.chunkExists(x, z)) {
-            queue.put(provider, chunk);
-            return true;
-        }
-        return false;
+        queue.put(provider, chunk);
+        return true;
     }
     public static boolean processQueue(WorldProvider provider) {
 

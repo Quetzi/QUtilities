@@ -2,15 +2,15 @@ package net.quetzi.qutilities;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.MinecraftException;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.helpers.ChunkTools;
 import net.quetzi.qutilities.helpers.MovePlayer;
-import net.quetzi.qutilities.helpers.ScheduledSave;
 import net.quetzi.qutilities.helpers.TeleportQueue;
 
 public class QUtilitesEventHandler {
@@ -28,7 +28,7 @@ public class QUtilitesEventHandler {
                 long currTime = event.world.getWorldTime();
                 if (currTime == 0) currTime++;
                 if (prevTime != currTime) {
-                    ScheduledSave.saveWorldState();
+                    saveWorldState();
                 }
                 prevTime = currTime;
             }
@@ -60,5 +60,29 @@ public class QUtilitesEventHandler {
         if (ChunkTools.processQueue) {
             ((EntityPlayerMP)event.player).playerNetServerHandler.kickPlayerFromServer("Server is currently pregenerating chunks, please try again later");
         }
+    }
+
+    public static void saveWorldState() {
+
+        MinecraftServer server = MinecraftServer.getServer();
+        if (server.getConfigurationManager() != null) {
+            server.getConfigurationManager().saveAllPlayerData();
+        }
+        try {
+            int i;
+            WorldServer worldserver;
+            for (i = 0; i < server.worldServers.length; ++i) {
+                if (server.worldServers[i] != null) {
+                    worldserver = server.worldServers[i];
+                    worldserver.disableLevelSaving = false;
+                    worldserver.saveAllChunks(true, null);
+                    worldserver.disableLevelSaving = true;
+                }
+            }
+        } catch (MinecraftException minecraftexception) {
+            QUtilities.log.info("Failed to save the world!");
+            return;
+        }
+        QUtilities.log.info("The world has been saved");
     }
 }
