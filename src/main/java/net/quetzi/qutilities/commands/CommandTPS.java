@@ -19,6 +19,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class CommandTPS extends CommandBase {
 
@@ -70,6 +72,12 @@ public class CommandTPS extends CommandBase {
 
         if (args.length == 0) {
             showTPSSummary(icommandsender);
+        } else if (args[0].equalsIgnoreCase("entities")) {
+            HashMap<String, Integer> entities = getEntityTypeCount();
+            Iterator iterator = entities.entrySet().iterator();
+            while (iterator.hasNext()) {
+                icommandsender.addChatMessage(new ChatComponentText(((Map.Entry<String, Integer>)iterator.next()).getKey() + ": " + ((Map.Entry<String, Integer>)iterator.next()).getValue()));
+            }
         } else {
             int dimension;
             try {
@@ -192,5 +200,20 @@ public class CommandTPS extends CommandBase {
             }
             return playersString;
         }
+    }
+
+    private HashMap<String, Integer> getEntityTypeCount() {
+
+        HashMap<String, Integer> entityList = new HashMap<String, Integer>();
+        for (WorldServer world : MinecraftServer.getServer().worldServers) {
+            for (Entity entity : (ArrayList<Entity>) world.getLoadedEntityList()) {
+                if (entityList.get(entity.getClass().getName()) == null) {
+                    entityList.put(entity.getClass().getName(), 1);
+                } else {
+                    entityList.put(entity.getClass().getName(), entityList.get(entity.getClass().getName()).intValue() + 1);
+                }
+            }
+        }
+        return entityList;
     }
 }
