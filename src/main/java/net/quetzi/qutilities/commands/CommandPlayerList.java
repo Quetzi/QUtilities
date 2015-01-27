@@ -29,13 +29,13 @@ public class CommandPlayerList extends CommandBase {
     }
 
     @Override
-    public String getName() {
+    public String getCommandName() {
 
         return "list";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender icommandsender) {
+    public String getUsage(ICommandSender icommandsender) {
 
         return "/list";
     }
@@ -47,7 +47,7 @@ public class CommandPlayerList extends CommandBase {
     }
 
     @Override
-    public void execute(ICommandSender icommandsender, String[] astring) {
+    public void processCommand(ICommandSender icommandsender, String[] astring) {
 
         String playerList = "";
         for (WorldServer world : MinecraftServer.getServer().worldServers) {
@@ -64,13 +64,13 @@ public class CommandPlayerList extends CommandBase {
     }
 
     @Override
-    public boolean canCommandSenderUse(ICommandSender icommandsender) {
+    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List tabComplete(ICommandSender icommandsender, String[] astring, BlockPos pos) {
 
         return null;
     }

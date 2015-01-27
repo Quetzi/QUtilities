@@ -62,6 +62,5 @@ public class QUtilities {
         event.registerServerCommand(new CommandUptime());
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
-        event.registerServerCommand(new CommandPreGen());
     }
 }
