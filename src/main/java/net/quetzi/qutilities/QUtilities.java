@@ -22,7 +22,7 @@ public class QUtilities {
     public static long          startTime;
     public static boolean       savingEnabled;
     public static int           saveInterval;
-    public static String motd;
+    public static String        motd;
     public static Configuration config;
 
     @EventHandler
@@ -62,6 +62,6 @@ public class QUtilities {
         event.registerServerCommand(new CommandUptime());
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
-        event.registerServerCommand(new CommandPreGen());
+//        event.registerServerCommand(new CommandPreGen());
     }
 }

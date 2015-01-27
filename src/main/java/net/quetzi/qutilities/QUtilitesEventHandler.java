@@ -15,7 +15,6 @@ public class QUtilitesEventHandler {
 
 
     private long prevTime = 0;
-    private long prevWLTime = 0;
 
     @SubscribeEvent
     public void WorldTickHandler(WorldTickEvent event) {

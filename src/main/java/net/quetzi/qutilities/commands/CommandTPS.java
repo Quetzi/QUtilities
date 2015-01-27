@@ -1,6 +1,6 @@
 package net.quetzi.qutilities.commands;
 
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -20,11 +20,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CommandTPS implements ICommand {
+public class CommandTPS extends CommandBase {
 
     private static final DecimalFormat timeFormatter = new DecimalFormat("########0.000");
     List<String>                       aliases;
-    WorldServer                        world;
 
     public CommandTPS() {
 
@@ -106,10 +105,8 @@ public class CommandTPS implements ICommand {
         int chunksLoaded = 0;
         sender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
         for (WorldServer world : MinecraftServer.getServer().worldServers) {
-            double worldTickLength = mean(world.func_73046_m().worldTickTimes.get(world.provider.dimensionId)) * 1.0E-6D;
-            double worldTPS = Math.min(1000.0 / worldTickLength, 20);
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
-            sender.addChatMessage(new ChatComponentText("[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(worldTickLength) + "ms [" + timeFormatter.format(worldTPS)
+            sender.addChatMessage(new ChatComponentText("[" + world.provider.dimensionId + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms [" + timeFormatter.format(SystemInfo.getDimensionTPS(world))
                     + "]"));
         }
         sender.addChatMessage(new ChatComponentText("Total Chunks loaded: " + chunksLoaded));
@@ -119,10 +116,7 @@ public class CommandTPS implements ICommand {
 
     private void showTPSDetail(ICommandSender sender, int dimension) {
 
-        MinecraftServer server = MinecraftServer.getServer();
-        double worldTickTime = mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
-        double worldTPS = Math.min(1000.0 / worldTickTime, 20);
-        this.world = MinecraftServer.getServer().worldServerForDimension(dimension);
+        WorldServer world = MinecraftServer.getServer().worldServerForDimension(dimension);
         sender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
         sender.addChatMessage(new ChatComponentText("Information for [" + dimension + "]" + world.provider.getDimensionName()));
         sender.addChatMessage(new ChatComponentText("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(dimension)));
@@ -132,8 +126,8 @@ public class CommandTPS implements ICommand {
         sender.addChatMessage(new ChatComponentText("Total Living Entities: " + getLivingEntityCount(world.loadedEntityList)));
         sender.addChatMessage(new ChatComponentText("Total Entities: " + world.loadedEntityList.size()));
         sender.addChatMessage(new ChatComponentText("Tile Entities: " + world.loadedTileEntityList.size()));
-        sender.addChatMessage(new ChatComponentText("Loaded Chunks: " + this.world.getChunkProvider().getLoadedChunkCount()));
-        sender.addChatMessage(new ChatComponentText("TPS: " + timeFormatter.format(worldTickTime) + "ms[" + worldTPS + "]"));
+        sender.addChatMessage(new ChatComponentText("Loaded Chunks: " + world.getChunkProvider().getLoadedChunkCount()));
+        sender.addChatMessage(new ChatComponentText("TPS: " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms[" + SystemInfo.getDimensionTPS(world) + "]"));
     }
 
     private int getItemEntityCount(List list) {

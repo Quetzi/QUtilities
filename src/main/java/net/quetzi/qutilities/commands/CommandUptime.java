@@ -1,6 +1,6 @@
 package net.quetzi.qutilities.commands;
 
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.helpers.SystemInfo;
@@ -8,7 +8,7 @@ import net.quetzi.qutilities.helpers.SystemInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandUptime implements ICommand {
+public class CommandUptime extends CommandBase {
 
     List<String> aliases;
 

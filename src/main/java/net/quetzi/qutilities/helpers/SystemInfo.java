@@ -28,23 +28,23 @@ public class SystemInfo {
     }
 
     public static String getTotalMem() {
-        return format.format(runtime.totalMemory());
+        return StringFormatter.bytesToString(runtime.totalMemory());
     }
 
     public static String getUsedMem() {
-        return format.format(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+        return StringFormatter.bytesToString(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
     }
 
     public static String getFreeMem() {
-        return format.format(runtime.freeMemory() / 1024);
+        return StringFormatter.bytesToString(runtime.freeMemory());
     }
 
     public static String getAllocatedMem() {
-        return format.format(runtime.totalMemory() / 1024);
+        return StringFormatter.bytesToString(runtime.totalMemory());
     }
 
     public static String getMaxMem() {
-        return format.format(runtime.maxMemory() / 1024);
+        return StringFormatter.bytesToString(runtime.maxMemory());
     }
 
     public static String getPercentMemUse() {
@@ -54,17 +54,7 @@ public class SystemInfo {
     public static String getUptime() {
 
         long uptime = System.currentTimeMillis() - QUtilities.startTime;
-        int days = (int) (uptime / (1000 * 60 * 60 * 24)) % 7;
-        int hours = (int) (uptime / (1000 * 60 * 60)) % 24;
-        int mins = (int) (uptime / (1000 * 60)) % 60;
-        int secs = (int) (uptime / 1000) % 60;
-        if (days > 0) {
-            return String.format("Current uptime: %s days, %sh %sm %ss", days, hours, mins, secs);
-        } else if (hours > 0) {
-            return String.format("Current uptime: %sh %sm %ss", hours, mins, secs);
-        } else {
-            return String.format("Current uptime: %sm %ss", mins, secs);
-        }
+        return StringFormatter.millisToString(uptime);
     }
 
     public static double getDimensionTPS(WorldServer worldServer) {
