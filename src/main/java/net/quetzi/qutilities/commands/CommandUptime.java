@@ -1,14 +1,21 @@
 package net.quetzi.qutilities.commands;
 
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import irclib.IRCCommand;
+import irclib.IRCLib;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import net.quetzi.qutilities.helpers.References;
 import net.quetzi.qutilities.helpers.SystemInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandUptime extends CommandBase {
+@Optional.Interface(iface = "irclib.IRCCommand", modid = References.FORGEIRC)
+public class CommandUptime extends CommandBase implements IRCCommand {
 
     List<String> aliases;
 
@@ -71,5 +78,14 @@ public class CommandUptime extends CommandBase {
     public int getRequiredPermissionLevel() {
 
         return 3;
+    }
+
+    @Override
+    public List<String> onCommand(String parameters) {
+
+        List<String> output = new ArrayList<String>();
+        output.add(SystemInfo.getUptime());
+        output.add(SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]");
+        return output;
     }
 }

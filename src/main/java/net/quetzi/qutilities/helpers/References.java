@@ -8,4 +8,6 @@ public class References {
     private static final String MINOR   = "@MINOR@";
     public static final String VERSION = MINOR + "." + MAJOR;
     public static final String BUILD   = "@BUILD_NUMBER@";
+
+    public static final String FORGEIRC = "irclib";
 }

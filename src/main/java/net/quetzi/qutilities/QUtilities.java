@@ -1,14 +1,17 @@
 package net.quetzi.qutilities;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import irclib.IRCLib;
 import net.minecraftforge.common.config.Configuration;
 import net.quetzi.qutilities.commands.*;
 import net.quetzi.qutilities.helpers.References;
@@ -18,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = References.MODID, name = References.NAME, version = References.VERSION + "-" + References.BUILD, acceptableRemoteVersions = "*")
 public class QUtilities {
 
-    public static Logger        log              = LogManager.getLogger("QUtilities");
+    public static Logger log = LogManager.getLogger("QUtilities");
     public static long          startTime;
     public static boolean       savingEnabled;
     public static int           saveInterval;
@@ -63,5 +66,11 @@ public class QUtilities {
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
 //        event.registerServerCommand(new CommandPreGen());
+
+        if (Loader.isModLoaded(References.FORGEIRC)) {
+            IRCLib ircBot = new IRCLib();
+            ircBot.registerCommand("!qtps", new CommandTPS());
+            ircBot.registerCommand("!uptime", new CommandUptime());
+        }
     }
 }
