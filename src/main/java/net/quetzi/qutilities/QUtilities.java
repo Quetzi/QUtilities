@@ -67,12 +67,11 @@ public class QUtilities {
         event.registerServerCommand(new CommandUptime());
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
-//        event.registerServerCommand(new CommandPreGen());
 
-        if (Loader.isModLoaded(References.FORGEIRC)) {
-            IRCLib ircBot = new IRCLib();
-            ircBot.registerCommand("!qtps", new CommandTPS());
-            ircBot.registerCommand("!uptime", new CommandUptime());
-        }
+//        if (Loader.isModLoaded(References.FORGEIRC)) {
+//            IRCLib ircBot = new IRCLib();
+//            ircBot.registerCommand("!qtps", new CommandTPS());
+//            ircBot.registerCommand("!uptime", new CommandUptime());
+//        }
     }
 }
