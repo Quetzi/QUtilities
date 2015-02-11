@@ -59,8 +59,12 @@ public class MovePlayer {
     private static boolean queuePlayer(String playername, int dim, ChunkCoordinates dest) {
 
         if (!QUtilities.queue.isQueued(playername.toLowerCase())) {
-            QUtilities.queue.add(playername.toLowerCase(), dim, dest.posX, dest.posY, dest.posZ);
-            return true;
+            if (QUtilities.queue.addToQueue(playername.toLowerCase(), dim, dest.posX, dest.posY, dest.posZ)) {
+                QUtilities.log.info("Added to queue successfully");
+                return true;
+            } else {
+                QUtilities.log.info("Failed to add to queue");
+            }
         }
         return false;
     }

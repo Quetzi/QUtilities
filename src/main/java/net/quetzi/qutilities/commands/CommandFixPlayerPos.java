@@ -46,47 +46,47 @@ public class CommandFixPlayerPos extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender icommandsender, String[] astring) {
+    public void processCommand(ICommandSender sender, String[] astring) {
 
         if (!(astring.length == 0)) {
             if (astring.length == 1) {
                 if (astring[0].equalsIgnoreCase("showqueue")) {
                     if (QUtilities.queue.getQueue().size() > 0) {
                         for (String line : QUtilities.queue.getQueue()) {
-                            icommandsender.addChatMessage(new ChatComponentText(line));
+                            sender.addChatMessage(new ChatComponentText(line));
                         }
                     } else {
-                        icommandsender.addChatMessage(new ChatComponentText("No players in the teleport queue"));
+                        sender.addChatMessage(new ChatComponentText("No players in the teleport queue"));
                     }
                     return;
                 }
                 else if (MovePlayer.sendToDefaultSpawn(astring[0])) {
-                    icommandsender.addChatMessage(new ChatComponentText("Moving " + astring[0] + " to their default spawn"));
+                    sender.addChatMessage(new ChatComponentText("Moving " + astring[0] + " to their default spawn"));
                 } else {
-                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                    sender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
                 }
             }
             if (astring.length == 2) {
-                int dim = parseInt(icommandsender, astring[1]);
+                int dim = parseInt(sender, astring[1]);
                 if (MovePlayer.sendToDimension(astring[0], dim)) {
-                    icommandsender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim)));
+                    sender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim)));
                 } else {
-                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                    sender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
                 }
             }
             if (astring.length == 5) {
-                int dim = parseInt(icommandsender, astring[1]);
-                int x = parseInt(icommandsender, astring[2]);
-                int y = parseInt(icommandsender, astring[3]);
-                int z = parseInt(icommandsender, astring[4]);
+                int dim = parseInt(sender, astring[1]);
+                int x = parseInt(sender, astring[2]);
+                int y = parseInt(sender, astring[3]);
+                int z = parseInt(sender, astring[4]);
                 if (MovePlayer.sendToLocation(astring[0], dim, x, y, z)) {
-                    icommandsender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim + " " + x + ", " + y + ", " +z)));
+                    sender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim + " " + x + ", " + y + ", " + z)));
                 } else {
-                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                    sender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
                 }
             }
         } else {
-            getCommandUsage(icommandsender);
+            getCommandUsage(sender);
         }
     }
 
