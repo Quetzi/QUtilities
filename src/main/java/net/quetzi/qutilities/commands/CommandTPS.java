@@ -1,6 +1,5 @@
 package net.quetzi.qutilities.commands;
 
-import com.sun.deploy.util.StringUtils;
 import cpw.mods.fml.common.Optional;
 import irclib.IRCCommand;
 import net.minecraft.command.CommandBase;
