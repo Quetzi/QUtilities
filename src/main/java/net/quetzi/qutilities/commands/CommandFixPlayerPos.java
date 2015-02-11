@@ -4,6 +4,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.helpers.MovePlayer;
+import net.quetzi.qutilities.helpers.TeleportQueue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,15 @@ public class CommandFixPlayerPos extends CommandBase {
 
         if (!(astring.length == 0)) {
             if (astring.length == 1) {
-                if (MovePlayer.sendToDefaultSpawn(astring[0])) {
+                if (astring[0].equalsIgnoreCase("showqueue")) {
+                    if (TeleportQueue.getQueue().size() > 0) {
+                        for (String line : TeleportQueue.getQueue()) {
+                            icommandsender.addChatMessage(new ChatComponentText(line));
+                        }
+                    }
+                    return;
+                }
+                else if (MovePlayer.sendToDefaultSpawn(astring[0])) {
                     icommandsender.addChatMessage(new ChatComponentText("Moving " + astring[0] + " to their default spawn"));
                 } else {
                     icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
@@ -97,6 +106,7 @@ public class CommandFixPlayerPos extends CommandBase {
         return false;
     }
 
+    @Override
     public int getRequiredPermissionLevel() {
 
         return 3;

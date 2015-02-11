@@ -1,6 +1,8 @@
 package net.quetzi.qutilities.helpers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -74,5 +76,14 @@ public class TeleportQueue {
             }
         }
         return false;
+    }
+
+    public static List<String> getQueue() {
+
+        List<String> queuedPlayers = new ArrayList<String>();
+        for (TeleportQueue tq : queue) {
+            queuedPlayers.add(tq.getPlayer());
+        }
+        return queuedPlayers;
     }
 }
