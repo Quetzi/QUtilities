@@ -1,9 +1,7 @@
 package net.quetzi.qutilities.helpers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Quetzi on 06/11/14.
@@ -11,7 +9,7 @@ import java.util.Set;
 public class TeleportQueue {
 
 
-    private Set<TeleportEntry> queue = new HashSet<TeleportEntry>();
+    private List<TeleportEntry> queue = new ArrayList<TeleportEntry>();
 
     public TeleportQueue() {
 
@@ -54,6 +52,7 @@ public class TeleportQueue {
     }
 
     public void add(String player, int dim, int x, int y, int z) {
+
         this.queue.add(new TeleportEntry(player, dim, x, y, z));
     }
 
@@ -69,14 +68,16 @@ public class TeleportQueue {
     }
 
     public void remove(String player) {
+
         for (TeleportEntry te : this.queue) {
             if (te.getPlayer().equals(player.toLowerCase())) {
-                queue.remove(te);
+                this.queue.remove(te);
             }
         }
     }
 
     public boolean isQueued(String player) {
+
         for (TeleportEntry te : this.queue) {
             if (te.getPlayer().equals(player.toLowerCase())) {
                 return true;
