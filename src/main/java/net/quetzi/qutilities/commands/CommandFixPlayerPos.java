@@ -3,8 +3,8 @@ package net.quetzi.qutilities.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import net.quetzi.qutilities.QUtilities;
 import net.quetzi.qutilities.helpers.MovePlayer;
-import net.quetzi.qutilities.helpers.TeleportQueue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +51,8 @@ public class CommandFixPlayerPos extends CommandBase {
         if (!(astring.length == 0)) {
             if (astring.length == 1) {
                 if (astring[0].equalsIgnoreCase("showqueue")) {
-                    if (TeleportQueue.getQueue().size() > 0) {
-                        for (String line : TeleportQueue.getQueue()) {
+                    if (QUtilities.queue.getQueue().size() > 0) {
+                        for (String line : QUtilities.queue.getQueue()) {
                             icommandsender.addChatMessage(new ChatComponentText(line));
                         }
                     }

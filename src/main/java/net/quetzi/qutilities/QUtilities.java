@@ -1,7 +1,6 @@
 package net.quetzi.qutilities;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -10,13 +9,13 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import irclib.IRCLib;
 import net.minecraftforge.common.config.Configuration;
 import net.quetzi.qutilities.commands.CommandFixPlayerPos;
 import net.quetzi.qutilities.commands.CommandPlayerList;
 import net.quetzi.qutilities.commands.CommandTPS;
 import net.quetzi.qutilities.commands.CommandUptime;
 import net.quetzi.qutilities.helpers.References;
+import net.quetzi.qutilities.helpers.TeleportQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,6 +28,7 @@ public class QUtilities {
     public static int           saveInterval;
     public static String        motd;
     public static Configuration config;
+    public static TeleportQueue queue = new TeleportQueue();
 
     @EventHandler
     @SideOnly(Side.SERVER)

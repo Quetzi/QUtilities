@@ -1,8 +1,5 @@
 package net.quetzi.qutilities.helpers;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
@@ -58,8 +55,8 @@ public class MovePlayer {
 
     private static void queuePlayer(String playername, int dim, ChunkCoordinates dest) {
 
-        if (!TeleportQueue.isQueued(playername.toLowerCase())) {
-            TeleportQueue.add(playername.toLowerCase(), dim, dest.posX, dest.posY, dest.posZ);
+        if (!QUtilities.queue.isQueued(playername.toLowerCase())) {
+            QUtilities.queue.add(playername.toLowerCase(), dim, dest.posX, dest.posY, dest.posZ);
         }
     }
 }

@@ -1,10 +1,7 @@
 package net.quetzi.qutilities.commands;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import irclib.IRCCommand;
-import irclib.IRCLib;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;

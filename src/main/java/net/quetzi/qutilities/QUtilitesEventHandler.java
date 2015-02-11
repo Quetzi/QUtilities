@@ -6,7 +6,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.helpers.ScheduledSave;
-import net.quetzi.qutilities.helpers.TeleportQueue;
 
 public class QUtilitesEventHandler {
 
@@ -33,7 +32,7 @@ public class QUtilitesEventHandler {
     @SubscribeEvent
     public void PlayerLoggedInHandler(PlayerLoggedInEvent event) {
 
-        if(TeleportQueue.process(event.player.getGameProfile().getName().toLowerCase())) {
+        if(QUtilities.queue.process(event.player.getGameProfile().getName().toLowerCase())) {
             QUtilities.log.info(event.player.getGameProfile().getName() + " was queued to move and has been moved");
         }
         event.player.addChatComponentMessage(new ChatComponentText(QUtilities.motd));

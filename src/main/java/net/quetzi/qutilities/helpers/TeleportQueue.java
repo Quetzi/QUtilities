@@ -10,50 +10,57 @@ import java.util.Set;
  */
 public class TeleportQueue {
 
-    private String player;
-    private int dim;
-    private int x;
-    private int y;
-    private int z;
-    public static Set<TeleportQueue> queue = new HashSet<TeleportQueue>();
 
-    public TeleportQueue(String player, int dim, int x, int y, int z) {
+    private Set<TeleportEntry> queue = new HashSet<TeleportEntry>();
 
-        this.player = player;
-        this.dim = dim;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public TeleportQueue() {
+
+    }
+    public class TeleportEntry {
+
+        private String player;
+        private int dim;
+        private int x;
+        private int y;
+        private int z;
+        public TeleportEntry(String player, int dim, int x, int y, int z) {
+
+            this.player = player;
+            this.dim = dim;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public String getPlayer() {
+            return player;
+        }
+
+        public int getDim() {
+            return dim;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public int getZ() {
+            return z;
+        }
     }
 
-    public String getPlayer() {
-        return player;
+    public void add(String player, int dim, int x, int y, int z) {
+        queue.add(new TeleportEntry(player, dim, x, y, z));
     }
 
-    public int getDim() {
-        return dim;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getZ() {
-        return z;
-    }
-
-    public static void add(String player, int dim, int x, int y, int z) {
-        queue.add(new TeleportQueue(player, dim, x, y, z));
-    }
-
-    public static boolean process(String player) {
-        for (TeleportQueue tq : queue) {
-            if (tq.getPlayer().equals(player.toLowerCase())) {
-                MovePlayer.sendToLocation(player, tq.getDim(), tq.getX(), tq.getY(), tq.getZ());
+    public boolean process(String player) {
+        for (TeleportEntry te : queue) {
+            if (te.getPlayer().equals(player.toLowerCase())) {
+                MovePlayer.sendToLocation(player, te.getDim(), te.getX(), te.getY(), te.getZ());
                 remove(player);
                 return true;
             }
@@ -61,28 +68,28 @@ public class TeleportQueue {
         return false;
     }
 
-    public static void remove(String player) {
-        for (TeleportQueue tq : queue) {
-            if (tq.getPlayer().equals(player.toLowerCase())) {
-                queue.remove(tq);
+    public void remove(String player) {
+        for (TeleportEntry te : queue) {
+            if (te.getPlayer().equals(player.toLowerCase())) {
+                queue.remove(te);
             }
         }
     }
 
-    public static boolean isQueued(String player) {
-        for (TeleportQueue tq : queue) {
-            if (tq.getPlayer().equals(player.toLowerCase())) {
+    public boolean isQueued(String player) {
+        for (TeleportEntry te : queue) {
+            if (te.getPlayer().equals(player.toLowerCase())) {
                 return true;
             }
         }
         return false;
     }
 
-    public static List<String> getQueue() {
+    public List<String> getQueue() {
 
         List<String> queuedPlayers = new ArrayList<String>();
-        for (TeleportQueue tq : queue) {
-            queuedPlayers.add(tq.getPlayer());
+        for (TeleportEntry te : queue) {
+            queuedPlayers.add(te.getPlayer());
         }
         return queuedPlayers;
     }
