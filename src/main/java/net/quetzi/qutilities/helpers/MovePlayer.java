@@ -40,23 +40,28 @@ public class MovePlayer {
 
     public static boolean movePlayer(String playername, int dim, ChunkCoordinates dest) {
 
+        EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername);
+
         if (MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername) != null) {
-            EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername);
             if (player.dimension != dim) {
-                player.travelToDimension(dim);
+                MinecraftServer.getServer().getConfigurationManager().transferEntityToWorld(player, 0, MinecraftServer.getServer().worldServerForDimension(player.dimension), MinecraftServer.getServer().worldServerForDimension(dim));
             }
             player.setPositionAndUpdate(dest.posX, dest.posY, dest.posZ);
             return true;
         } else {
-            queuePlayer(playername, dim, dest);
+            if (!queuePlayer(playername, dim, dest)) {
+                QUtilities.log.info("Error adding " + playername + " to queue");
+            }
             return false;
         }
     }
 
-    private static void queuePlayer(String playername, int dim, ChunkCoordinates dest) {
+    private static boolean queuePlayer(String playername, int dim, ChunkCoordinates dest) {
 
         if (!QUtilities.queue.isQueued(playername.toLowerCase())) {
             QUtilities.queue.add(playername.toLowerCase(), dim, dest.posX, dest.posY, dest.posZ);
+            return true;
         }
+        return false;
     }
 }

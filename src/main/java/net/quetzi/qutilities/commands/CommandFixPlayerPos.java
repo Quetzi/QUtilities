@@ -55,6 +55,8 @@ public class CommandFixPlayerPos extends CommandBase {
                         for (String line : QUtilities.queue.getQueue()) {
                             icommandsender.addChatMessage(new ChatComponentText(line));
                         }
+                    } else {
+                        icommandsender.addChatMessage(new ChatComponentText("No players in the teleport queue"));
                     }
                     return;
                 }

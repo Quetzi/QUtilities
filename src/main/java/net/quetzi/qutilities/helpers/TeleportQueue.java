@@ -54,11 +54,11 @@ public class TeleportQueue {
     }
 
     public void add(String player, int dim, int x, int y, int z) {
-        queue.add(new TeleportEntry(player, dim, x, y, z));
+        this.queue.add(new TeleportEntry(player, dim, x, y, z));
     }
 
     public boolean process(String player) {
-        for (TeleportEntry te : queue) {
+        for (TeleportEntry te : this.queue) {
             if (te.getPlayer().equals(player.toLowerCase())) {
                 MovePlayer.sendToLocation(player, te.getDim(), te.getX(), te.getY(), te.getZ());
                 remove(player);
@@ -69,7 +69,7 @@ public class TeleportQueue {
     }
 
     public void remove(String player) {
-        for (TeleportEntry te : queue) {
+        for (TeleportEntry te : this.queue) {
             if (te.getPlayer().equals(player.toLowerCase())) {
                 queue.remove(te);
             }
@@ -77,7 +77,7 @@ public class TeleportQueue {
     }
 
     public boolean isQueued(String player) {
-        for (TeleportEntry te : queue) {
+        for (TeleportEntry te : this.queue) {
             if (te.getPlayer().equals(player.toLowerCase())) {
                 return true;
             }
@@ -88,7 +88,7 @@ public class TeleportQueue {
     public List<String> getQueue() {
 
         List<String> queuedPlayers = new ArrayList<String>();
-        for (TeleportEntry te : queue) {
+        for (TeleportEntry te : this.queue) {
             queuedPlayers.add(te.getPlayer());
         }
         return queuedPlayers;
