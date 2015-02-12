@@ -53,7 +53,7 @@ public class TeleportQueue {
 
     public boolean addToQueue(String player, int dim, int x, int y, int z) {
 
-        return this.queue.add(new TeleportEntry(player, dim, x, y, z));
+        return this.queue.add(new TeleportEntry(player.toLowerCase(), dim, x, y, z));
     }
 
     public boolean process(String player) {

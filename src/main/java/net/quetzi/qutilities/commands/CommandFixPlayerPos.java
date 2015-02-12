@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.qutilities.QUtilities;
 import net.quetzi.qutilities.helpers.MovePlayer;
+import net.quetzi.qutilities.helpers.TeleportQueue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,13 @@ public class CommandFixPlayerPos extends CommandBase {
                         }
                     } else {
                         sender.addChatMessage(new ChatComponentText("No players in the teleport queue"));
+                    }
+                    return;
+                }
+                else if (astring[0].equalsIgnoreCase("clearqueue")) {
+                    if (QUtilities.queue.getQueue().size() > 0) {
+                        QUtilities.queue = new TeleportQueue();
+                        sender.addChatMessage(new ChatComponentText("Queue has been cleared"));
                     }
                     return;
                 }

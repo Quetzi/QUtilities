@@ -17,7 +17,7 @@ public class MovePlayer {
                 return sendToDimension(playername, 0);
             }
         }
-        return false;
+        return sendToDimension(playername, 0);
     }
 
     public static boolean sendToBed(String playername) {
@@ -49,22 +49,15 @@ public class MovePlayer {
             player.setPositionAndUpdate(dest.posX, dest.posY, dest.posZ);
             return true;
         } else {
-            if (!queuePlayer(playername, dim, dest)) {
-                QUtilities.log.info("Error adding " + playername + " to queue");
-            }
+            queuePlayer(playername, dim, dest);
             return false;
         }
     }
 
     private static boolean queuePlayer(String playername, int dim, ChunkCoordinates dest) {
 
-        if (!QUtilities.queue.isQueued(playername.toLowerCase())) {
-            if (QUtilities.queue.addToQueue(playername.toLowerCase(), dim, dest.posX, dest.posY, dest.posZ)) {
-                QUtilities.log.info("Added to queue successfully");
-                return true;
-            } else {
-                QUtilities.log.info("Failed to add to queue");
-            }
+        if (!QUtilities.queue.isQueued(playername)) {
+            return QUtilities.queue.addToQueue(playername, dim, dest.posX, dest.posY, dest.posZ);
         }
         return false;
     }
