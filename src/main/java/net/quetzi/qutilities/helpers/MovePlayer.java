@@ -17,7 +17,8 @@ public class MovePlayer {
                 return sendToDimension(playername, 0);
             }
         }
-        return sendToDimension(playername, 0);
+        QUtilities.queue.addToQueue(playername);
+        return false;
     }
 
     public static boolean sendToBed(String playername) {

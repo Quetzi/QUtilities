@@ -62,10 +62,8 @@ public class CommandFixPlayerPos extends CommandBase {
                     return;
                 }
                 else if (astring[0].equalsIgnoreCase("clearqueue")) {
-                    if (QUtilities.queue.getQueue().size() > 0) {
-                        QUtilities.queue = new TeleportQueue();
-                        sender.addChatMessage(new ChatComponentText("Queue has been cleared"));
-                    }
+                    QUtilities.queue = new TeleportQueue();
+                    sender.addChatMessage(new ChatComponentText("Queue has been cleared"));
                     return;
                 }
                 else if (MovePlayer.sendToDefaultSpawn(astring[0])) {

@@ -17,17 +17,26 @@ public class TeleportQueue {
     public class TeleportEntry {
 
         private String player;
+        private String type;
         private int dim;
         private int x;
         private int y;
         private int z;
+
         public TeleportEntry(String player, int dim, int x, int y, int z) {
 
             this.player = player;
+            this.type = "location";
             this.dim = dim;
             this.x = x;
             this.y = y;
             this.z = z;
+        }
+
+        public TeleportEntry(String player) {
+
+            this.player = player;
+            this.type = "default";
         }
 
         public String getPlayer() {
@@ -51,6 +60,10 @@ public class TeleportQueue {
         }
     }
 
+    public boolean addToQueue(String player) {
+        return this.queue.add(new TeleportEntry(player));
+    }
+
     public boolean addToQueue(String player, int dim, int x, int y, int z) {
 
         return this.queue.add(new TeleportEntry(player.toLowerCase(), dim, x, y, z));
@@ -59,7 +72,11 @@ public class TeleportQueue {
     public boolean process(String player) {
         for (TeleportEntry te : this.queue) {
             if (te.getPlayer().equals(player.toLowerCase())) {
-                MovePlayer.sendToLocation(player, te.getDim(), te.getX(), te.getY(), te.getZ());
+                if (te.type.equals("default")) {
+                    MovePlayer.sendToDefaultSpawn(te.getPlayer());
+                } else {
+                    MovePlayer.sendToLocation(player, te.getDim(), te.getX(), te.getY(), te.getZ());
+                }
                 remove(player);
                 return true;
             }
