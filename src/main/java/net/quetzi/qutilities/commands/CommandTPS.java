@@ -78,6 +78,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
             while (iterator.hasNext()) {
                 icommandsender.addChatMessage(new ChatComponentText(((Map.Entry<String, Integer>)iterator.next()).getKey() + ": " + ((Map.Entry<String, Integer>)iterator.next()).getValue()));
             }
+            return;
         } else {
             int dimension;
             try {

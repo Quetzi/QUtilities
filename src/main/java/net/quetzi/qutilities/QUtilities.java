@@ -10,10 +10,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.common.config.Configuration;
-import net.quetzi.qutilities.commands.CommandFixPlayerPos;
-import net.quetzi.qutilities.commands.CommandPlayerList;
-import net.quetzi.qutilities.commands.CommandTPS;
-import net.quetzi.qutilities.commands.CommandUptime;
+import net.quetzi.qutilities.commands.*;
 import net.quetzi.qutilities.helpers.References;
 import net.quetzi.qutilities.helpers.TeleportQueue;
 import org.apache.logging.log4j.LogManager;
@@ -67,6 +64,7 @@ public class QUtilities {
         event.registerServerCommand(new CommandUptime());
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
+        event.registerServerCommand(new CommandUUID());
 
 //        if (Loader.isModLoaded(References.FORGEIRC)) {
 //            IRCLib ircBot = new IRCLib();
