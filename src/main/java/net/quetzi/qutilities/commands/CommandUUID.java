@@ -26,7 +26,7 @@ public class CommandUUID extends CommandBase {
     public void processCommand(ICommandSender sender, String[] args) {
 
         if (!(args.length == 0)) {
-            String UUID = MinecraftServer.getServer().func_152358_ax().func_152655_a(args[1].toLowerCase()).getId().toString();
+            String UUID = MinecraftServer.getServer().func_152358_ax().func_152655_a(args[0].toLowerCase()).getId().toString();
             sender.addChatMessage(new ChatComponentText("UUID for " + args[0] + ": " + UUID));
         }
     }

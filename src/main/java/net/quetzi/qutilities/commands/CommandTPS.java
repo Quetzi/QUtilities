@@ -72,13 +72,6 @@ public class CommandTPS extends CommandBase implements IRCCommand {
 
         if (args.length == 0) {
             sendOutput(icommandsender, getTPSSummary());
-        } else if (args[1].equalsIgnoreCase("entities")) {
-            HashMap<String, Integer> entities = getEntityTypeCount();
-            Iterator iterator = entities.entrySet().iterator();
-            while (iterator.hasNext()) {
-                icommandsender.addChatMessage(new ChatComponentText(((Map.Entry<String, Integer>)iterator.next()).getKey() + ": " + ((Map.Entry<String, Integer>)iterator.next()).getValue()));
-            }
-            return;
         } else {
             int dimension;
             try {
@@ -211,21 +204,6 @@ public class CommandTPS extends CommandBase implements IRCCommand {
             }
             return playersString;
         }
-    }
-
-    private HashMap<String, Integer> getEntityTypeCount() {
-
-        HashMap<String, Integer> entityList = new HashMap<String, Integer>();
-        for (WorldServer world : MinecraftServer.getServer().worldServers) {
-            for (Entity entity : (ArrayList<Entity>) world.getLoadedEntityList()) {
-                if (entityList.get(entity.getClass().getName()) == null) {
-                    entityList.put(entity.getClass().getName(), 1);
-                } else {
-                    entityList.put(entity.getClass().getName(), entityList.get(entity.getClass().getName()).intValue() + 1);
-                }
-            }
-        }
-        return entityList;
     }
 
     @Override
