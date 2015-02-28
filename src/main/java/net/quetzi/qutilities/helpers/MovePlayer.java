@@ -45,7 +45,7 @@ public class MovePlayer {
 
         if (MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername) != null) {
             if (player.dimension != dim) {
-                MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(player, dim));
+                MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(player, dim);
             }
             player.setPositionAndUpdate(dest.posX, dest.posY, dest.posZ);
             return true;
