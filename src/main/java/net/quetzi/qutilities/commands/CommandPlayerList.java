@@ -45,6 +45,7 @@ public class CommandPlayerList extends CommandBase {
         return aliases;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
 
@@ -80,4 +81,9 @@ public class CommandPlayerList extends CommandBase {
         return false;
     }
 
+    @Override
+    public int getRequiredPermissionLevel() {
+
+        return 0;
+    }
 }

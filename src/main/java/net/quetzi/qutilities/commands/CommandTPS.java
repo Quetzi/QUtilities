@@ -67,6 +67,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
         return aliases;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void processCommand(ICommandSender icommandsender, String[] args) {
 
@@ -115,6 +116,12 @@ public class CommandTPS extends CommandBase implements IRCCommand {
         return false;
     }
 
+    @Override
+    public int getRequiredPermissionLevel() {
+
+        return 0;
+    }
+
     private List<String> getTPSSummary() {
 
         textOutput = new ArrayList<String>();
@@ -131,6 +138,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
         return textOutput;
     }
 
+    @SuppressWarnings("unchecked")
     private List<String> getTPSDetail(int dimension) {
 
         textOutput = new ArrayList<String>();
@@ -193,6 +201,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
         return count;
     }
 
+    @SuppressWarnings("unchecked")
     private String getPlayersForDimension(int dimension) {
 
         ArrayList<EntityPlayer> players = (ArrayList<EntityPlayer>) MinecraftServer.getServer().worldServerForDimension(dimension).playerEntities;
@@ -213,6 +222,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private HashMap<String, Integer> getEntityTypeCount() {
 
         HashMap<String, Integer> entityList = new HashMap<String, Integer>();
@@ -221,7 +231,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
                 if (entityList.get(entity.getClass().getName()) == null) {
                     entityList.put(entity.getClass().getName(), 1);
                 } else {
-                    entityList.put(entity.getClass().getName(), entityList.get(entity.getClass().getName()).intValue() + 1);
+                    entityList.put(entity.getClass().getName(), entityList.get(entity.getClass().getName()) + 1);
                 }
             }
         }

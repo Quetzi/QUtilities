@@ -12,22 +12,26 @@ import java.text.NumberFormat;
 
 public class SystemInfo {
 
-    private static Runtime runtime = Runtime.getRuntime();
-    private static NumberFormat format = NumberFormat.getInstance();
+    private static       Runtime       runtime       = Runtime.getRuntime();
+    private static       NumberFormat  format        = NumberFormat.getInstance();
 
     public static String getOSname() {
+
         return System.getProperty("os.name");
     }
 
     public static String getOSversion() {
+
         return System.getProperty("os.version");
     }
 
     public static String getOsArch() {
+
         return System.getProperty("os.arch");
     }
 
     public static String getTotalMem() {
+
         return StringFormatter.bytesToString(runtime.totalMemory());
     }
 

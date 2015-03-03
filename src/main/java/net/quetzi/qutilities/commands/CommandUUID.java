@@ -30,4 +30,10 @@ public class CommandUUID extends CommandBase {
             sender.addChatMessage(new ChatComponentText("UUID for " + args[0] + ": " + UUID));
         }
     }
+
+    @Override
+    public int getRequiredPermissionLevel() {
+
+        return 0;
+    }
 }
