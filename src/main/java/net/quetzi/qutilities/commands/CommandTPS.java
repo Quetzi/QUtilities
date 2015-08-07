@@ -1,7 +1,6 @@
 package net.quetzi.qutilities.commands;
 
 import cpw.mods.fml.common.Optional;
-import irclib.IRCCommand;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -22,10 +21,10 @@ import java.text.ParseException;
 import java.util.*;
 
 @Optional.Interface(iface = "irclib.IRCCommand", modid = References.FORGEIRC)
-public class CommandTPS extends CommandBase implements IRCCommand {
+public class CommandTPS extends CommandBase {
 
     private static final DecimalFormat timeFormatter = new DecimalFormat("########0.000");
-    List<String>                       aliases = new ArrayList<String>();
+    List<String> aliases    = new ArrayList<String>();
     List<String> textOutput = new ArrayList<String>();
 
     public CommandTPS() {
@@ -77,7 +76,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
             HashMap<String, Integer> entities = getEntityTypeCount();
             Iterator iterator = entities.entrySet().iterator();
             while (iterator.hasNext()) {
-                icommandsender.addChatMessage(new ChatComponentText(((Map.Entry<String, Integer>)iterator.next()).getKey() + ": " + ((Map.Entry<String, Integer>)iterator.next()).getValue()));
+                icommandsender.addChatMessage(new ChatComponentText(((Map.Entry<String, Integer>) iterator.next()).getKey() + ": " + ((Map.Entry<String, Integer>) iterator.next()).getValue()));
             }
             return;
         } else {
@@ -93,6 +92,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
     }
 
     private void sendOutput(ICommandSender sender, List<String> text) {
+
         for (String line : text) {
             sender.addChatMessage(new ChatComponentText(line));
         }
@@ -134,7 +134,7 @@ public class CommandTPS extends CommandBase implements IRCCommand {
         }
         textOutput.add("Total Chunks loaded: " + chunksLoaded);
         textOutput.add("Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms ["
-                + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]");
+                       + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]");
         return textOutput;
     }
 
@@ -146,10 +146,10 @@ public class CommandTPS extends CommandBase implements IRCCommand {
         textOutput.add(SystemInfo.getUptime());
         textOutput.add("Information for [" + dimension + "]" + world.provider.getDimensionName());
         textOutput.add("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(dimension));
-        textOutput.add("Item Entities: " + getItemEntityCount((ArrayList<Entity>)world.loadedEntityList));
-        textOutput.add("Hostile Mobs: " + getHostileEntityCount((ArrayList<Entity>)world.loadedEntityList));
-        textOutput.add("Passive Mobs: " + getPassiveEntityCount((ArrayList<Entity>)world.loadedEntityList));
-        textOutput.add("Total Living Entities: " + getLivingEntityCount((ArrayList<Entity>)world.loadedEntityList));
+        textOutput.add("Item Entities: " + getItemEntityCount((ArrayList<Entity>) world.loadedEntityList));
+        textOutput.add("Hostile Mobs: " + getHostileEntityCount((ArrayList<Entity>) world.loadedEntityList));
+        textOutput.add("Passive Mobs: " + getPassiveEntityCount((ArrayList<Entity>) world.loadedEntityList));
+        textOutput.add("Total Living Entities: " + getLivingEntityCount((ArrayList<Entity>) world.loadedEntityList));
         textOutput.add("Total Entities: " + world.loadedEntityList.size());
         textOutput.add("Tile Entities: " + world.loadedTileEntityList.size());
         textOutput.add("Loaded Chunks: " + world.getChunkProvider().getLoadedChunkCount());
@@ -236,11 +236,5 @@ public class CommandTPS extends CommandBase implements IRCCommand {
             }
         }
         return entityList;
-    }
-
-    @Override
-    public List<String> onCommand(String parameters) {
-
-        return getTPSSummary();
     }
 }

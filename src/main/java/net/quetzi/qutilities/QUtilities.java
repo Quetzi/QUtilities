@@ -3,12 +3,11 @@ package net.quetzi.qutilities;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.config.Configuration;
 import net.quetzi.qutilities.commands.*;
 import net.quetzi.qutilities.helpers.References;
@@ -24,6 +23,7 @@ public class QUtilities {
     public static boolean       savingEnabled;
     public static int           saveInterval;
     public static String        motd;
+    public static boolean       enableMotd;
     public static Configuration config;
     public static TeleportQueue queue = new TeleportQueue();
 
@@ -43,8 +43,9 @@ public class QUtilities {
         config = new Configuration(event.getSuggestedConfigurationFile());
 
         config.load();
-        savingEnabled = config.get("Settings", "EnableWorldSaving", true).getBoolean(true);
+        savingEnabled = config.get("Settings", "EnableWorldSaving", false).getBoolean(false);
         saveInterval = config.get("Settings", "SaveInterval", 5, "In minutes").getInt();
+        enableMotd = config.get("Settings", "EnableMOTD", false).getBoolean(false);
         motd = config.getString("Settings", "Motd", "Welcome to the Qmunity Subscriber server!", "Set the MOTD when players join the server");
         config.save();
     }
@@ -65,6 +66,7 @@ public class QUtilities {
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
         event.registerServerCommand(new CommandUUID());
+//        event.registerServerCommand(new CommandListEntities());
 
 //        if (Loader.isModLoaded(References.FORGEIRC)) {
 //            IRCLib ircBot = new IRCLib();

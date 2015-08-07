@@ -1,7 +1,6 @@
 package net.quetzi.qutilities.commands;
 
 import cpw.mods.fml.common.Optional;
-import irclib.IRCCommand;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Optional.Interface(iface = "irclib.IRCCommand", modid = References.FORGEIRC)
-public class CommandUptime extends CommandBase implements IRCCommand {
+public class CommandUptime extends CommandBase {
 
     List<String> aliases;
 
@@ -49,8 +48,8 @@ public class CommandUptime extends CommandBase implements IRCCommand {
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
 
-        icommandsender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
-        icommandsender.addChatMessage(new ChatComponentText(SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
+        icommandsender.addChatMessage(new ChatComponentText("Uptime: " + SystemInfo.getUptime()));
+        icommandsender.addChatMessage(new ChatComponentText("Mem :" + SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
 
     }
 
@@ -72,17 +71,9 @@ public class CommandUptime extends CommandBase implements IRCCommand {
         return false;
     }
 
+    @Override
     public int getRequiredPermissionLevel() {
 
         return 3;
-    }
-
-    @Override
-    public List<String> onCommand(String parameters) {
-
-        List<String> output = new ArrayList<String>();
-        output.add(SystemInfo.getUptime());
-        output.add(SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]");
-        return output;
     }
 }

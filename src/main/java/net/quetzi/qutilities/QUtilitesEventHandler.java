@@ -35,6 +35,8 @@ public class QUtilitesEventHandler {
         if(QUtilities.queue.process(event.player.getGameProfile().getName().toLowerCase())) {
             QUtilities.log.info(event.player.getGameProfile().getName() + " was queued to move and has been moved");
         }
-        event.player.addChatComponentMessage(new ChatComponentText(QUtilities.motd));
+        if (QUtilities.enableMotd) {
+            event.player.addChatComponentMessage(new ChatComponentText(QUtilities.motd));
+        }
     }
 }
