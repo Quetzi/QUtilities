@@ -36,10 +36,18 @@ public class MovePlayer {
 
     public static boolean sendToLocation(String playername, int dim, int x, int y, int z) {
 
-        return movePlayer(playername, dim, new ChunkCoordinates(x, y, z));
+        return sendToLocation(playername, dim, (double)x, (double)y, (double)z);
+    }
+
+    public static boolean sendToLocation(String playername, int dim, double x, double y, double z) {
+
+        return movePlayer(playername, dim, x, y, z);
     }
 
     public static boolean movePlayer(String playername, int dim, ChunkCoordinates dest) {
+        return movePlayer(playername, dim, dest.posX, dest.posY, dest.posZ);
+    }
+    public static boolean movePlayer(String playername, int dim, double x, double y, double z) {
 
         EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(playername);
 
@@ -47,18 +55,18 @@ public class MovePlayer {
             if (player.dimension != dim) {
                 MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(player, dim);
             }
-            player.setPositionAndUpdate(dest.posX, dest.posY, dest.posZ);
+            player.setPositionAndUpdate(x, y, z);
             return true;
         } else {
-            queuePlayer(playername, dim, dest);
+            queuePlayer(playername, dim, x, y, z);
             return false;
         }
     }
 
-    private static boolean queuePlayer(String playername, int dim, ChunkCoordinates dest) {
+    private static boolean queuePlayer(String playername, int dim, double x, double y, double z) {
 
         if (!QUtilities.queue.isQueued(playername)) {
-            return QUtilities.queue.addToQueue(playername, dim, dest.posX, dest.posY, dest.posZ);
+            return QUtilities.queue.addToQueue(playername, dim, x, y, z);
         }
         return false;
     }

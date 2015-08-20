@@ -9,7 +9,6 @@ import net.quetzi.qutilities.helpers.ScheduledSave;
 
 public class QUtilitesEventHandler {
 
-
     private long prevTime = 0;
 
     @SubscribeEvent
@@ -32,7 +31,7 @@ public class QUtilitesEventHandler {
     @SubscribeEvent
     public void PlayerLoggedInHandler(PlayerLoggedInEvent event) {
 
-        if(QUtilities.queue.process(event.player.getGameProfile().getName().toLowerCase())) {
+        if (QUtilities.queue.process(event.player.getGameProfile().getName().toLowerCase())) {
             QUtilities.log.info(event.player.getGameProfile().getName() + " was queued to move and has been moved");
         }
         if (QUtilities.enableMotd) {

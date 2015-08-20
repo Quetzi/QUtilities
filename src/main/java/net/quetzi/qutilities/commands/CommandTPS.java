@@ -143,7 +143,7 @@ public class CommandTPS extends CommandBase {
 
         textOutput = new ArrayList<String>();
         WorldServer world = MinecraftServer.getServer().worldServerForDimension(dimension);
-        textOutput.add(SystemInfo.getUptime());
+        textOutput.add("Server uptime: " + SystemInfo.getUptime());
         textOutput.add("Information for [" + dimension + "]" + world.provider.getDimensionName());
         textOutput.add("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(dimension));
         textOutput.add("Item Entities: " + getItemEntityCount((ArrayList<Entity>) world.loadedEntityList));
@@ -153,7 +153,7 @@ public class CommandTPS extends CommandBase {
         textOutput.add("Total Entities: " + world.loadedEntityList.size());
         textOutput.add("Tile Entities: " + world.loadedTileEntityList.size());
         textOutput.add("Loaded Chunks: " + world.getChunkProvider().getLoadedChunkCount());
-        textOutput.add("TPS: " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms[" + SystemInfo.getDimensionTPS(world) + "]");
+        textOutput.add("TPS: " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms[" + timeFormatter.format(SystemInfo.getDimensionTPS(world)) + "]");
         return textOutput;
     }
 

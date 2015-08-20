@@ -19,11 +19,11 @@ public class TeleportQueue {
         private String player;
         private String type;
         private int dim;
-        private int x;
-        private int y;
-        private int z;
+        private double x;
+        private double y;
+        private double z;
 
-        public TeleportEntry(String player, int dim, int x, int y, int z) {
+        public TeleportEntry(String player, int dim, double x, double y, double z) {
 
             this.player = player;
             this.type = "location";
@@ -47,15 +47,15 @@ public class TeleportQueue {
             return dim;
         }
 
-        public int getX() {
+        public double getX() {
             return x;
         }
 
-        public int getY() {
+        public double getY() {
             return y;
         }
 
-        public int getZ() {
+        public double getZ() {
             return z;
         }
     }
@@ -64,7 +64,7 @@ public class TeleportQueue {
         return this.queue.add(new TeleportEntry(player));
     }
 
-    public boolean addToQueue(String player, int dim, int x, int y, int z) {
+    public boolean addToQueue(String player, int dim, double x, double y, double z) {
 
         return this.queue.add(new TeleportEntry(player.toLowerCase(), dim, x, y, z));
     }
