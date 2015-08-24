@@ -6,7 +6,9 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.config.Configuration;
 import net.quetzi.qutilities.commands.*;
@@ -24,6 +26,7 @@ public class QUtilities {
     public static int           saveInterval;
     public static String        motd;
     public static boolean       enableMotd;
+    public static boolean       enableDeathCounter;
     public static Configuration config;
     public static TeleportQueue queue = new TeleportQueue();
 
@@ -43,10 +46,13 @@ public class QUtilities {
         config = new Configuration(event.getSuggestedConfigurationFile());
 
         config.load();
-        savingEnabled = config.get("Settings", "EnableWorldSaving", false).getBoolean(false);
-        saveInterval = config.get("Settings", "SaveInterval", 5, "In minutes").getInt();
-        enableMotd = config.get("Settings", "EnableMOTD", false).getBoolean(false);
-        motd = config.getString("Settings", "Motd", "Welcome to the Qmunity Subscriber server!", "Set the MOTD when players join the server");
+        String cat = "Settings";
+        savingEnabled = config.get(cat, "EnableWorldSaving", false).getBoolean();
+        saveInterval = config.get(cat, "SaveInterval", 5, "In minutes").getInt();
+        enableMotd = config.get(cat, "EnableMOTD", false).getBoolean();
+        enableDeathCounter = config.get(cat, "EnableDeathCounter", false).getBoolean();
+        motd = config.getString(cat, "Motd", "Welcome to the Qmunity Subscriber server!", "Set the MOTD when players join the server");
+
         config.save();
     }
 
@@ -59,19 +65,23 @@ public class QUtilities {
 
     @EventHandler
     @SideOnly(Side.SERVER)
-    public void serverLoad(FMLServerStartingEvent event) {
+    public void ServerLoad(FMLServerStartingEvent event) {
 
         event.registerServerCommand(new CommandPlayerList());
         event.registerServerCommand(new CommandUptime());
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
         event.registerServerCommand(new CommandUUID());
-//        event.registerServerCommand(new CommandListEntities());
+    }
 
-//        if (Loader.isModLoaded(References.FORGEIRC)) {
-//            IRCLib ircBot = new IRCLib();
-//            ircBot.registerCommand("!qtps", new CommandTPS());
-//            ircBot.registerCommand("!uptime", new CommandUptime());
-//        }
+    @EventHandler
+    @SideOnly(Side.SERVER)
+    public void ServerStarted(FMLServerStartedEvent event) {
+
+        if (enableDeathCounter) {
+            Scoreboard score = new Scoreboard();
+            score.addScoreObjective("deaths", score.getObjective("deathCount").getCriteria());
+            score.func_96530_a(0, score.getObjective("deathCount"));
+        }
     }
 }
