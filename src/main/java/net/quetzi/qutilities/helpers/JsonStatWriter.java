@@ -2,7 +2,6 @@ package net.quetzi.qutilities.helpers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import net.quetzi.qutilities.QUtilities;
@@ -12,7 +11,6 @@ import java.io.File;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -44,29 +42,33 @@ public class JsonStatWriter {
 
 class Stats {
 
-    long    timestamp        = System.currentTimeMillis();
-    String  name             = MinecraftServer.getServer().getServerHostname();
-    String  motd             = MinecraftServer.getServer().getMotd();
-    boolean isPvp            = MinecraftServer.getServer().isPVPEnabled();
-    String  gamemode         = MinecraftServer.getServer().getGameType().getName();
-    String  uptime           = SystemInfo.getUptime();
-    int     playerCount      = MinecraftServer.getServer().getCurrentPlayerCount();
-    int     maxPlayers       = MinecraftServer.getServer().getMaxPlayers();
-    String  minecraftVersion = MinecraftServer.getServer().getMinecraftVersion();
+    long                           timestamp        = System.currentTimeMillis();
+    String                         name             = MinecraftServer.getServer().getServerHostname();
+    String                         motd             = MinecraftServer.getServer().getMotd();
+    boolean                        isPvp            = MinecraftServer.getServer().isPVPEnabled();
+    String                         gamemode         = MinecraftServer.getServer().getGameType().getName();
+    String                         uptime           = SystemInfo.getUptime();
+    int                            playerCount      = MinecraftServer.getServer().getCurrentPlayerCount();
+    int                            maxPlayers       = MinecraftServer.getServer().getMaxPlayers();
+    String                         minecraftVersion = MinecraftServer.getServer().getMinecraftVersion();
+    ArrayList<Map<String, String>> dimensions       = new ArrayList<Map<String, String>>();
 
-    Map<String, String> dimensions = new HashMap<String, String>();
 
     public Stats() {
 
         NumberFormat format = NumberFormat.getInstance();
         format.setMaximumFractionDigits(2);
+
+        Map<String, String> dim = new HashMap<String, String>();
+
         for (WorldServer server : MinecraftServer.getServer().worldServers) {
-            dimensions.put("name", server.provider.getDimensionName());
-            dimensions.put("tps", String.valueOf(SystemInfo.getDimensionTPS(server)) + "ms");
-            dimensions.put("daytime", String.valueOf(server.isDaytime()));
-            dimensions.put("raining", String.valueOf(server.getWorldInfo().isRaining()));
-            dimensions.put("thunder", String.valueOf(server.getWorldInfo().isThundering()));
-            dimensions.put("worldtime", String.valueOf(server.getWorldInfo().getWorldTime()));
+            dim.put("name", server.provider.getDimensionName());
+            dim.put("tps", String.valueOf(SystemInfo.getDimensionTPS(server)) + "ms");
+            dim.put("daytime", String.valueOf(server.isDaytime()));
+            dim.put("raining", String.valueOf(server.getWorldInfo().isRaining()));
+            dim.put("thunder", String.valueOf(server.getWorldInfo().isThundering()));
+            dim.put("worldtime", String.valueOf(server.getWorldInfo().getWorldTime()));
+            dimensions.add(dim);
         }
     }
 }
