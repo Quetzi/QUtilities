@@ -5,6 +5,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.util.ChatComponentText;
+import net.quetzi.qutilities.helpers.JsonStatWriter;
 import net.quetzi.qutilities.helpers.ScheduledSave;
 
 public class QUtilitesEventHandler {
@@ -24,6 +25,10 @@ public class QUtilitesEventHandler {
                     ScheduledSave.saveWorldState();
                 }
                 prevTime = currTime;
+            }
+
+            if (event.world.getWorldTime() % 1200 == 0) {
+                JsonStatWriter.write();
             }
         }
     }
