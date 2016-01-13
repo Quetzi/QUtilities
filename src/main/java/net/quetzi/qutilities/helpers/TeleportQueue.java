@@ -1,76 +1,114 @@
 package net.quetzi.qutilities.helpers;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Quetzi on 06/11/14.
  */
 public class TeleportQueue {
 
-    private String player;
-    private int dim;
-    private int x;
-    private int y;
-    private int z;
-    public static Set<TeleportQueue> queue = new HashSet<TeleportQueue>();
 
-    public TeleportQueue(String player, int dim, int x, int y, int z) {
+    private List<TeleportEntry> queue = new ArrayList<TeleportEntry>();
 
-        this.player = player;
-        this.dim = dim;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public TeleportQueue() {
+
     }
+    public class TeleportEntry {
 
-    public String getPlayer() {
-        return player;
-    }
+        private String player;
+        private String type;
+        private int dim;
+        private double x;
+        private double y;
+        private double z;
 
-    public int getDim() {
-        return dim;
-    }
+        public TeleportEntry(String player, int dim, double x, double y, double z) {
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getZ() {
-        return z;
-    }
-
-    public static void add(String player, int dim, int x, int y, int z) {
-        queue.add(new TeleportQueue(player, dim, x, y, z));
-    }
-
-    public static TeleportQueue process(String player) {
-        for (TeleportQueue tq : queue) {
-            if (tq.getPlayer().equals(player)) {
-                return tq;
-            }
+            this.player = player;
+            this.type = "location";
+            this.dim = dim;
+            this.x = x;
+            this.y = y;
+            this.z = z;
         }
-        return null;
-    }
 
-    public static void remove(String player) {
-        for (TeleportQueue tq : queue) {
-            if (tq.getPlayer().equals(player)) {
-                queue.remove(tq);
-            }
+        public TeleportEntry(String player) {
+
+            this.player = player;
+            this.type = "default";
+        }
+
+        public String getPlayer() {
+            return player;
+        }
+
+        public int getDim() {
+            return dim;
+        }
+
+        public double getX() {
+            return x;
+        }
+
+        public double getY() {
+            return y;
+        }
+
+        public double getZ() {
+            return z;
         }
     }
 
-    public static boolean isQueued(String player) {
-        for (TeleportQueue tq : queue) {
-            if (tq.getPlayer().equals(player)) {
+    public boolean addToQueue(String player) {
+        return this.queue.add(new TeleportEntry(player));
+    }
+
+    public boolean addToQueue(String player, int dim, double x, double y, double z) {
+
+        return this.queue.add(new TeleportEntry(player.toLowerCase(), dim, x, y, z));
+    }
+
+    public boolean process(String player) {
+        for (TeleportEntry te : this.queue) {
+            if (te.getPlayer().equals(player.toLowerCase())) {
+                if (te.type.equals("default")) {
+                    MovePlayer.sendToDefaultSpawn(te.getPlayer());
+                } else {
+                    MovePlayer.sendToLocation(player, te.getDim(), te.getX(), te.getY(), te.getZ());
+                }
+                remove(player);
                 return true;
             }
         }
         return false;
+    }
+
+    public void remove(String player) {
+
+        for (TeleportEntry te : this.queue) {
+            if (te.getPlayer().equals(player.toLowerCase())) {
+                this.queue.remove(te);
+            }
+        }
+    }
+
+    public boolean isQueued(String player) {
+
+        for (TeleportEntry te : this.queue) {
+            if (te.getPlayer().equals(player.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<String> getQueue() {
+
+        List<String> queuedPlayers = new ArrayList<String>();
+        for (TeleportEntry te : this.queue) {
+            queuedPlayers.add(te.getPlayer());
+        }
+        return queuedPlayers;
     }
 }

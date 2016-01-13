@@ -21,25 +21,19 @@ public class CommandFixPlayerPos extends CommandBase {
     }
 
     @Override
-    public int compareTo(Object o) {
-
-        return 0;
-    }
-
-    @Override
     public String getCommandName() {
 
         return "fixplayerpos";
     }
 
     @Override
-    public String getUsage(ICommandSender icommandsender) {
+    public String getCommandUsage(ICommandSender icommandsender) {
 
         return "/fixplayerpos";
     }
 
     @Override
-    public List getAliases() {
+    public List getCommandAliases() {
 
         aliases.add("qtp");
         aliases.add("tpq");
@@ -77,7 +71,7 @@ public class CommandFixPlayerPos extends CommandBase {
                 }
             }
         } else {
-            getUsage(icommandsender);
+            getCommandUsage(icommandsender);
         }
     }
 
@@ -88,7 +82,7 @@ public class CommandFixPlayerPos extends CommandBase {
     }
 
     @Override
-    public List tabComplete(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
 
         return null;
     }

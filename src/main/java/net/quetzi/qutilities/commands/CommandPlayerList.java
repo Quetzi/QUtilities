@@ -23,25 +23,19 @@ public class CommandPlayerList extends CommandBase {
     }
 
     @Override
-    public int compareTo(Object arg0) {
-
-        return 0;
-    }
-
-    @Override
     public String getCommandName() {
 
         return "list";
     }
 
     @Override
-    public String getUsage(ICommandSender icommandsender) {
+    public String getCommandUsage(ICommandSender icommandsender) {
 
         return "/list";
     }
 
     @Override
-    public List getAliases() {
+    public List getCommandAliases() {
 
         return aliases;
     }
@@ -70,7 +64,7 @@ public class CommandPlayerList extends CommandBase {
     }
 
     @Override
-    public List tabComplete(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
 
         return null;
     }

@@ -67,7 +67,7 @@ public class SystemInfo {
 
     private static long mean(long[] values) {
 
-        long sum = 0l;
+        long sum = 0L;
         for (long v : values) {
             sum += v;
         }

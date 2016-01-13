@@ -20,25 +20,19 @@ public class CommandUptime extends CommandBase {
     }
 
     @Override
-    public int compareTo(Object o) {
-
-        return 0;
-    }
-
-    @Override
     public String getCommandName() {
 
         return "uptime";
     }
 
     @Override
-    public String getUsage(ICommandSender icommandsender) {
+    public String getCommandUsage(ICommandSender icommandsender) {
 
         return "/uptime";
     }
 
     @Override
-    public List getAliases() {
+    public List getCommandAliases() {
 
         return aliases;
     }
@@ -57,7 +51,7 @@ public class CommandUptime extends CommandBase {
     }
 
     @Override
-    public List tabComplete(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
 
         return null;
     }
@@ -68,6 +62,7 @@ public class CommandUptime extends CommandBase {
         return false;
     }
 
+    @Override
     public int getRequiredPermissionLevel() {
 
         return 4;

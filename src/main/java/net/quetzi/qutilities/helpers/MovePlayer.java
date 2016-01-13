@@ -1,28 +1,30 @@
 package net.quetzi.qutilities.helpers;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.quetzi.qutilities.QUtilities;
 
 public class MovePlayer {
 
     public static boolean sendToDefaultSpawn(String playername) {
 
         if (MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playername) != null) {
-            EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playername);
-            if (player.getBedLocation() != null) {
+            EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playername);
+            if (player.getBedLocation(0) != null) {
                 return sendToBed(playername);
             } else {
                 return sendToDimension(playername, 0);
             }
         }
+        QUtilities.queue.addToQueue(playername);
         return false;
     }
 
     public static boolean sendToBed(String playername) {
 
-        EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playername);
-        BlockPos dest = player.getBedLocation();
+        EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playername);
+        BlockPos dest = player.getBedLocation(0);
         return movePlayer(playername, 0, dest);
     }
 
@@ -34,28 +36,38 @@ public class MovePlayer {
 
     public static boolean sendToLocation(String playername, int dim, int x, int y, int z) {
 
-        return movePlayer(playername, dim, new BlockPos(x, y, z));
+        return sendToLocation(playername, dim, (double)x, (double)y, (double)z);
+    }
+
+    public static boolean sendToLocation(String playername, int dim, double x, double y, double z) {
+
+        return movePlayer(playername, dim, x, y, z);
     }
 
     public static boolean movePlayer(String playername, int dim, BlockPos dest) {
+        return movePlayer(playername, dim, dest.getX(), dest.getY(), dest.getZ());
+    }
+    public static boolean movePlayer(String playername, int dim, double x, double y, double z) {
+
+        EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playername);
 
         if (MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playername) != null) {
-            EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playername);
             if (player.dimension != dim) {
-                player.travelToDimension(dim);
+                MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(player, dim);
             }
-            player.setPositionAndUpdate(dest.getX(), dest.getY(), dest.getZ());
+            player.setPositionAndUpdate(x, y, z);
             return true;
         } else {
-            queuePlayer(playername, dim, dest);
+            queuePlayer(playername, dim, x, y, z);
             return false;
         }
     }
 
-    private static void queuePlayer(String playername, int dim, BlockPos dest) {
+    private static boolean queuePlayer(String playername, int dim, double x, double y, double z) {
 
-        if (!TeleportQueue.isQueued(playername.toLowerCase())) {
-            TeleportQueue.add(playername.toLowerCase(), dim, dest.getX(), dest.getY(), dest.getZ());
+        if (!QUtilities.queue.isQueued(playername)) {
+            return QUtilities.queue.addToQueue(playername, dim, x, y, z);
         }
+        return false;
     }
 }
