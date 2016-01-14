@@ -114,7 +114,7 @@ public class CommandEntity extends CommandBase {
         for (String key : entities.keySet())
             cumData.add(new AmountHolder(key, entities.get(key)));
 
-        Collections.sort(cumData);
+//        Collections.sort(cumData);
         return cumData;
     }
 
