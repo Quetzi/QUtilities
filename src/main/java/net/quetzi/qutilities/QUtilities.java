@@ -70,6 +70,7 @@ public class QUtilities {
         event.registerServerCommand(new CommandTPS());
         event.registerServerCommand(new CommandFixPlayerPos());
         event.registerServerCommand(new CommandUUID());
+        event.registerServerCommand(new CommandEntity());
     }
 
     @EventHandler
