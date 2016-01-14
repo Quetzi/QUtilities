@@ -1,17 +1,18 @@
 package net.quetzi.qutilities.commands;
 
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.quetzi.qutilities.QUtilities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Quetzi on 14/01/16.
@@ -45,7 +46,7 @@ public class CommandEntity extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void processCommand(ICommandSender sender, String[] args) {
         if (!(args.length == 0)) {
             if (args[1].equals("list")) {
                 ArrayList entities = getCumulativeEntities();
@@ -114,7 +115,7 @@ public class CommandEntity extends CommandBase {
         for (String key : entities.keySet())
             cumData.add(new AmountHolder(key, entities.get(key)));
 
-//        Collections.sort(cumData);
+        Collections.sort(cumData);
         return cumData;
     }
 
