@@ -6,8 +6,9 @@ import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.quetzi.qutilities.helpers.MovePlayer;
 
 public class CommandFixPlayerPos extends CommandBase {
@@ -41,22 +42,22 @@ public class CommandFixPlayerPos extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender icommandsender, String[] astring) throws NumberInvalidException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] astring) throws NumberInvalidException {
 
         if (!(astring.length == 0)) {
             if (astring.length == 1) {
                 if (MovePlayer.sendToDefaultSpawn(astring[0])) {
-                    icommandsender.addChatMessage(new ChatComponentText("Moving " + astring[0] + " to their default spawn"));
+                    sender.addChatMessage(new TextComponentString("Moving " + astring[0] + " to their default spawn"));
                 } else {
-                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                    sender.addChatMessage((new TextComponentString(astring[0] + " is not online, added to queue")));
                 }
             }
             if (astring.length == 2) {
                 int dim = parseInt(astring[1]);
                 if (MovePlayer.sendToDimension(astring[0], dim)) {
-                    icommandsender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim)));
+                    sender.addChatMessage((new TextComponentString("Moving " + astring[0] + " to dimension " + dim)));
                 } else {
-                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                    sender.addChatMessage((new TextComponentString(astring[0] + " is not online, added to queue")));
                 }
             }
             if (astring.length == 5) {
@@ -65,24 +66,24 @@ public class CommandFixPlayerPos extends CommandBase {
                 int y = parseInt(astring[3]);
                 int z = parseInt(astring[4]);
                 if (MovePlayer.sendToLocation(astring[0], dim, x, y, z)) {
-                    icommandsender.addChatMessage((new ChatComponentText("Moving " + astring[0] + " to dimension " + dim + " " + x + ", " + y + ", " +z)));
+                    sender.addChatMessage((new TextComponentString("Moving " + astring[0] + " to dimension " + dim + " " + x + ", " + y + ", " +z)));
                 } else {
-                    icommandsender.addChatMessage((new ChatComponentText(astring[0] + " is not online, added to queue")));
+                    sender.addChatMessage((new TextComponentString(astring[0] + " is not online, added to queue")));
                 }
             }
         } else {
-            getCommandUsage(icommandsender);
+            getCommandUsage(sender);
         }
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos) {
 
         return null;
     }

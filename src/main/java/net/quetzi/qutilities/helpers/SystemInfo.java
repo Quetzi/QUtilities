@@ -57,12 +57,12 @@ public class SystemInfo {
     }
 
     public static double getDimensionTPS(WorldServer worldServer) {
-        double worldTickLength = mean(worldServer.getMinecraftServer().worldTickTimes.get(worldServer.provider.getDimensionId())) * 1.0E-6D;
+        double worldTickLength = mean(worldServer.getMinecraftServer().worldTickTimes.get(worldServer.provider.getDimension())) * 1.0E-6D;
         return Math.min(1000.0 / worldTickLength, 20);
     }
 
     public static double getWorldTickTime(WorldServer worldServer) {
-        return mean(worldServer.getMinecraftServer().worldTickTimes.get(worldServer.provider.getDimensionId())) * 1.0E-6D;
+        return mean(worldServer.getMinecraftServer().worldTickTimes.get(worldServer.provider.getDimension())) * 1.0E-6D;
     }
 
     private static long mean(long[] values) {

@@ -9,8 +9,8 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import net.quetzi.qutilities.helpers.SystemInfo;
 
@@ -60,30 +60,30 @@ public class CommandTPS extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender icommandsender, String[] args) {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
 
         if (args.length == 0) {
-            showTPSSummary(icommandsender);
+            showTPSSummary(server, sender);
         } else {
             int dimension;
             try {
                 dimension = NumberFormat.getInstance().parse(args[0]).intValue();
             } catch (ParseException e1) {
-                icommandsender.addChatMessage(new ChatComponentText("Invalid dimension ID."));
+                sender.addChatMessage(new TextComponentString("Invalid dimension ID."));
                 return;
             }
-            showTPSDetail(icommandsender, dimension);
+            showTPSDetail(server, sender, dimension);
         }
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 
         return null;
     }
@@ -94,34 +94,34 @@ public class CommandTPS extends CommandBase {
         return false;
     }
 
-    private void showTPSSummary(ICommandSender sender) {
+    private void showTPSSummary(MinecraftServer server, ICommandSender sender) {
 
         int chunksLoaded = 0;
-        sender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
-        for (WorldServer world : MinecraftServer.getServer().worldServers) {
+        sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
+        for (WorldServer world : server.worldServers) {
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
-            sender.addChatMessage(new ChatComponentText("[" + world.provider.getDimensionId() + "]" + world.provider.getDimensionName() + ": " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms [" + timeFormatter.format(SystemInfo.getDimensionTPS(world))
+            sender.addChatMessage(new TextComponentString("[" + world.provider.getDimension() + "]" + world.provider.getDimensionType().getName() + ": " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms [" + timeFormatter.format(SystemInfo.getDimensionTPS(world))
                     + "]"));
         }
-        sender.addChatMessage(new ChatComponentText("Total Chunks loaded: " + chunksLoaded));
-        sender.addChatMessage(new ChatComponentText("Overall: " + timeFormatter.format(mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D) + "ms ["
-                + Math.min(1000.0 / (mean(MinecraftServer.getServer().tickTimeArray) * 1.0E-6D), 20) + "]"));
+        sender.addChatMessage(new TextComponentString("Total Chunks loaded: " + chunksLoaded));
+        sender.addChatMessage(new TextComponentString("Overall: " + timeFormatter.format(mean(server.tickTimeArray) * 1.0E-6D) + "ms ["
+                + Math.min(1000.0 / (mean(server.tickTimeArray) * 1.0E-6D), 20) + "]"));
     }
 
-    private void showTPSDetail(ICommandSender sender, int dimension) {
+    private void showTPSDetail(MinecraftServer server, ICommandSender sender, int dimension) {
 
-        WorldServer world = MinecraftServer.getServer().worldServerForDimension(dimension);
-        sender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
-        sender.addChatMessage(new ChatComponentText("Information for [" + dimension + "]" + world.provider.getDimensionName()));
-        sender.addChatMessage(new ChatComponentText("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(dimension)));
-        sender.addChatMessage(new ChatComponentText("Item Entities: " + getItemEntityCount(world.loadedEntityList)));
-        sender.addChatMessage(new ChatComponentText("Hostile Mobs: " + getHostileEntityCount(world.loadedEntityList)));
-        sender.addChatMessage(new ChatComponentText("Passive Mobs: " + getPassiveEntityCount(world.loadedEntityList)));
-        sender.addChatMessage(new ChatComponentText("Total Living Entities: " + getLivingEntityCount(world.loadedEntityList)));
-        sender.addChatMessage(new ChatComponentText("Total Entities: " + world.loadedEntityList.size()));
-        sender.addChatMessage(new ChatComponentText("Tile Entities: " + world.loadedTileEntityList.size()));
-        sender.addChatMessage(new ChatComponentText("Loaded Chunks: " + world.getChunkProvider().getLoadedChunkCount()));
-        sender.addChatMessage(new ChatComponentText("TPS: " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms[" + SystemInfo.getDimensionTPS(world) + "]"));
+        WorldServer world = server.worldServerForDimension(dimension);
+        sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
+        sender.addChatMessage(new TextComponentString("Information for [" + dimension + "]" + world.provider.getDimensionType().getName()));
+        sender.addChatMessage(new TextComponentString("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(server, dimension)));
+        sender.addChatMessage(new TextComponentString("Item Entities: " + getItemEntityCount(world.loadedEntityList)));
+        sender.addChatMessage(new TextComponentString("Hostile Mobs: " + getHostileEntityCount(world.loadedEntityList)));
+        sender.addChatMessage(new TextComponentString("Passive Mobs: " + getPassiveEntityCount(world.loadedEntityList)));
+        sender.addChatMessage(new TextComponentString("Total Living Entities: " + getLivingEntityCount(world.loadedEntityList)));
+        sender.addChatMessage(new TextComponentString("Total Entities: " + world.loadedEntityList.size()));
+        sender.addChatMessage(new TextComponentString("Tile Entities: " + world.loadedTileEntityList.size()));
+        sender.addChatMessage(new TextComponentString("Loaded Chunks: " + world.getChunkProvider().getLoadedChunkCount()));
+        sender.addChatMessage(new TextComponentString("TPS: " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms[" + SystemInfo.getDimensionTPS(world) + "]"));
     }
 
     private int getItemEntityCount(List list) {
@@ -168,9 +168,9 @@ public class CommandTPS extends CommandBase {
         return count;
     }
 
-    private String getPlayersForDimension(int dimension) {
+    private String getPlayersForDimension(MinecraftServer server, int dimension) {
 
-        ArrayList<EntityPlayer> players = (ArrayList<EntityPlayer>) MinecraftServer.getServer().worldServerForDimension(dimension).playerEntities;
+        ArrayList<EntityPlayer> players = (ArrayList<EntityPlayer>) server.worldServerForDimension(dimension).playerEntities;
         if (players.size() == 0) {
             return "No players in this world";
         } else {

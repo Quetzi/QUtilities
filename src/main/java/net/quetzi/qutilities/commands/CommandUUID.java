@@ -3,7 +3,7 @@ package net.quetzi.qutilities.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 
 /**
  * Created by Quetzi on 12/02/15.
@@ -23,11 +23,11 @@ public class CommandUUID extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
 
         if (!(args.length == 0)) {
-            String UUID = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(args[0].toLowerCase()).getId().toString();
-            sender.addChatMessage(new ChatComponentText("UUID for " + args[0] + ": " + UUID));
+            String UUID = server.getPlayerProfileCache().getGameProfileForUsername(args[0].toLowerCase()).getId().toString();
+            sender.addChatMessage(new TextComponentString("UUID for " + args[0] + ": " + UUID));
         }
     }
 

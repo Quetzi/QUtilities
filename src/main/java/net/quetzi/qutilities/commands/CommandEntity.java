@@ -3,8 +3,9 @@ package net.quetzi.qutilities.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.quetzi.qutilities.QUtilities;
@@ -46,39 +47,39 @@ public class CommandEntity extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
         if (!(args.length == 0)) {
             if (args[1].equals("list")) {
                 ArrayList entities = getCumulativeEntities();
                 for (Object o : entities) {
                     AmountHolder ah = (AmountHolder)o;
-                    sender.addChatMessage(new ChatComponentText(ah.key + ": " + ah.value));
+                    sender.addChatMessage(new TextComponentString(ah.key + ": " + ah.value));
                 }
             }
             else if (args[1].equals("killall") && args.length == 2) {
                 int killed = killAll(args[2]);
-                sender.addChatMessage(new ChatComponentText("Killed " + killed + " " + args[2]));
+                sender.addChatMessage(new TextComponentString("Killed " + killed + " " + args[2]));
             }
         }
         else {
-            sender.addChatMessage(new ChatComponentText(getCommandUsage(sender)));
+            sender.addChatMessage(new TextComponentString(getCommandUsage(sender)));
         }
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 
         return null;
     }
 
     @Override
-    public boolean isUsernameIndex(String[] astring, int i) {
+    public boolean isUsernameIndex(String[] args, int i) {
 
         return false;
     }

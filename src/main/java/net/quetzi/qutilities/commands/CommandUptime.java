@@ -2,8 +2,9 @@ package net.quetzi.qutilities.commands;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.quetzi.qutilities.helpers.SystemInfo;
 
 import java.util.ArrayList;
@@ -38,20 +39,20 @@ public class CommandUptime extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender icommandsender, String[] astring) {
+    public void execute(MinecraftServer server, ICommandSender icommandsender, String[] astring) {
 
-        icommandsender.addChatMessage(new ChatComponentText(SystemInfo.getUptime()));
-        icommandsender.addChatMessage(new ChatComponentText("Memory usage: " + SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
+        icommandsender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
+        icommandsender.addChatMessage(new TextComponentString("Memory usage: " + SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring, BlockPos pos) {
+    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 
         return null;
     }
