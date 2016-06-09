@@ -20,55 +20,61 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandTPS extends CommandBase {
-
+public class CommandTPS extends CommandBase
+{
     private static final DecimalFormat timeFormatter = new DecimalFormat("########0.000");
-    List<String>                       aliases;
+    List<String> aliases;
 
-    public CommandTPS() {
-
+    public CommandTPS()
+    {
         aliases = new ArrayList<String>();
         aliases.add("qtps");
         aliases.add("tps");
     }
 
-    private static long mean(long[] values) {
-
+    private static long mean(long[] values)
+    {
         long sum = 0l;
-        for (long v : values) {
+        for (long v : values)
+        {
             sum += v;
         }
         return sum / values.length;
     }
 
     @Override
-    public String getCommandName() {
-
+    public String getCommandName()
+    {
         return "diminfo";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender icommandsender) {
-
+    public String getCommandUsage(ICommandSender icommandsender)
+    {
         return "/diminfo";
     }
 
     @Override
-    public List getCommandAliases() {
-
+    public List getCommandAliases()
+    {
         return aliases;
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-
-        if (args.length == 0) {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+    {
+        if (args.length == 0)
+        {
             showTPSSummary(server, sender);
-        } else {
+        }
+        else
+        {
             int dimension;
-            try {
+            try
+            {
                 dimension = NumberFormat.getInstance().parse(args[0]).intValue();
-            } catch (ParseException e1) {
+            } catch (ParseException e1)
+            {
                 sender.addChatMessage(new TextComponentString("Invalid dimension ID."));
                 return;
             }
@@ -77,38 +83,40 @@ public class CommandTPS extends CommandBase {
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    {
         return true;
     }
 
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-
+    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    {
         return null;
     }
 
     @Override
-    public boolean isUsernameIndex(String[] astring, int i) {
-
+    public boolean isUsernameIndex(String[] astring, int i)
+    {
         return false;
     }
 
-    private void showTPSSummary(MinecraftServer server, ICommandSender sender) {
-
+    private void showTPSSummary(MinecraftServer server, ICommandSender sender)
+    {
         int chunksLoaded = 0;
         sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
-        for (WorldServer world : server.worldServers) {
+        for (WorldServer world : server.worldServers)
+        {
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
             sender.addChatMessage(new TextComponentString("[" + world.provider.getDimension() + "]" + world.provider.getDimensionType().getName() + ": " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms [" + timeFormatter.format(SystemInfo.getDimensionTPS(world))
-                    + "]"));
+                                                          + "]"));
         }
         sender.addChatMessage(new TextComponentString("Total Chunks loaded: " + chunksLoaded));
         sender.addChatMessage(new TextComponentString("Overall: " + timeFormatter.format(mean(server.tickTimeArray) * 1.0E-6D) + "ms ["
-                + Math.min(1000.0 / (mean(server.tickTimeArray) * 1.0E-6D), 20) + "]"));
+                                                      + Math.min(1000.0 / (mean(server.tickTimeArray) * 1.0E-6D), 20) + "]"));
     }
 
-    private void showTPSDetail(MinecraftServer server, ICommandSender sender, int dimension) {
+    private void showTPSDetail(MinecraftServer server, ICommandSender sender, int dimension)
+    {
 
         WorldServer world = server.worldServerForDimension(dimension);
         sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
@@ -124,58 +132,70 @@ public class CommandTPS extends CommandBase {
         sender.addChatMessage(new TextComponentString("TPS: " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms[" + SystemInfo.getDimensionTPS(world) + "]"));
     }
 
-    private int getItemEntityCount(List list) {
-
+    private int getItemEntityCount(List list)
+    {
         int count = 0;
-        for (Entity entity : (ArrayList<Entity>) list) {
-            if (entity instanceof EntityItem) {
+        for (Entity entity : (ArrayList<Entity>) list)
+        {
+            if (entity instanceof EntityItem)
+            {
                 count++;
             }
         }
         return count;
     }
 
-    private int getPassiveEntityCount(List list) {
-
+    private int getPassiveEntityCount(List list)
+    {
         int count = 0;
-        for (Entity entity : (ArrayList<Entity>) list) {
-            if (entity instanceof EntityAnimal) {
+        for (Entity entity : (ArrayList<Entity>) list)
+        {
+            if (entity instanceof EntityAnimal)
+            {
                 count++;
             }
         }
         return count;
     }
 
-    private int getHostileEntityCount(List list) {
-
+    private int getHostileEntityCount(List list)
+    {
         int count = 0;
-        for (Entity entity : (ArrayList<Entity>) list) {
-            if (entity instanceof EntityMob) {
+        for (Entity entity : (ArrayList<Entity>) list)
+        {
+            if (entity instanceof EntityMob)
+            {
                 count++;
             }
         }
         return count;
     }
 
-    private int getLivingEntityCount(List list) {
-
+    private int getLivingEntityCount(List list)
+    {
         int count = 0;
-        for (Entity entity : (ArrayList<Entity>) list) {
-            if (entity instanceof EntityLiving) {
+        for (Entity entity : (ArrayList<Entity>) list)
+        {
+            if (entity instanceof EntityLiving)
+            {
                 count++;
             }
         }
         return count;
     }
 
-    private String getPlayersForDimension(MinecraftServer server, int dimension) {
-
+    private String getPlayersForDimension(MinecraftServer server, int dimension)
+    {
         ArrayList<EntityPlayer> players = (ArrayList<EntityPlayer>) server.worldServerForDimension(dimension).playerEntities;
-        if (players.size() == 0) {
+        if (players.size() == 0)
+        {
             return "No players in this world";
-        } else {
+        }
+        else
+        {
             String playersString = "";
-            for (EntityPlayer player : players) {
+            for (EntityPlayer player : players)
+            {
                 playersString = playersString + player.getName() + ", ";
             }
             return playersString.substring(0, playersString.lastIndexOf(playersString) - 2);

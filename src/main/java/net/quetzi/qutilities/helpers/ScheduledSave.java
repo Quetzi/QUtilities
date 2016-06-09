@@ -6,23 +6,28 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.quetzi.qutilities.QUtilities;
 
-public class ScheduledSave {
-
-    public static void saveWorldState() {
-
+public class ScheduledSave
+{
+    public static void saveWorldState()
+    {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance().getServer();
-        if (server != null) {
+        if (server != null)
+        {
             server.getPlayerList().saveAllPlayerData();
-            try {
+            try
+            {
                 int i;
                 WorldServer worldserver;
-                for (i = 0; i < server.worldServers.length; ++i) {
-                    if (server.worldServers[i] != null) {
+                for (i = 0; i < server.worldServers.length; ++i)
+                {
+                    if (server.worldServers[i] != null)
+                    {
                         worldserver = server.worldServers[i];
                         worldserver.saveAllChunks(true, null);
                     }
                 }
-            } catch (MinecraftException minecraftexception) {
+            } catch (MinecraftException minecraftexception)
+            {
                 QUtilities.log.info("Failed to save the world!");
                 return;
             }

@@ -11,67 +11,72 @@ import net.minecraft.world.WorldServer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandPlayerList extends CommandBase {
-
+public class CommandPlayerList extends CommandBase
+{
     private List<String> aliases;
 
-    public CommandPlayerList() {
-
+    public CommandPlayerList()
+    {
         aliases = new ArrayList<String>();
         aliases.add("dimlist");
         aliases.add("qlist");
     }
 
     @Override
-    public String getCommandName() {
-
+    public String getCommandName()
+    {
         return "list";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender icommandsender) {
-
+    public String getCommandUsage(ICommandSender icommandsender)
+    {
         return "/list";
     }
 
     @Override
-    public List getCommandAliases() {
-
+    public List getCommandAliases()
+    {
         return aliases;
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+    {
         String playerList = "";
-        for (WorldServer world : server.worldServers) {
-            for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
+        for (WorldServer world : server.worldServers)
+        {
+            for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities)
+            {
                 playerList = playerList + ("[" + player.dimension + "]" + player.getName() + " ");
             }
         }
-        if (server.getCurrentPlayerCount() > 0) {
+        if (server.getCurrentPlayerCount() > 0)
+        {
             sender.addChatMessage(new TextComponentString("Players online: [" + server.getCurrentPlayerCount() + "/" + server.getMaxPlayers() + "]"));
             sender.addChatMessage(new TextComponentString(playerList));
-        } else {
+        }
+        else
+        {
             sender.addChatMessage(new TextComponentString("No players currently online."));
         }
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    {
         return true;
     }
 
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos) {
-
+    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos)
+    {
         return null;
     }
 
     @Override
-    public boolean isUsernameIndex(String[] args, int i) {
-
+    public boolean isUsernameIndex(String[] args, int i)
+    {
         return false;
     }
 

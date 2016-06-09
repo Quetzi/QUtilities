@@ -6,25 +6,24 @@ import java.util.List;
 /**
  * Created by Quetzi on 06/11/14.
  */
-public class TeleportQueue {
-
-
+public class TeleportQueue
+{
     private List<TeleportEntry> queue = new ArrayList<TeleportEntry>();
 
-    public TeleportQueue() {
-
+    public TeleportQueue()
+    {
     }
-    public class TeleportEntry {
-
+    public class TeleportEntry
+    {
         private String player;
         private String type;
-        private int dim;
+        private int    dim;
         private double x;
         private double y;
         private double z;
 
-        public TeleportEntry(String player, int dim, double x, double y, double z) {
-
+        public TeleportEntry(String player, int dim, double x, double y, double z)
+        {
             this.player = player;
             this.type = "location";
             this.dim = dim;
@@ -33,48 +32,60 @@ public class TeleportQueue {
             this.z = z;
         }
 
-        public TeleportEntry(String player) {
-
+        public TeleportEntry(String player)
+        {
             this.player = player;
             this.type = "default";
         }
 
-        public String getPlayer() {
+        public String getPlayer()
+        {
             return player;
         }
 
-        public int getDim() {
+        public int getDim()
+        {
             return dim;
         }
 
-        public double getX() {
+        public double getX()
+        {
             return x;
         }
 
-        public double getY() {
+        public double getY()
+        {
             return y;
         }
 
-        public double getZ() {
+        public double getZ()
+        {
             return z;
         }
     }
 
-    public boolean addToQueue(String player) {
+    public boolean addToQueue(String player)
+    {
         return this.queue.add(new TeleportEntry(player));
     }
 
-    public boolean addToQueue(String player, int dim, double x, double y, double z) {
-
+    public boolean addToQueue(String player, int dim, double x, double y, double z)
+    {
         return this.queue.add(new TeleportEntry(player.toLowerCase(), dim, x, y, z));
     }
 
-    public boolean process(String player) {
-        for (TeleportEntry te : this.queue) {
-            if (te.getPlayer().equals(player.toLowerCase())) {
-                if (te.type.equals("default")) {
+    public boolean process(String player)
+    {
+        for (TeleportEntry te : this.queue)
+        {
+            if (te.getPlayer().equals(player.toLowerCase()))
+            {
+                if (te.type.equals("default"))
+                {
                     MovePlayer.sendToDefaultSpawn(te.getPlayer());
-                } else {
+                }
+                else
+                {
                     MovePlayer.sendToLocation(player, te.getDim(), te.getX(), te.getY(), te.getZ());
                 }
                 remove(player);
@@ -84,29 +95,34 @@ public class TeleportQueue {
         return false;
     }
 
-    public void remove(String player) {
-
-        for (TeleportEntry te : this.queue) {
-            if (te.getPlayer().equals(player.toLowerCase())) {
+    public void remove(String player)
+    {
+        for (TeleportEntry te : this.queue)
+        {
+            if (te.getPlayer().equals(player.toLowerCase()))
+            {
                 this.queue.remove(te);
             }
         }
     }
 
-    public boolean isQueued(String player) {
-
-        for (TeleportEntry te : this.queue) {
-            if (te.getPlayer().equals(player.toLowerCase())) {
+    public boolean isQueued(String player)
+    {
+        for (TeleportEntry te : this.queue)
+        {
+            if (te.getPlayer().equals(player.toLowerCase()))
+            {
                 return true;
             }
         }
         return false;
     }
 
-    public List<String> getQueue() {
-
+    public List<String> getQueue()
+    {
         List<String> queuedPlayers = new ArrayList<String>();
-        for (TeleportEntry te : this.queue) {
+        for (TeleportEntry te : this.queue)
+        {
             queuedPlayers.add(te.getPlayer());
         }
         return queuedPlayers;
