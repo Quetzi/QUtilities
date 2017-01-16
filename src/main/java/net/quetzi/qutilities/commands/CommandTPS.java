@@ -2,6 +2,7 @@ package net.quetzi.qutilities.commands;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.NumberInvalidException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
@@ -14,6 +15,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import net.quetzi.qutilities.helpers.SystemInfo;
 
+import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -23,11 +25,11 @@ import java.util.List;
 public class CommandTPS extends CommandBase
 {
     private static final DecimalFormat timeFormatter = new DecimalFormat("########0.000");
-    List<String> aliases;
+    private List<String> aliases;
 
     public CommandTPS()
     {
-        aliases = new ArrayList<String>();
+        aliases = new ArrayList<>();
         aliases.add("qtps");
         aliases.add("tps");
     }
@@ -42,26 +44,29 @@ public class CommandTPS extends CommandBase
         return sum / values.length;
     }
 
+    @Nonnull
     @Override
     public String getCommandName()
     {
         return "diminfo";
     }
 
+    @Nonnull
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
+    public String getCommandUsage(@Nonnull ICommandSender sender)
     {
         return "/diminfo";
     }
 
+    @Nonnull
     @Override
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         return aliases;
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args)
     {
         if (args.length == 0)
         {
@@ -72,8 +77,8 @@ public class CommandTPS extends CommandBase
             int dimension;
             try
             {
-                dimension = NumberFormat.getInstance().parse(args[0]).intValue();
-            } catch (ParseException e1)
+                dimension = parseInt(args[0]);
+            } catch (NumberInvalidException e1)
             {
                 sender.addChatMessage(new TextComponentString("Invalid dimension ID."));
                 return;
@@ -83,15 +88,16 @@ public class CommandTPS extends CommandBase
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
 
+    @Nonnull
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -135,7 +141,7 @@ public class CommandTPS extends CommandBase
     private int getItemEntityCount(List list)
     {
         int count = 0;
-        for (Entity entity : (ArrayList<Entity>) list)
+        for (Object entity : list)
         {
             if (entity instanceof EntityItem)
             {
@@ -148,7 +154,7 @@ public class CommandTPS extends CommandBase
     private int getPassiveEntityCount(List list)
     {
         int count = 0;
-        for (Entity entity : (ArrayList<Entity>) list)
+        for (Object entity : list)
         {
             if (entity instanceof EntityAnimal)
             {
@@ -161,7 +167,7 @@ public class CommandTPS extends CommandBase
     private int getHostileEntityCount(List list)
     {
         int count = 0;
-        for (Entity entity : (ArrayList<Entity>) list)
+        for (Object entity : list)
         {
             if (entity instanceof EntityMob)
             {
@@ -174,7 +180,7 @@ public class CommandTPS extends CommandBase
     private int getLivingEntityCount(List list)
     {
         int count = 0;
-        for (Entity entity : (ArrayList<Entity>) list)
+        for (Object entity : list)
         {
             if (entity instanceof EntityLiving)
             {

@@ -7,65 +7,58 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.quetzi.qutilities.helpers.SystemInfo;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandUptime extends CommandBase
 {
-    List<String> aliases;
+    private List<String> aliases;
 
     public CommandUptime()
     {
-        aliases = new ArrayList<String>();
+        aliases = new ArrayList<>();
         aliases.add("qutil uptime");
     }
 
+    @Nonnull
     @Override
     public String getCommandName()
     {
         return "uptime";
     }
 
+    @Nonnull
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
+    public String getCommandUsage(@Nonnull ICommandSender sender)
     {
         return "/uptime";
     }
 
+    @Nonnull
     @Override
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         return aliases;
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender icommandsender, String[] astring)
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args)
     {
-        icommandsender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
-        icommandsender.addChatMessage(new TextComponentString("Memory usage: " + SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
+        sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
+        sender.addChatMessage(new TextComponentString("Memory usage: " + SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
 
+    @Nonnull
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] astring, int i)
-    {
-        return false;
-    }
-
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 4;
+        return new ArrayList<>();
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,36 +18,39 @@ public class CommandPlayerList extends CommandBase
 
     public CommandPlayerList()
     {
-        aliases = new ArrayList<String>();
+        aliases = new ArrayList<>();
         aliases.add("dimlist");
         aliases.add("qlist");
     }
 
+    @Nonnull
     @Override
     public String getCommandName()
     {
         return "list";
     }
 
+    @Nonnull
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
+    public String getCommandUsage(@Nonnull ICommandSender sender)
     {
         return "/list";
     }
 
+    @Nonnull
     @Override
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         return aliases;
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args)
     {
         String playerList = "";
         for (WorldServer world : server.worldServers)
         {
-            for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities)
+            for (EntityPlayer player : world.playerEntities)
             {
                 playerList = playerList + ("[" + player.dimension + "]" + player.getName() + " ");
             }
@@ -63,15 +67,16 @@ public class CommandPlayerList extends CommandBase
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
 
+    @Nonnull
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

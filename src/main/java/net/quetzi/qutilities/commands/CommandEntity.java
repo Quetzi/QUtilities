@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.quetzi.qutilities.QUtilities;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class CommandEntity extends CommandBase
 {
-    List<String> aliases;
+    private List<String> aliases;
 
     public CommandEntity()
     {
@@ -28,26 +29,29 @@ public class CommandEntity extends CommandBase
         aliases.add("qutil entity");
     }
 
+    @Nonnull
     @Override
     public String getCommandName()
     {
         return "qent";
     }
 
+    @Nonnull
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
+    public String getCommandUsage(@Nonnull ICommandSender sender)
     {
         return "/qent list|killall <entityname>";
     }
 
+    @Nonnull
     @Override
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         return aliases;
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args)
     {
         if (!(args.length == 0))
         {
@@ -73,15 +77,16 @@ public class CommandEntity extends CommandBase
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
 
+    @Nonnull
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -107,11 +112,10 @@ public class CommandEntity extends CommandBase
             World world = DimensionManager.getWorld(dim);
             if (world == null) continue;
 
-            ArrayList copyList = new ArrayList(world.loadedEntityList);
+            List<Entity> copyList = world.loadedEntityList;
 
-            for (Object o : copyList)
+            for (Entity ent : copyList)
             {
-                Entity ent = (Entity) o;
                 String name = ent.getClass().getName();
                 //String name = getEntityName(ent, filtered);
 
@@ -130,7 +134,7 @@ public class CommandEntity extends CommandBase
         return cumData;
     }
 
-    public int killAll(String entName)
+    private int killAll(String entName)
     {
         int nkilled = 0;
 
@@ -143,11 +147,10 @@ public class CommandEntity extends CommandBase
             World world = DimensionManager.getWorld(dim);
             if (world == null) continue;
 
-            ArrayList copyList = new ArrayList(world.loadedEntityList);
+            List<Entity> copyList = world.loadedEntityList;
 
-            for (Object o : copyList)
+            for (Entity ent : copyList)
             {
-                Entity ent = (Entity) o;
                 String name = ent.getName().toLowerCase();
 
                 if (name.equals(entName.toLowerCase()))
@@ -162,19 +165,19 @@ public class CommandEntity extends CommandBase
         return nkilled;
     }
 
-    public class AmountHolder implements Comparable
+    private class AmountHolder implements Comparable
     {
-        public String  key   = null;
-        public Integer value = 0;
+        String  key   = null;
+        Integer value = 0;
 
-        public AmountHolder(String key, int value)
+        AmountHolder(String key, int value)
         {
             this.key = key;
             this.value = value;
         }
 
         @Override
-        public int compareTo(Object o)
+        public int compareTo(@Nonnull Object o)
         {
 
             AmountHolder ah = (AmountHolder) o;
