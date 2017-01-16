@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.quetzi.qutilities.QUtilities;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,34 +21,38 @@ import java.util.List;
  */
 public class CommandEntity extends CommandBase
 {
-    List<String> aliases;
+    private List<String> aliases;
 
     public CommandEntity()
     {
-        aliases = new ArrayList<String>();
+        aliases = new ArrayList<>();
         aliases.add("qutil entity");
     }
 
+    @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "qent";
     }
 
+    @Nonnull
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/qent list|killall <entityname>";
     }
 
+    @Nonnull
     @Override
-    public List getCommandAliases()
+    public List<String> getAliases()
     {
         return aliases;
     }
 
+    @Nonnull
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args)
     {
         if (!(args.length == 0))
         {
@@ -57,49 +62,38 @@ public class CommandEntity extends CommandBase
                 for (Object o : entities)
                 {
                     AmountHolder ah = (AmountHolder) o;
-                    sender.addChatMessage(new TextComponentString(ah.key + ": " + ah.value));
+                    sender.sendMessage(new TextComponentString(ah.key + ": " + ah.value));
                 }
             }
             else if (args[1].equals("killall") && args.length == 2)
             {
                 int killed = killAll(args[2]);
-                sender.addChatMessage(new TextComponentString("Killed " + killed + " " + args[2]));
+                sender.sendMessage(new TextComponentString("Killed " + killed + " " + args[2]));
             }
         }
         else
         {
-            sender.addChatMessage(new TextComponentString(getCommandUsage(sender)));
+            sender.sendMessage(new TextComponentString(getUsage(sender)));
         }
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
 
+    @Nonnull
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int i)
-    {
-        return false;
-    }
-
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 4;
+        return new ArrayList<>();
     }
 
     /* Returns an arraylist with the entity name and amount of it on the server */
-    public ArrayList<AmountHolder> getCumulativeEntities()
+    private ArrayList<AmountHolder> getCumulativeEntities()
     {
-        ArrayList<AmountHolder> cumData = new ArrayList<AmountHolder>();
+        ArrayList<AmountHolder> cumulativeData = new ArrayList<AmountHolder>();
         HashMap<String, Integer> entities = new HashMap<String, Integer>();
 
         for (int dim : DimensionManager.getIDs())
@@ -107,11 +101,10 @@ public class CommandEntity extends CommandBase
             World world = DimensionManager.getWorld(dim);
             if (world == null) continue;
 
-            ArrayList copyList = new ArrayList(world.loadedEntityList);
+            List<Entity> copyList = world.loadedEntityList;
 
-            for (Object o : copyList)
+            for (Entity ent : copyList)
             {
-                Entity ent = (Entity) o;
                 String name = ent.getClass().getName();
                 //String name = getEntityName(ent, filtered);
 
@@ -124,13 +117,13 @@ public class CommandEntity extends CommandBase
             }
         }
         for (String key : entities.keySet())
-            cumData.add(new AmountHolder(key, entities.get(key)));
+            cumulativeData.add(new AmountHolder(key, entities.get(key)));
 
-        Collections.sort(cumData);
-        return cumData;
+        Collections.sort(cumulativeData);
+        return cumulativeData;
     }
 
-    public int killAll(String entName)
+    private int killAll(String entName)
     {
         int nkilled = 0;
 
@@ -143,11 +136,10 @@ public class CommandEntity extends CommandBase
             World world = DimensionManager.getWorld(dim);
             if (world == null) continue;
 
-            ArrayList copyList = new ArrayList(world.loadedEntityList);
+            List<Entity> copyList = world.loadedEntityList;
 
-            for (Object o : copyList)
+            for (Entity ent : copyList)
             {
-                Entity ent = (Entity) o;
                 String name = ent.getName().toLowerCase();
 
                 if (name.equals(entName.toLowerCase()))
@@ -162,21 +154,20 @@ public class CommandEntity extends CommandBase
         return nkilled;
     }
 
-    public class AmountHolder implements Comparable
+    private class AmountHolder implements Comparable
     {
-        public String  key   = null;
-        public Integer value = 0;
+        String  key   = null;
+        Integer value = 0;
 
-        public AmountHolder(String key, int value)
+        AmountHolder(String key, int value)
         {
             this.key = key;
             this.value = value;
         }
 
         @Override
-        public int compareTo(Object o)
+        public int compareTo(@Nonnull Object o)
         {
-
             AmountHolder ah = (AmountHolder) o;
             return Integer.compare(this.value, ah.value);
         }

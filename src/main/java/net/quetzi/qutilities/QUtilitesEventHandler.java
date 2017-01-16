@@ -39,7 +39,7 @@ public class QUtilitesEventHandler
         }
         if (QUtilities.enableMotd)
         {
-            event.player.addChatComponentMessage(new TextComponentString(QUtilities.motd), true);
+            event.player.sendStatusMessage(new TextComponentString(QUtilities.motd), true);
         }
     }
 }

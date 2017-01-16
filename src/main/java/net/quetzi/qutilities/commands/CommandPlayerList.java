@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,61 +18,65 @@ public class CommandPlayerList extends CommandBase
 
     public CommandPlayerList()
     {
-        aliases = new ArrayList<String>();
+        aliases = new ArrayList<>();
         aliases.add("dimlist");
         aliases.add("qlist");
     }
 
+    @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "list";
     }
 
+    @Nonnull
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/list";
     }
 
+    @Nonnull
     @Override
-    public List getCommandAliases()
+    public List<String> getAliases()
     {
         return aliases;
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args)
     {
         String playerList = "";
-        for (WorldServer world : server.worldServers)
+        for (WorldServer world : server.worlds)
         {
-            for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities)
+            for (EntityPlayer player : world.playerEntities)
             {
                 playerList = playerList + ("[" + player.dimension + "]" + player.getName() + " ");
             }
         }
         if (server.getCurrentPlayerCount() > 0)
         {
-            sender.addChatMessage(new TextComponentString("Players online: [" + server.getCurrentPlayerCount() + "/" + server.getMaxPlayers() + "]"));
-            sender.addChatMessage(new TextComponentString(playerList));
+            sender.sendMessage(new TextComponentString("Players online: [" + server.getCurrentPlayerCount() + "/" + server.getMaxPlayers() + "]"));
+            sender.sendMessage(new TextComponentString(playerList));
         }
         else
         {
-            sender.addChatMessage(new TextComponentString("No players currently online."));
+            sender.sendMessage(new TextComponentString("No players currently online."));
         }
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
 
+    @Nonnull
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

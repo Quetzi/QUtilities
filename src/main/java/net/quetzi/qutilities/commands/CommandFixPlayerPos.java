@@ -1,40 +1,46 @@
 package net.quetzi.qutilities.commands;
 
+import ibxm.Player;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.quetzi.qutilities.helpers.MovePlayer;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandFixPlayerPos extends CommandBase
 {
-    List<String> aliases;
+    private List<String> aliases;
 
     public CommandFixPlayerPos()
     {
-        aliases = new ArrayList<String>();
+        aliases = new ArrayList<>();
         aliases.add("qutil playerpos");
     }
 
+    @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "fixplayerpos";
     }
 
+    @Nonnull
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/fixplayerpos";
     }
 
+    @Nonnull
     @Override
-    public List getCommandAliases()
+    public List<String> getAliases()
     {
         aliases.add("qtp");
         aliases.add("tpq");
@@ -42,76 +48,78 @@ public class CommandFixPlayerPos extends CommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] astring) throws NumberInvalidException
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws NumberInvalidException
     {
-        if (!(astring.length == 0))
+        if (!(args.length == 0))
         {
-            if (astring.length == 1)
+            if (args.length == 1)
             {
-                if (MovePlayer.sendToDefaultSpawn(astring[0]))
+                if (MovePlayer.sendToDefaultSpawn(args[0]))
                 {
-                    sender.addChatMessage(new TextComponentString("Moving " + astring[0] + " to their default spawn"));
+                    sender.sendMessage(new TextComponentString("Moving " + args[0] + " to their default spawn"));
                 }
                 else
                 {
-                    sender.addChatMessage((new TextComponentString(astring[0] + " is not online, added to queue")));
+                    sender.sendMessage((new TextComponentString(args[0] + " is not online, added to queue")));
                 }
             }
-            if (astring.length == 2)
+            if (args.length == 2)
             {
-                int dim = parseInt(astring[1]);
-                if (MovePlayer.sendToDimension(astring[0], dim))
+                int dim = parseInt(args[1]);
+                if (MovePlayer.sendToDimension(args[0], dim))
                 {
-                    sender.addChatMessage((new TextComponentString("Moving " + astring[0] + " to dimension " + dim)));
+                    sender.sendMessage((new TextComponentString("Moving " + args[0] + " to dimension " + dim)));
                 }
                 else
                 {
-                    sender.addChatMessage((new TextComponentString(astring[0] + " is not online, added to queue")));
+                    sender.sendMessage((new TextComponentString(args[0] + " is not online, added to queue")));
                 }
             }
-            if (astring.length == 5)
+            if (args.length == 5)
             {
-                int dim = parseInt(astring[1]);
-                int x = parseInt(astring[2]);
-                int y = parseInt(astring[3]);
-                int z = parseInt(astring[4]);
-                if (MovePlayer.sendToLocation(astring[0], dim, x, y, z))
+                int dim = parseInt(args[1]);
+                int x = parseInt(args[2]);
+                int y = parseInt(args[3]);
+                int z = parseInt(args[4]);
+                if (MovePlayer.sendToLocation(args[0], dim, x, y, z))
                 {
-                    sender.addChatMessage((new TextComponentString("Moving " + astring[0] + " to dimension " + dim + " " + x + ", " + y + ", " + z)));
+                    sender.sendMessage((new TextComponentString("Moving " + args[0] + " to dimension " + dim + " " + x + ", " + y + ", " + z)));
                 }
                 else
                 {
-                    sender.addChatMessage((new TextComponentString(astring[0] + " is not online, added to queue")));
+                    sender.sendMessage((new TextComponentString(args[0] + " is not online, added to queue")));
                 }
             }
         }
         else
         {
-            getCommandUsage(sender);
+            getUsage(sender);
         }
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender)
     {
         return true;
     }
 
+    @Nonnull
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] astring, int i)
-    {
-        return false;
-    }
-
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 4;
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(server.getPlayerList().getOnlinePlayerNames());
+        }
+        if (args.length == 2)
+        {
+            List<String> dimList = new ArrayList<>();
+            for (World world : server.worlds)
+            {
+                dimList.add(String.valueOf(world.provider.getDimension()));
+            }
+            return dimList;
+        }
+        return new ArrayList<>();
     }
 }

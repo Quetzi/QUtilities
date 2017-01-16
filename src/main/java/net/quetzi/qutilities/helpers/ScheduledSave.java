@@ -18,11 +18,11 @@ public class ScheduledSave
             {
                 int i;
                 WorldServer worldserver;
-                for (i = 0; i < server.worldServers.length; ++i)
+                for (i = 0; i < server.worlds.length; ++i)
                 {
-                    if (server.worldServers[i] != null)
+                    if (server.worlds[i] != null)
                     {
-                        worldserver = server.worldServers[i];
+                        worldserver = server.worlds[i];
                         worldserver.saveAllChunks(true, null);
                     }
                 }
