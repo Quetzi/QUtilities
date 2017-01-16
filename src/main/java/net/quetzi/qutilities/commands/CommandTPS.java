@@ -3,7 +3,6 @@ package net.quetzi.qutilities.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
@@ -17,8 +16,6 @@ import net.quetzi.qutilities.helpers.SystemInfo;
 
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +75,8 @@ public class CommandTPS extends CommandBase
             try
             {
                 dimension = parseInt(args[0]);
-            } catch (NumberInvalidException e1)
+            }
+            catch (NumberInvalidException e1)
             {
                 sender.addChatMessage(new TextComponentString("Invalid dimension ID."));
                 return;
@@ -100,12 +98,6 @@ public class CommandTPS extends CommandBase
         return new ArrayList<>();
     }
 
-    @Override
-    public boolean isUsernameIndex(String[] astring, int i)
-    {
-        return false;
-    }
-
     private void showTPSSummary(MinecraftServer server, ICommandSender sender)
     {
         int chunksLoaded = 0;
@@ -114,11 +106,11 @@ public class CommandTPS extends CommandBase
         {
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
             sender.addChatMessage(new TextComponentString("[" + world.provider.getDimension() + "]" + world.provider.getDimensionType().getName() + ": " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms [" + timeFormatter.format(SystemInfo.getDimensionTPS(world))
-                                                          + "]"));
+                    + "]"));
         }
         sender.addChatMessage(new TextComponentString("Total Chunks loaded: " + chunksLoaded));
         sender.addChatMessage(new TextComponentString("Overall: " + timeFormatter.format(mean(server.tickTimeArray) * 1.0E-6D) + "ms ["
-                                                      + Math.min(1000.0 / (mean(server.tickTimeArray) * 1.0E-6D), 20) + "]"));
+                + Math.min(1000.0 / (mean(server.tickTimeArray) * 1.0E-6D), 20) + "]"));
     }
 
     private void showTPSDetail(MinecraftServer server, ICommandSender sender, int dimension)

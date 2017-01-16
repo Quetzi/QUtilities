@@ -120,7 +120,7 @@ public class TeleportQueue
 
     public List<String> getQueue()
     {
-        List<String> queuedPlayers = new ArrayList<String>();
+        List<String> queuedPlayers = new ArrayList<>();
         for (TeleportEntry te : this.queue)
         {
             queuedPlayers.add(te.getPlayer());
