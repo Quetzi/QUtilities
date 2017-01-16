@@ -38,7 +38,7 @@ allprojects {
 }
 
 minecraft {
-    version = "${project.ext.mcVersion}-13.19.0.2189"
+    version = "${project.ext.mcVersion}-13.19.1.2189"
     runDir = "run"
     mappings = "snapshot_20161216"
 
