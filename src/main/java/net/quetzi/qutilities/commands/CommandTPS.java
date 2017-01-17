@@ -10,7 +10,10 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.quetzi.qutilities.helpers.SystemInfo;
 
@@ -81,8 +84,48 @@ public class CommandTPS extends CommandBase
                 sender.addChatMessage(new TextComponentString("Invalid dimension ID."));
                 return;
             }
-            showTPSDetail(server, sender, dimension);
+            if (args.length == 1)
+            {
+                showTPSDetail(server, sender, dimension);
+            }
+            else if (args.length == 3 && args[1].equalsIgnoreCase("kill"))
+            {
+                if (!isPlayerOpped(sender))
+                {
+                    sender.addChatMessage(new TextComponentString("You need to be opped to perform this command").setStyle(new Style().setColor(TextFormatting.RED)));
+                    return;
+                }
+                if (args[2].equalsIgnoreCase("items"))
+                {
+                    sender.addChatMessage(new TextComponentString(String.format("Removed %s items", setItemsDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                }
+                else if (args[2].equalsIgnoreCase("hostile"))
+                {
+                    sender.addChatMessage(new TextComponentString(String.format("Removed %s items", setHostilesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                }
+                else if (args[2].equalsIgnoreCase("passive"))
+                {
+                    sender.addChatMessage(new TextComponentString(String.format("Removed %s items", setPassivesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                }
+            }
         }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private boolean isPlayerOpped(ICommandSender sender)
+    {
+        if (sender instanceof EntityPlayer)
+        {
+            for (String player : sender.getServer().getPlayerList().getOppedPlayerNames())
+            {
+                if (player.equalsIgnoreCase(sender.getName()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true; // If it isn't a player, then it's the console
     }
 
     @Override
@@ -95,6 +138,23 @@ public class CommandTPS extends CommandBase
     @Override
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
+        if (args.length == 0)
+        {
+            List<String> dimensions = new ArrayList<>();
+            for (World world : server.worldServers)
+            {
+                dimensions.add(String.format("%s", world.provider.getDimension()));
+            }
+            return dimensions;
+        }
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, "kill");
+        }
+        if (args.length == 2)
+        {
+            return getListOfStringsMatchingLastWord(args, "items", "hostile", "passive");
+        }
         return new ArrayList<>();
     }
 
@@ -115,7 +175,6 @@ public class CommandTPS extends CommandBase
 
     private void showTPSDetail(MinecraftServer server, ICommandSender sender, int dimension)
     {
-
         WorldServer world = server.worldServerForDimension(dimension);
         sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
         sender.addChatMessage(new TextComponentString("Information for [" + dimension + "]" + world.provider.getDimensionType().getName()));
@@ -127,7 +186,7 @@ public class CommandTPS extends CommandBase
         sender.addChatMessage(new TextComponentString("Total Entities: " + world.loadedEntityList.size()));
         sender.addChatMessage(new TextComponentString("Tile Entities: " + world.loadedTileEntityList.size()));
         sender.addChatMessage(new TextComponentString("Loaded Chunks: " + world.getChunkProvider().getLoadedChunkCount()));
-        sender.addChatMessage(new TextComponentString("TPS: " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms[" + SystemInfo.getDimensionTPS(world) + "]"));
+        sender.addChatMessage(new TextComponentString("TPS: " + SystemInfo.getDimensionTPS(world) + "[" + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms]"));
     }
 
     private int getItemEntityCount(List list)
@@ -137,6 +196,20 @@ public class CommandTPS extends CommandBase
         {
             if (entity instanceof EntityItem)
             {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int setItemsDead(List list)
+    {
+        int count = 0;
+        for (Object entity : list)
+        {
+            if (entity instanceof EntityItem)
+            {
+                ((EntityItem) entity).setDead();
                 count++;
             }
         }
@@ -156,6 +229,20 @@ public class CommandTPS extends CommandBase
         return count;
     }
 
+    private int setPassivesDead(List list)
+    {
+        int count = 0;
+        for (Object entity : list)
+        {
+            if (entity instanceof EntityAnimal)
+            {
+                ((EntityAnimal) entity).setDead();
+                count++;
+            }
+        }
+        return count;
+    }
+
     private int getHostileEntityCount(List list)
     {
         int count = 0;
@@ -163,6 +250,20 @@ public class CommandTPS extends CommandBase
         {
             if (entity instanceof EntityMob)
             {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int setHostilesDead(List list)
+    {
+        int count = 0;
+        for (Object entity : list)
+        {
+            if (entity instanceof EntityMob)
+            {
+                ((EntityMob) entity).setDead();
                 count++;
             }
         }

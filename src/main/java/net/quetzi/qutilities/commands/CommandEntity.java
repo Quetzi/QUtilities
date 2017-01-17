@@ -25,7 +25,7 @@ public class CommandEntity extends CommandBase
 
     public CommandEntity()
     {
-        aliases = new ArrayList<String>();
+        aliases = new ArrayList<>();
         aliases.add("qutil entity");
     }
 
@@ -87,18 +87,6 @@ public class CommandEntity extends CommandBase
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         return new ArrayList<>();
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int i)
-    {
-        return false;
-    }
-
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 4;
     }
 
     /* Returns an arraylist with the entity name and amount of it on the server */
@@ -179,7 +167,6 @@ public class CommandEntity extends CommandBase
         @Override
         public int compareTo(@Nonnull Object o)
         {
-
             AmountHolder ah = (AmountHolder) o;
             return Integer.compare(this.value, ah.value);
         }

@@ -103,7 +103,7 @@ public class CommandFixPlayerPos extends CommandBase
 
     @Nonnull
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] astring, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         return new ArrayList<>();
     }
