@@ -184,19 +184,20 @@ public class CommandTPS extends CommandBase
 
     private String getPlayersForDimension(MinecraftServer server, int dimension)
     {
-        ArrayList<EntityPlayer> players = (ArrayList<EntityPlayer>) server.worldServerForDimension(dimension).playerEntities;
+        List<EntityPlayer> players = server.worldServerForDimension(dimension).playerEntities;
         if (players.size() == 0)
         {
-            return "No players in this world";
+            return "No players in this dimension.";
         }
         else
         {
-            String playersString = "";
+            StringBuilder playersString = new StringBuilder();
             for (EntityPlayer player : players)
             {
-                playersString = playersString + player.getName() + ", ";
+                playersString.append(player.getDisplayNameString());
+                playersString.append(", ");
             }
-            return playersString.substring(0, playersString.lastIndexOf(playersString) - 2);
+            return playersString.substring(0, playersString.length() - 2);
         }
     }
 }
