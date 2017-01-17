@@ -101,11 +101,11 @@ public class CommandTPS extends CommandBase
                 }
                 else if (args[2].equalsIgnoreCase("hostile"))
                 {
-                    sender.addChatMessage(new TextComponentString(String.format("Removed %s items", setHostilesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                    sender.addChatMessage(new TextComponentString(String.format("Removed %s hostile mobs", setHostilesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
                 }
                 else if (args[2].equalsIgnoreCase("passive"))
                 {
-                    sender.addChatMessage(new TextComponentString(String.format("Removed %s items", setPassivesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                    sender.addChatMessage(new TextComponentString(String.format("Removed %s passive mobs", setPassivesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
                 }
             }
         }
