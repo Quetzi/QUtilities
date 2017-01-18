@@ -26,7 +26,6 @@ public class CommandEntity extends CommandBase
     public CommandEntity()
     {
         aliases = new ArrayList<>();
-        aliases.add("qutil entity");
     }
 
     @Nonnull
@@ -55,7 +54,7 @@ public class CommandEntity extends CommandBase
     {
         if (!(args.length == 0))
         {
-            if (args[1].equals("list"))
+            if (args[0].equals("list"))
             {
                 ArrayList entities = getCumulativeEntities();
                 for (Object o : entities)
@@ -64,10 +63,10 @@ public class CommandEntity extends CommandBase
                     sender.addChatMessage(new TextComponentString(ah.key + ": " + ah.value));
                 }
             }
-            else if (args[1].equals("killall") && args.length == 2)
+            else if (args[0].equals("killall") && args.length == 2)
             {
-                int killed = killAll(args[2]);
-                sender.addChatMessage(new TextComponentString("Killed " + killed + " " + args[2]));
+                int killed = killAll(args[1]);
+                sender.addChatMessage(new TextComponentString("Killed " + killed + " " + args[1]));
             }
         }
         else
@@ -92,8 +91,8 @@ public class CommandEntity extends CommandBase
     /* Returns an arraylist with the entity name and amount of it on the server */
     public ArrayList<AmountHolder> getCumulativeEntities()
     {
-        ArrayList<AmountHolder> cumData = new ArrayList<AmountHolder>();
-        HashMap<String, Integer> entities = new HashMap<String, Integer>();
+        ArrayList<AmountHolder> cumData = new ArrayList<>();
+        HashMap<String, Integer> entities = new HashMap<>();
 
         for (int dim : DimensionManager.getIDs())
         {
