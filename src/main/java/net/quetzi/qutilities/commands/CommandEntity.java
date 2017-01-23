@@ -89,7 +89,7 @@ public class CommandEntity extends CommandBase
     }
 
     /* Returns an arraylist with the entity name and amount of it on the server */
-    public ArrayList<AmountHolder> getCumulativeEntities()
+    private ArrayList<AmountHolder> getCumulativeEntities()
     {
         ArrayList<AmountHolder> cumData = new ArrayList<>();
         HashMap<String, Integer> entities = new HashMap<>();
@@ -103,7 +103,7 @@ public class CommandEntity extends CommandBase
 
             for (Entity ent : copyList)
             {
-                String name = ent.getClass().getName();
+                String name = ent.getDisplayName().getUnformattedText();
                 //String name = getEntityName(ent, filtered);
 
                 if (!entities.containsKey(name))
@@ -138,17 +138,15 @@ public class CommandEntity extends CommandBase
 
             for (Entity ent : copyList)
             {
-                String name = ent.getName().toLowerCase();
+                String name = ent.getDisplayName().getUnformattedText().toLowerCase();
 
-                if (name.equals(entName.toLowerCase()))
+                if (name.contains(entName.toLowerCase()))
                 {
                     ent.setDead();
                     nkilled += 1;
                 }
             }
         }
-        QUtilities.log.info("Killed %d %s\n", nkilled, entName);
-
         return nkilled;
     }
 

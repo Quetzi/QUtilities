@@ -18,8 +18,7 @@ public class CommandFixPlayerPos extends CommandBase
 
     public CommandFixPlayerPos()
     {
-        aliases = new ArrayList<String>();
-        aliases.add("qutil playerpos");
+        aliases = new ArrayList<>();
     }
 
     @Nonnull
