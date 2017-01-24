@@ -12,6 +12,7 @@ import net.quetzi.qutilities.QUtilities;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +67,7 @@ public class CommandEntity extends CommandBase
             }
             else if (args[0].equals("killall") && args.length == 2)
             {
-                int killed = killAll(args[1]);
+                int killed = killAll(Arrays.toString(args).substring(8));
                 sender.addChatMessage(new TextComponentString("Killed " + killed + " " + args[1]));
             }
         }
