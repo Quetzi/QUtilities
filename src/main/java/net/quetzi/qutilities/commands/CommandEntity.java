@@ -67,7 +67,14 @@ public class CommandEntity extends CommandBase
             }
             else if (args[0].equals("killall") && args.length == 2)
             {
-                int killed = killAll(Arrays.toString(args).substring(8));
+                StringBuilder sb = new StringBuilder();
+                for (int i = 1; i < args.length; i++)
+                {
+                    sb.append(args[i]);
+                    if (!(i == args.length - 1))
+                        sb.append(" ");
+                }
+                int killed = killAll(sb.toString());
                 sender.addChatMessage(new TextComponentString("Killed " + killed + " " + args[1]));
             }
         }
