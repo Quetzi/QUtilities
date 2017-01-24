@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Quetzi on 14/01/16.
@@ -114,8 +115,7 @@ public class CommandEntity extends CommandBase
                 entities.put(name, entities.get(name) + 1);
             }
         }
-        for (String key : entities.keySet())
-            cumData.add(new AmountHolder(key, entities.get(key)));
+        cumData.addAll(entities.keySet().stream().map(key -> new AmountHolder(key, entities.get(key))).collect(Collectors.toList()));
 
         Collections.sort(cumData);
         return cumData;
