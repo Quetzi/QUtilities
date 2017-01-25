@@ -1,6 +1,7 @@
 package net.quetzi.qutilities;
 
 import net.minecraft.scoreboard.ScoreCriteria;
+import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -88,9 +89,9 @@ public class QUtilities
     {
         if (enableDeathCounter)
         {
-            Scoreboard score = new Scoreboard();
-            score.addScoreObjective("deaths", ScoreCriteria.DEATH_COUNT);
-            score.setObjectiveInDisplaySlot(0, score.getObjective("deaths"));
+            Scoreboard     score     = new Scoreboard();
+            ScoreObjective objective = score.addScoreObjective("deaths", ScoreCriteria.DEATH_COUNT);
+            score.setObjectiveInDisplaySlot(0, objective);
         }
     }
 }
