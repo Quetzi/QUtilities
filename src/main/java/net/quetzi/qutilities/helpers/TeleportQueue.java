@@ -8,12 +8,12 @@ import java.util.List;
  */
 public class TeleportQueue
 {
-    private List<TeleportEntry> queue = new ArrayList<TeleportEntry>();
+    private List<TeleportEntry> queue = new ArrayList<>();
 
     public TeleportQueue()
     {
     }
-    public class TeleportEntry
+    private class TeleportEntry
     {
         private String player;
         private String type;
@@ -22,7 +22,7 @@ public class TeleportQueue
         private double y;
         private double z;
 
-        public TeleportEntry(String player, int dim, double x, double y, double z)
+        TeleportEntry(String player, int dim, double x, double y, double z)
         {
             this.player = player;
             this.type = "location";
@@ -32,44 +32,44 @@ public class TeleportQueue
             this.z = z;
         }
 
-        public TeleportEntry(String player)
+        TeleportEntry(String player)
         {
             this.player = player;
             this.type = "default";
         }
 
-        public String getPlayer()
+        String getPlayer()
         {
             return player;
         }
 
-        public int getDim()
+        int getDim()
         {
             return dim;
         }
 
-        public double getX()
+        double getX()
         {
             return x;
         }
 
-        public double getY()
+        double getY()
         {
             return y;
         }
 
-        public double getZ()
+        double getZ()
         {
             return z;
         }
     }
 
-    public boolean addToQueue(String player)
+    boolean addToQueue(String player)
     {
         return this.queue.add(new TeleportEntry(player));
     }
 
-    public boolean addToQueue(String player, int dim, double x, double y, double z)
+    boolean addToQueue(String player, int dim, double x, double y, double z)
     {
         return this.queue.add(new TeleportEntry(player.toLowerCase(), dim, x, y, z));
     }
@@ -95,7 +95,7 @@ public class TeleportQueue
         return false;
     }
 
-    public void remove(String player)
+    private void remove(String player)
     {
         for (TeleportEntry te : this.queue)
         {
@@ -106,7 +106,7 @@ public class TeleportQueue
         }
     }
 
-    public boolean isQueued(String player)
+    boolean isQueued(String player)
     {
         for (TeleportEntry te : this.queue)
         {
