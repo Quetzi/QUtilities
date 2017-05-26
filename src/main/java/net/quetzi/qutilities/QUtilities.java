@@ -25,10 +25,15 @@ import net.quetzi.qutilities.helpers.TeleportQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION + "-" + References.BUILD, acceptableRemoteVersions = "*")
+@Mod(modid = References.MODID,
+        name = References.NAME,
+        version = References.VERSION + "-" + References.BUILD,
+        acceptableRemoteVersions = "*",
+        acceptedMinecraftVersions = "[1.11,1.12)"
+)
 public class QUtilities
 {
-    public static Logger log = LogManager.getLogger("QUtilities");
+    public static Logger log = LogManager.getLogger(References.MODID);
     public static long          startTime;
     public static boolean       savingEnabled;
     public static int           saveInterval;

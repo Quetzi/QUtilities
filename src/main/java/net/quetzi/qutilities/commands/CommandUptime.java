@@ -23,21 +23,21 @@ public class CommandUptime extends CommandBase
 
     @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "uptime";
     }
 
     @Nonnull
     @Override
-    public String getCommandUsage(@Nonnull ICommandSender sender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/uptime";
     }
 
     @Nonnull
     @Override
-    public List<String> getCommandAliases()
+    public List<String> getAliases()
     {
         return aliases;
     }
@@ -45,8 +45,8 @@ public class CommandUptime extends CommandBase
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args)
     {
-        sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
-        sender.addChatMessage(new TextComponentString("Memory usage: " + SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
+        sender.sendMessage(new TextComponentString(SystemInfo.getUptime()));
+        sender.sendMessage(new TextComponentString("Memory usage: " + SystemInfo.getAllocatedMem() + "/" + SystemInfo.getMaxMem() + "[" + SystemInfo.getPercentMemUse() + "%]"));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CommandUptime extends CommandBase
 
     @Nonnull
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         return new ArrayList<>();
     }

@@ -14,14 +14,14 @@ public class CommandUUID extends CommandBase
 {
     @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "getuuid";
     }
 
     @Nonnull
     @Override
-    public String getCommandUsage(@Nonnull ICommandSender sender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/getuuid <player>";
     }
@@ -32,7 +32,7 @@ public class CommandUUID extends CommandBase
         if (!(args.length == 0))
         {
             String UUID = server.getPlayerProfileCache().getGameProfileForUsername(args[0].toLowerCase()).getId().toString();
-            sender.addChatMessage(new TextComponentString("UUID for " + args[0] + ": " + UUID));
+            sender.sendMessage(new TextComponentString("UUID for " + args[0] + ": " + UUID));
         }
     }
 }

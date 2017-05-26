@@ -25,21 +25,21 @@ public class CommandPlayerList extends CommandBase
 
     @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "list";
     }
 
     @Nonnull
     @Override
-    public String getCommandUsage(@Nonnull ICommandSender sender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/list";
     }
 
     @Nonnull
     @Override
-    public List<String> getCommandAliases()
+    public List<String> getAliases()
     {
         return aliases;
     }
@@ -48,7 +48,7 @@ public class CommandPlayerList extends CommandBase
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args)
     {
         String playerList = "";
-        for (WorldServer world : server.worldServers)
+        for (WorldServer world : server.worlds)
         {
             for (EntityPlayer player : world.playerEntities)
             {
@@ -57,12 +57,12 @@ public class CommandPlayerList extends CommandBase
         }
         if (server.getCurrentPlayerCount() > 0)
         {
-            sender.addChatMessage(new TextComponentString("Players online: [" + server.getCurrentPlayerCount() + "/" + server.getMaxPlayers() + "]"));
-            sender.addChatMessage(new TextComponentString(playerList));
+            sender.sendMessage(new TextComponentString("Players online: [" + server.getCurrentPlayerCount() + "/" + server.getMaxPlayers() + "]"));
+            sender.sendMessage(new TextComponentString(playerList));
         }
         else
         {
-            sender.addChatMessage(new TextComponentString("No players currently online."));
+            sender.sendMessage(new TextComponentString("No players currently online."));
         }
     }
 
@@ -74,7 +74,7 @@ public class CommandPlayerList extends CommandBase
 
     @Nonnull
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         return new ArrayList<>();
     }
