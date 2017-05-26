@@ -46,21 +46,21 @@ public class CommandTPS extends CommandBase
 
     @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "diminfo";
     }
 
     @Nonnull
     @Override
-    public String getCommandUsage(@Nonnull ICommandSender sender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/diminfo";
     }
 
     @Nonnull
     @Override
-    public List<String> getCommandAliases()
+    public List<String> getAliases()
     {
         return aliases;
     }
@@ -81,7 +81,7 @@ public class CommandTPS extends CommandBase
             }
             catch (NumberInvalidException e1)
             {
-                sender.addChatMessage(new TextComponentString("Invalid dimension ID."));
+                sender.sendMessage(new TextComponentString("Invalid dimension ID."));
                 return;
             }
             if (args.length == 1)
@@ -92,20 +92,20 @@ public class CommandTPS extends CommandBase
             {
                 if (!isPlayerOpped(sender))
                 {
-                    sender.addChatMessage(new TextComponentString("You need to be opped to perform this command").setStyle(new Style().setColor(TextFormatting.RED)));
+                    sender.sendMessage(new TextComponentString("You need to be opped to perform this command").setStyle(new Style().setColor(TextFormatting.RED)));
                     return;
                 }
                 if (args[2].equalsIgnoreCase("items"))
                 {
-                    sender.addChatMessage(new TextComponentString(String.format("Removed %s items", setItemsDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                    sender.sendMessage(new TextComponentString(String.format("Removed %s items", setItemsDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
                 }
                 else if (args[2].equalsIgnoreCase("hostile"))
                 {
-                    sender.addChatMessage(new TextComponentString(String.format("Removed %s hostile mobs", setHostilesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                    sender.sendMessage(new TextComponentString(String.format("Removed %s hostile mobs", setHostilesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
                 }
                 else if (args[2].equalsIgnoreCase("passive"))
                 {
-                    sender.addChatMessage(new TextComponentString(String.format("Removed %s passive mobs", setPassivesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                    sender.sendMessage(new TextComponentString(String.format("Removed %s passive mobs", setPassivesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
                 }
             }
         }
@@ -136,12 +136,12 @@ public class CommandTPS extends CommandBase
 
     @Nonnull
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 0)
         {
             List<String> dimensions = new ArrayList<>();
-            for (World world : server.worldServers)
+            for (World world : server.worlds)
             {
                 dimensions.add(String.format("%s", world.provider.getDimension()));
             }
@@ -161,32 +161,32 @@ public class CommandTPS extends CommandBase
     private void showTPSSummary(MinecraftServer server, ICommandSender sender)
     {
         int chunksLoaded = 0;
-        sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
-        for (WorldServer world : server.worldServers)
+        sender.sendMessage(new TextComponentString(SystemInfo.getUptime()));
+        for (WorldServer world : server.worlds)
         {
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
-            sender.addChatMessage(new TextComponentString("[" + world.provider.getDimension() + "]" + world.provider.getDimensionType().getName() + ": " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms [" + timeFormatter.format(SystemInfo.getDimensionTPS(world))
+            sender.sendMessage(new TextComponentString("[" + world.provider.getDimension() + "]" + world.provider.getDimensionType().getName() + ": " + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms [" + timeFormatter.format(SystemInfo.getDimensionTPS(world))
                     + "]"));
         }
-        sender.addChatMessage(new TextComponentString("Total Chunks loaded: " + chunksLoaded));
-        sender.addChatMessage(new TextComponentString("Overall: " + timeFormatter.format(mean(server.tickTimeArray) * 1.0E-6D) + "ms ["
+        sender.sendMessage(new TextComponentString("Total Chunks loaded: " + chunksLoaded));
+        sender.sendMessage(new TextComponentString("Overall: " + timeFormatter.format(mean(server.tickTimeArray) * 1.0E-6D) + "ms ["
                 + Math.min(1000.0 / (mean(server.tickTimeArray) * 1.0E-6D), 20) + "]"));
     }
 
     private void showTPSDetail(MinecraftServer server, ICommandSender sender, int dimension)
     {
         WorldServer world = server.worldServerForDimension(dimension);
-        sender.addChatMessage(new TextComponentString(SystemInfo.getUptime()));
-        sender.addChatMessage(new TextComponentString("Information for [" + dimension + "]" + world.provider.getDimensionType().getName()));
-        sender.addChatMessage(new TextComponentString("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(server, dimension)));
-        sender.addChatMessage(new TextComponentString("Item Entities: " + getItemEntityCount(world.loadedEntityList)));
-        sender.addChatMessage(new TextComponentString("Hostile Mobs: " + getHostileEntityCount(world.loadedEntityList)));
-        sender.addChatMessage(new TextComponentString("Passive Mobs: " + getPassiveEntityCount(world.loadedEntityList)));
-        sender.addChatMessage(new TextComponentString("Total Living Entities: " + getLivingEntityCount(world.loadedEntityList)));
-        sender.addChatMessage(new TextComponentString("Total Entities: " + world.loadedEntityList.size()));
-        sender.addChatMessage(new TextComponentString("Tile Entities: " + world.loadedTileEntityList.size()));
-        sender.addChatMessage(new TextComponentString("Loaded Chunks: " + world.getChunkProvider().getLoadedChunkCount()));
-        sender.addChatMessage(new TextComponentString("TPS: " + SystemInfo.getDimensionTPS(world) + "[" + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms]"));
+        sender.sendMessage(new TextComponentString(SystemInfo.getUptime()));
+        sender.sendMessage(new TextComponentString("Information for [" + dimension + "]" + world.provider.getDimensionType().getName()));
+        sender.sendMessage(new TextComponentString("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(server, dimension)));
+        sender.sendMessage(new TextComponentString("Item Entities: " + getItemEntityCount(world.loadedEntityList)));
+        sender.sendMessage(new TextComponentString("Hostile Mobs: " + getHostileEntityCount(world.loadedEntityList)));
+        sender.sendMessage(new TextComponentString("Passive Mobs: " + getPassiveEntityCount(world.loadedEntityList)));
+        sender.sendMessage(new TextComponentString("Total Living Entities: " + getLivingEntityCount(world.loadedEntityList)));
+        sender.sendMessage(new TextComponentString("Total Entities: " + world.loadedEntityList.size()));
+        sender.sendMessage(new TextComponentString("Tile Entities: " + world.loadedTileEntityList.size()));
+        sender.sendMessage(new TextComponentString("Loaded Chunks: " + world.getChunkProvider().getLoadedChunkCount()));
+        sender.sendMessage(new TextComponentString("TPS: " + SystemInfo.getDimensionTPS(world) + "[" + timeFormatter.format(SystemInfo.getWorldTickTime(world)) + "ms]"));
     }
 
     private int getItemEntityCount(List list)

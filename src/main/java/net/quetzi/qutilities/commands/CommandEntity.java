@@ -8,11 +8,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-import net.quetzi.qutilities.QUtilities;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -32,21 +30,21 @@ public class CommandEntity extends CommandBase
 
     @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "qent";
     }
 
     @Nonnull
     @Override
-    public String getCommandUsage(@Nonnull ICommandSender sender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/qent list|killall <entityname>";
     }
 
     @Nonnull
     @Override
-    public List<String> getCommandAliases()
+    public List<String> getAliases()
     {
         return aliases;
     }
@@ -62,7 +60,7 @@ public class CommandEntity extends CommandBase
                 for (Object o : entities)
                 {
                     AmountHolder ah = (AmountHolder) o;
-                    sender.addChatMessage(new TextComponentString(ah.key + ": " + ah.value));
+                    sender.sendMessage(new TextComponentString(ah.key + ": " + ah.value));
                 }
             }
             else if (args[0].equals("killall") && args.length == 2)
@@ -75,12 +73,12 @@ public class CommandEntity extends CommandBase
                         sb.append(" ");
                 }
                 int killed = killAll(sb.toString());
-                sender.addChatMessage(new TextComponentString("Killed " + killed + " " + args[1]));
+                sender.sendMessage(new TextComponentString("Killed " + killed + " " + args[1]));
             }
         }
         else
         {
-            sender.addChatMessage(new TextComponentString(getCommandUsage(sender)));
+            sender.sendMessage(new TextComponentString(getUsage(sender)));
         }
     }
 
@@ -92,7 +90,7 @@ public class CommandEntity extends CommandBase
 
     @Nonnull
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         return new ArrayList<>();
     }

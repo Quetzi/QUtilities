@@ -23,21 +23,21 @@ public class CommandFixPlayerPos extends CommandBase
 
     @Nonnull
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "fixplayerpos";
     }
 
     @Nonnull
     @Override
-    public String getCommandUsage(@Nonnull ICommandSender sender)
+    public String getUsage(@Nonnull ICommandSender sender)
     {
         return "/fixplayerpos";
     }
 
     @Nonnull
     @Override
-    public List<String> getCommandAliases()
+    public List<String> getAliases()
     {
         aliases.add("qtp");
         aliases.add("tpq");
@@ -53,11 +53,11 @@ public class CommandFixPlayerPos extends CommandBase
             {
                 if (MovePlayer.sendToDefaultSpawn(args[0]))
                 {
-                    sender.addChatMessage(new TextComponentString("Moving " + args[0] + " to their default spawn"));
+                    sender.sendMessage(new TextComponentString("Moving " + args[0] + " to their default spawn"));
                 }
                 else
                 {
-                    sender.addChatMessage((new TextComponentString(args[0] + " is not online, added to queue")));
+                    sender.sendMessage((new TextComponentString(args[0] + " is not online, added to queue")));
                 }
             }
             if (args.length == 2)
@@ -65,11 +65,11 @@ public class CommandFixPlayerPos extends CommandBase
                 int dim = parseInt(args[1]);
                 if (MovePlayer.sendToDimension(args[0], dim))
                 {
-                    sender.addChatMessage((new TextComponentString("Moving " + args[0] + " to dimension " + dim)));
+                    sender.sendMessage((new TextComponentString("Moving " + args[0] + " to dimension " + dim)));
                 }
                 else
                 {
-                    sender.addChatMessage((new TextComponentString(args[0] + " is not online, added to queue")));
+                    sender.sendMessage((new TextComponentString(args[0] + " is not online, added to queue")));
                 }
             }
             if (args.length == 5)
@@ -80,17 +80,17 @@ public class CommandFixPlayerPos extends CommandBase
                 int z   = parseInt(args[4]);
                 if (MovePlayer.sendToLocation(args[0], dim, x, y, z))
                 {
-                    sender.addChatMessage((new TextComponentString("Moving " + args[0] + " to dimension " + dim + " " + x + ", " + y + ", " + z)));
+                    sender.sendMessage((new TextComponentString("Moving " + args[0] + " to dimension " + dim + " " + x + ", " + y + ", " + z)));
                 }
                 else
                 {
-                    sender.addChatMessage((new TextComponentString(args[0] + " is not online, added to queue")));
+                    sender.sendMessage((new TextComponentString(args[0] + " is not online, added to queue")));
                 }
             }
         }
         else
         {
-            getCommandUsage(sender);
+            getUsage(sender);
         }
     }
 
@@ -102,7 +102,7 @@ public class CommandFixPlayerPos extends CommandBase
 
     @Nonnull
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         return new ArrayList<>();
     }
