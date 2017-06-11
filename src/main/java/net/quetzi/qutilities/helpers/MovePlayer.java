@@ -31,7 +31,7 @@ public class MovePlayer
 
     public static boolean sendToDimension(String playername, int dim)
     {
-        BlockPos dest = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(dim).getSpawnPoint();
+        BlockPos dest = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dim).getSpawnPoint();
         return movePlayer(playername, dim, dest);
     }
 
@@ -58,7 +58,7 @@ public class MovePlayer
         {
             if (player.dimension != dim)
             {
-                FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().transferPlayerToDimension(player, dim, new Teleporter(FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(dim)));
+                FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().transferPlayerToDimension(player, dim, new Teleporter(FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dim)));
             }
             player.setPositionAndUpdate(x, y, z);
             return true;

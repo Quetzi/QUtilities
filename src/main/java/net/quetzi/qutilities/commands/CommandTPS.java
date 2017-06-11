@@ -97,15 +97,15 @@ public class CommandTPS extends CommandBase
                 }
                 if (args[2].equalsIgnoreCase("items"))
                 {
-                    sender.sendMessage(new TextComponentString(String.format("Removed %s items", setItemsDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                    sender.sendMessage(new TextComponentString(String.format("Removed %s items", setItemsDead(server.getWorld(dimension).getLoadedEntityList()))));
                 }
                 else if (args[2].equalsIgnoreCase("hostile"))
                 {
-                    sender.sendMessage(new TextComponentString(String.format("Removed %s hostile mobs", setHostilesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                    sender.sendMessage(new TextComponentString(String.format("Removed %s hostile mobs", setHostilesDead(server.getWorld(dimension).getLoadedEntityList()))));
                 }
                 else if (args[2].equalsIgnoreCase("passive"))
                 {
-                    sender.sendMessage(new TextComponentString(String.format("Removed %s passive mobs", setPassivesDead(server.worldServerForDimension(dimension).getLoadedEntityList()))));
+                    sender.sendMessage(new TextComponentString(String.format("Removed %s passive mobs", setPassivesDead(server.getWorld(dimension).getLoadedEntityList()))));
                 }
             }
         }
@@ -175,7 +175,7 @@ public class CommandTPS extends CommandBase
 
     private void showTPSDetail(MinecraftServer server, ICommandSender sender, int dimension)
     {
-        WorldServer world = server.worldServerForDimension(dimension);
+        WorldServer world = server.getWorld(dimension);
         sender.sendMessage(new TextComponentString(SystemInfo.getUptime()));
         sender.sendMessage(new TextComponentString("Information for [" + dimension + "]" + world.provider.getDimensionType().getName()));
         sender.sendMessage(new TextComponentString("Players (" + world.playerEntities.size() + "): " + getPlayersForDimension(server, dimension)));
@@ -285,7 +285,7 @@ public class CommandTPS extends CommandBase
 
     private String getPlayersForDimension(MinecraftServer server, int dimension)
     {
-        List<EntityPlayer> players = server.worldServerForDimension(dimension).playerEntities;
+        List<EntityPlayer> players = server.getWorld(dimension).playerEntities;
         if (players.size() == 0)
         {
             return "No players in this dimension.";

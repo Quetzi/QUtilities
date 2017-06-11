@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
         name = References.NAME,
         version = References.VERSION + "-" + References.BUILD,
         acceptableRemoteVersions = "*",
-        acceptedMinecraftVersions = "[1.11,1.12)"
+        acceptedMinecraftVersions = "[1.12,1.13)"
 )
 public class QUtilities
 {
